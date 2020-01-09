@@ -8,9 +8,10 @@ import store from '@/store'
 Vue.use(VueRouter)
 const routes = [
 
-  {    path: '/',   name: 'home',   component: SignIn  } ,
+ // {    path: '/',   name: 'home',   component: SignIn  } ,
   {    path: '/',   name: 'signin',   component: SignIn  } ,
   {    path: '/dashboard',   name: 'dashboard',   component: Dashboard,
+  
           beforeEnter:(to,from,next)=>{
              console.log('to=',to)
              console.log('from=',from)
@@ -18,7 +19,10 @@ const routes = [
              if(!store.getters['auth/authenticated']){return next({name:'signin'})}
              next()
           }
-  } 
+  } ,
+  { path: '/403', meta: { hidden: true, },component: SignIn, }, // redirect: { name: 'Index' },
+  { path: '/404', meta: { hidden: true, },component: () => import('@/views/App404.vue'), },
+  { path: '*', redirect: '/404', meta: { hidden: true, }, },
 ]
 const router = new VueRouter({
   mode: 'history', base: process.env.BASE_URL, routes

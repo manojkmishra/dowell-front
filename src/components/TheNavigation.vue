@@ -10,7 +10,10 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <div v-if="authenticated">
-                <v-btn text color="grey"> <a href="#" @click.prevent="signOut">Sign Out</a> </v-btn>
+                <v-btn text color="grey" @click.prevent="signOut"> Sign Out
+                <v-icon >mdi-logout</v-icon>  </v-btn>
+                
+                
             </div>
             <div v-else>
                   <v-btn text color="grey"> 

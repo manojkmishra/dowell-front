@@ -2,13 +2,12 @@
  
         <v-container fill-height fluid >
          <v-layout wrap >
-                         <v-flex lg6 md6  class="d-none d-md-flex"  >         
-                <v-hover v-slot:default="{ hover }">
-                   <v-img  :elevation="hover ? 12 : 2" src="../assets/graphic.svg" alt=""> </v-img>
-                 </v-hover>
-        
+            <v-flex lg6 md6  class="d-none d-md-flex svg1"  >         
+                
+                   <v-img   src="../assets/graphic.svg" alt=""> </v-img>
+                 
             </v-flex>
-            
+
            <v-flex class="zz1 lg6 md6   sm12 " >
               <v-hover v-slot:default="{ hover }">
               <v-card :elevation="hover ? 12 : 2" color="grey lighten-4" class="mx-auto ">
@@ -83,5 +82,9 @@ export default
     padding-left: 4rem;
 
 }
+.svg1:hover{  transform: scale(1.2)
+
+}
+.svg1{width:100%; transition:all 1s ease}
 
 </style>

@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios';
+import vuetify from './plugins/vuetify';
 
 require('@/store/subscriber')  //@ is for src folder
 axios.defaults.baseURL='http://127.0.0.1:8000/api'
@@ -12,6 +13,7 @@ store.dispatch('auth/attempt',localStorage.getItem('token'))
       new Vue({
         router,
         store,
+        vuetify,
         render: h => h(App)
       }).$mount('#app')
 })

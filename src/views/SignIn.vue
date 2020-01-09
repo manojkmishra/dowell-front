@@ -1,7 +1,14 @@
 <template>
-
+ 
         <v-container fill-height fluid >
          <v-layout wrap >
+                         <v-flex lg6 md6  class="d-none d-md-flex"  >         
+                <v-hover v-slot:default="{ hover }">
+                   <v-img  :elevation="hover ? 12 : 2" src="../assets/graphic.svg" alt=""> </v-img>
+                 </v-hover>
+        
+            </v-flex>
+            
            <v-flex class="zz1 lg6 md6   sm12 " >
               <v-hover v-slot:default="{ hover }">
               <v-card :elevation="hover ? 12 : 2" color="grey lighten-4" class="mx-auto ">
@@ -23,12 +30,7 @@
             </v-card>
              </v-hover>
            </v-flex>
-            <v-flex lg6 md6  class="d-none d-md-flex"  >         
-                <v-hover v-slot:default="{ hover }">
-                   <v-img  :elevation="hover ? 12 : 2" src="../assets/graphic.svg" alt=""> </v-img>
-                 </v-hover>
-        
-            </v-flex>
+
           </v-layout>
       
       
@@ -37,14 +39,16 @@
 </template>
 
 <script>
+
 //import {mapGetters, mapActions} from 'vuex'
 import {mapActions} from 'vuex';
+import navi1 from '@/components/TheNavigation';
 export default 
 {  //import axios from 'axios';
 
   name: 'signin',
-  components: { },
-  data(){return {form:{email:'',password:''}, showPassword:false}},
+  components: { navi1 },
+  data(){return {form:{email:'',password:''}, showPassword:false,aalert:true }},
   methods: { 
         ...mapActions({signIn:'auth/signIn'}),
          submit()
@@ -53,9 +57,18 @@ export default
             // let resp=axios.post('/auth/signin',this.form); // eslint-disable-line
             // console.log('signin res=',resp);
               this.signIn(this.form).then(()=>{
-                console.log('authenticated- forwarding to dashboard')
+                console.log('authenticated- forwarding to dashboard');
+                toast.fire({
+                                icon: "success",
+                                title: "You have logged in successfully"
+                            })
                 this.$router.replace({name:'dashboard'})
-              }).catch(()=>{console.log('singin view-sigin failed')})
+              }).catch(()=>{console.log('singin view-sigin failed');
+              swal.fire(
+                                "Login Failed",
+                                "There was an error logging in. Please try again.",
+                                "warning"
+                            )})
             }    
     }
 }

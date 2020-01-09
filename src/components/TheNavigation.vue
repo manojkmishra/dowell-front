@@ -1,9 +1,6 @@
 <template>
     <nav>
-           <v-snackbar v-model="snackbar" :timeout="4000" top color="success">
-              <span>Login Success!!!!</span>
-              <v-btn text color="white" @click="snackbar=false">Close</v-btn>
-          </v-snackbar>
+          
           <v-app-bar flat app ><!--toolbar  -->
             <div v-if="authenticated">
                 <v-app-bar-nav-icon class="grey--text" @click="drwr = !drwr"></v-app-bar-nav-icon>
@@ -17,7 +14,7 @@
             </div>
             <div v-else>
                   <v-btn text color="grey"> 
-                      <router-link :to="{name:'signin'}"><span>SignIn</span></router-link>
+                      <router-link :to="{name:'signin'}"></router-link>
                    </v-btn>
             </div>
         </v-app-bar><!-- toolbar finish --drawer start-->
@@ -70,6 +67,10 @@ export default {
         signOut(){
             this.signOut1().then(()=>{
                 this.$router.replace({name:'signin'})
+                 toast.fire({
+                    icon: "success",
+                    title: "You have logged out successfully"
+                });
             })
         }
     }

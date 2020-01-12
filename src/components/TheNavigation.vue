@@ -11,9 +11,7 @@
             <v-spacer></v-spacer>
             <div v-if="authenticated">
                 <v-btn text color="grey" @click.prevent="signOut"> Sign Out
-                <v-icon >mdi-logout</v-icon>  </v-btn>
-                
-                
+                <v-icon >mdi-export-variant</v-icon>  </v-btn>
             </div>
             <div v-else>
                   <v-btn text color="grey"> 
@@ -27,7 +25,7 @@
                <v-layout column align-center>
                     <v-flex class="mt-5">
                          <v-avatar size="100" class="grey lighten-4"><img src="/avatar-1.png"></v-avatar>
-                         <p class="white--text subheading mt-1">Manoj Mishra </p>
+                         <p class="white--text subheading mt-1">{{user.email}}</p>
                     </v-flex> <!--popup to add projects below -->
                    
                </v-layout>
@@ -40,6 +38,39 @@
                             <v-list-item-title class="white--text">{{ link.text }}</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+                    <!---multi level-------- -->
+                    <v-list-group prepend-icon="mdi-account white--text" value="true" class="white--text">
+                      <template v-slot:activator>
+                           <v-list-item-title class="white--text">Users</v-list-item-title>
+                      </template>
+                      <v-list-group no-action sub-group value="true">
+                        <template v-slot:activator>
+                            <v-list-item-content>
+                                <v-list-item-title class="white--text">Admin</v-list-item-title>
+                            </v-list-item-content>
+                        </template>
+                        <v-list-item v-for="(admin, i) in admins" :key="i" link>
+                           <v-list-item-title v-text="admin[0]"></v-list-item-title>
+                           <v-list-item-icon> <v-icon v-text="admin[1]"></v-icon>
+                           </v-list-item-icon>
+                        </v-list-item>
+                     </v-list-group>
+
+        <v-list-group sub-group no-action >
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>Actions</v-list-item-title>
+            </v-list-item-content>
+          </template>
+          <v-list-item v-for="(crud, i) in cruds" :key="i" @click="" >
+            <v-list-item-title v-text="crud[0]"></v-list-item-title>
+            <v-list-item-action>
+              <v-icon v-text="crud[1]"></v-icon>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list-group>
+      </v-list-group>
+      <!---multi leve finish -->
               </v-list>
             </v-navigation-drawer>
       </div>
@@ -55,10 +86,22 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
   
      data(){return{drwr:true, links: [
-        { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/dashboard' },
+        { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/dashboard' ,
+          
+        },
         { icon: 'mdi-folder', text: 'My Projects', route: '/projects' },
         { icon: 'mdi-account', text: 'Team', route: '/team' },
-      ], snackbar:false}
+      ], snackbar:false,
+      admins: [
+        ['Management', 'mdi-folder'],
+        ['Settings', 'mdi-folder'],
+      ],
+      cruds: [
+        ['Create', 'mdi-folder'],
+        ['Read', 'mdi-folder'],
+        ['Update', 'mdi-folder'],
+        ['Delete', 'mdi-folder'],
+      ],}
     },
     computed:{
         ...mapGetters({authenticated:'auth/authenticated',

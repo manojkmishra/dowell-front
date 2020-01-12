@@ -2,12 +2,10 @@
  
         <v-container fill-height fluid >
          <v-layout wrap >
-            <v-flex lg6 md6  class="d-none d-md-flex svg1"  >         
-                
+          <!--  <v-flex lg6 md6  class="d-none d-md-flex svg1"  >   -->
+            <v-flex lg6 md6  class="hidden-sm-and-down svg1">        
                    <v-img   src="../assets/graphic.svg" alt=""> </v-img>
-                 
             </v-flex>
-
            <v-flex class="zz1 lg6 md6   sm12 " >
               <v-hover v-slot:default="{ hover }">
               <v-card :elevation="hover ? 12 : 2" color="grey lighten-4" class="mx-auto ">
@@ -16,16 +14,19 @@
                 <v-spacer />
               </v-toolbar>
               <v-card-text >
-                <v-form color="grey lighten-2" >
+                <v-form color="grey lighten-2" @submit.prevent="submit" >
                   <v-text-field label="Login" name="login" prepend-icon="mdi-account-circle" type="text" v-model="form.email"/>
                   <v-text-field :type="showPassword ? 'text':'password'" id="password" label="Password" name="password" v-model="form.password"
-                  prepend-icon="mdi-lock"  :append-icon="showPassword ? 'mdi-eye':'mdi-eye-off'" @click:append="showPassword=!showPassword" />
+                     prepend-icon="mdi-lock"  :append-icon="showPassword ? 'mdi-eye':'mdi-eye-off'" @click:append="showPassword=!showPassword" />
+                  <v-spacer />
+                   <v-layout column wrap justify-end align-end >
+                       <v-card-text class="text-md-right text-sm-center text-xs-center">
+                           <v-btn type="submit" rounded color="teal lighten-2" dark >Submit</v-btn>
+                        </v-card-text>
+                    </v-layout>
                 </v-form>
               </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn @click="submit" rounded color="teal lighten-2" dark >Login</v-btn>
-              </v-card-actions>
+              
             </v-card>
              </v-hover>
            </v-flex>
@@ -82,7 +83,7 @@ export default
     padding-left: 4rem;
 
 }
-.svg1:hover{  transform: scale(1.2)
+.svg1:hover{  transform: scale(1.1)
 
 }
 .svg1{width:100%; transition:all 1s ease}

@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import axios from 'axios';
 import vuetify from './plugins/vuetify';
+import '@/styles/index.scss';
 require ('@/plugins/Sweetalert');
 
 require('@/store/subscriber')  //@ is for src folder

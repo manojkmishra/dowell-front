@@ -24,12 +24,12 @@
             <v-navigation-drawer v-model="drwr" app  class="teal">
                <v-layout column align-center>
                     <v-flex class="mt-5">
-                         <v-avatar size="100" class="grey lighten-4"><img src="/avatar-1.png"></v-avatar>
+                         <v-avatar size="100" class="grey lighten-4"><img src="@/assets/free-time.svg"></v-avatar>
                          <p class="white--text subheading mt-1">{{user.email}}</p>
                     </v-flex> <!--popup to add projects below -->
                    
                </v-layout>
-               <v-list rounded>
+               <v-list rounded dense>
                     <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
                         <v-list-item-icon>
                             <v-icon class="white--text">{{ link.icon }}</v-icon>
@@ -59,13 +59,13 @@
         <v-list-group sub-group no-action >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Actions</v-list-item-title>
+              <v-list-item-title class="white--text">Actions</v-list-item-title>
             </v-list-item-content>
           </template>
           <v-list-item v-for="(crud, i) in cruds" :key="i" @click="" >
-            <v-list-item-title v-text="crud[0]"></v-list-item-title>
+            <v-list-item-title v-text="crud[0]" class="white--text"></v-list-item-title>
             <v-list-item-action>
-              <v-icon v-text="crud[1]"></v-icon>
+              <v-icon v-text="crud[1]" class="white--text"></v-icon>
             </v-list-item-action>
           </v-list-item>
         </v-list-group>
@@ -86,21 +86,13 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
   
      data(){return{drwr:true, links: [
-        { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/dashboard' ,
-          
-        },
+        { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/dashboard' , },
         { icon: 'mdi-folder', text: 'My Projects', route: '/projects' },
         { icon: 'mdi-account', text: 'Team', route: '/team' },
       ], snackbar:false,
-      admins: [
-        ['Management', 'mdi-folder'],
-        ['Settings', 'mdi-folder'],
-      ],
-      cruds: [
-        ['Create', 'mdi-folder'],
-        ['Read', 'mdi-folder'],
-        ['Update', 'mdi-folder'],
-        ['Delete', 'mdi-folder'],
+      admins: [ ['Management', 'mdi-folder'], ['Settings', 'mdi-folder'], ],
+      cruds: [ ['Create', 'mdi-folder'], ['Read', 'mdi-folder'],
+        ['Update', 'mdi-folder'], ['Delete', 'mdi-folder'],
       ],}
     },
     computed:{

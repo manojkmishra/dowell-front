@@ -21,56 +21,44 @@
         </v-app-bar><!-- toolbar finish --drawer start-->
         <div v-if="authenticated">
             <div snackbar="true" > </div>
-            <v-navigation-drawer v-model="drwr" app  class="teal">
+            <v-navigation-drawer v-model="drwr" app  class="teal lighten-3" id="sidebar">
                <v-layout column align-center>
                     <v-flex class="mt-5">
-                         <v-avatar size="100" class="grey lighten-4"><img src="@/assets/free-time.svg"></v-avatar>
-                         <p class="white--text subheading mt-1">{{user.email}}</p>
+                         <v-avatar size="100" class="teal lighten-4"><img src="@/assets/free-time.svg"></v-avatar>
+                         <p class=" subheading mt-1">{{user.email}}</p>
                     </v-flex> <!--popup to add projects below -->
                    
                </v-layout>
-               <v-list rounded dense>
-                    <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
-                        <v-list-item-icon>
-                            <v-icon class="white--text">{{ link.icon }}</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content>
-                            <v-list-item-title class="white--text">{{ link.text }}</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    <!---multi level-------- -->
-                    <v-list-group prepend-icon="mdi-account white--text" value="true" class="white--text">
-                      <template v-slot:activator>
-                           <v-list-item-title class="white--text">Users</v-list-item-title>
-                      </template>
-                      <v-list-group no-action sub-group value="true">
-                        <template v-slot:activator>
-                            <v-list-item-content>
-                                <v-list-item-title class="white--text">Admin</v-list-item-title>
-                            </v-list-item-content>
-                        </template>
-                        <v-list-item v-for="(admin, i) in admins" :key="i" link>
-                           <v-list-item-title v-text="admin[0]"></v-list-item-title>
-                           <v-list-item-icon> <v-icon v-text="admin[1]"></v-icon>
-                           </v-list-item-icon>
-                        </v-list-item>
-                     </v-list-group>
-
-        <v-list-group sub-group no-action >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title class="white--text">Actions</v-list-item-title>
+               <v-list  dense rounded>
+                  
+      <!---multi leve finish ---------->
+      <template v-for="(route, index) in routes">
+        <template v-if="route.meta && route.meta.hasMulSub">
+          <v-list-group id="aa" v-if="roleShow(route)" :value="false" :prepend-icon="route.meta && route.meta.icon" 
+                :key="index" >
+             <v-list-item slot="activator"  >
+              <v-list-item-content>
+                <v-list-item-title  >{{ route.name }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item ripple v-for="(cRoute, idx) in route.children" :to="{ name: cRoute.name }" :key="idx">
+              <v-list-item-action>  <v-icon>{{ cRoute.meta && cRoute.meta.icon }}</v-icon>  </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>{{ cRoute.name, route }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+         
+          </v-list-group>
+        </template>
+           <template v-else>
+          <v-list-item v-if="roleShow(route)"  :to="{ name: route.name }" :key="index">
+            <v-list-item-action><v-icon>{{ route.meta && route.meta.icon }}</v-icon></v-list-item-action>
+            <v-list-item-content> <v-list-item-title>{{ route.name }}</v-list-item-title>
             </v-list-item-content>
-          </template>
-          <v-list-item v-for="(crud, i) in cruds" :key="i" @click="" >
-            <v-list-item-title v-text="crud[0]" class="white--text"></v-list-item-title>
-            <v-list-item-action>
-              <v-icon v-text="crud[1]" class="white--text"></v-icon>
-            </v-list-item-action>
           </v-list-item>
-        </v-list-group>
-      </v-list-group>
-      <!---multi leve finish -->
+        </template>
+      </template>
+      <!------  -->
               </v-list>
             </v-navigation-drawer>
       </div>
@@ -85,7 +73,7 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   
-     data(){return{drwr:true, links: [
+     data(){return{ ps: null,drwr:true, links: [
         { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/dashboard' , },
         { icon: 'mdi-folder', text: 'My Projects', route: '/projects' },
         { icon: 'mdi-account', text: 'Team', route: '/team' },
@@ -98,7 +86,23 @@ export default {
     computed:{
         ...mapGetters({authenticated:'auth/authenticated',
                        user:'auth/user'
-                      })
+                      }),
+           routes() { const routeName = this.$route.name;
+               const { routes } = this.$router.options;
+               console.log('sidebar-routes=',routes)
+               // console.log('sidebar-routes[2].children=',routes[2].children)
+               try { for (let i = 0, len = routes.length; i < len; i += 1) 
+                        { if (routes[i].children) 
+                            { for (let j = 0, len = routes[i].children.length; j < len; j += 1) 
+                                  { const child = routes[i].children[j];
+                                    if (child.name === routeName) { return routes[i].children; }
+                                   }
+                            } else if (routes[i].name === routeName) { return routes[i]; }
+                        }
+                    } catch (err) { console.log('>>>sidebar', err);  }
+                    console.log('sidebar-routes=',routes[2].children)
+                return routes[2].children;
+              },
     },
     methods:{
         ...mapActions({signOut1:'auth/signOut'}),
@@ -110,7 +114,47 @@ export default {
                     title: "You have logged out successfully"
                 });
             })
-        }
-    }
+        },
+        roleShow(route) 
+           {  // hack, there is no user when logout
+             if (!route.meta) { return true; }
+             if (!this.user || route.meta.hidden) { return false; }
+             const { auth } = route.meta;
+            // return auth ? (!auth.length && !this.user.role) || auth.includes(this.user.role) : !auth;
+             return true;
+             },
+            toggleSidebar() { this.drawer = !this.drawer;  },
+            toggleTemporary(val) { this.temporary = val; },
+           
+    },
+    
 }
 </script>
+<style scoped>
+
+#aa:before {
+  content: '';
+    height: 1px;
+   left: 1rem;
+    position: absolute;
+    -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    width: 87%;
+    justify-content: center;
+    padding-right: 2 rem;
+}
+#aa:after{
+
+ content: '';
+    height: 1px;
+    left: 1rem;
+    position: absolute;
+    -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    width: 87%;
+    justify-content: center;
+ 
+   
+}
+
+</style>

@@ -4,7 +4,7 @@
       <v-container fluid fill-height >
         <v-layout align-center>
           <v-flex text-xs-center class="up">
-            <div  class="display-3"
+            <div  class="display-2"
               :class="[$style.errorHint]"> Whoops, 404</div>
             <p :class="[$style.errorText]">The page you were looking for does not exist</p>
              <div v-if="authenticated">

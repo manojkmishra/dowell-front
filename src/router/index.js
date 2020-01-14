@@ -4,20 +4,15 @@ import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue'
 import Dashboard from '../views/Dashboard.vue'
 import store from '@/store'
-import tables from './modules/tables';
-import charts from './modules/charts';
-import components1 from './modules/components';
+
 
 Vue.use(VueRouter)
 const routes = [
 
  // {    path: '/',   name: 'home',   component: SignIn  } ,
   {    path: '/',   name: 'signin',   component: SignIn  } ,
-  {    path: '/abc',   name: 'signin',   component: SignIn  } ,
   {    path: '/dashboard',   name: 'dashboard',   component: Dashboard,
-          children: [ { path: '/dashboard', name: 'Dashboard', }, 
-           tables,charts,components1,
-        ],
+         
   
           beforeEnter:(to,from,next)=>{
              console.log('to=',to)

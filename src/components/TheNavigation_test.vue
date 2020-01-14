@@ -30,30 +30,31 @@
                </v-layout>            
       <!---multi leve finish ---------->
     <v-list dense>
-     <!--  <v-list-item id="dashboard-l">
-        <v-list-item-icon> <v-icon>mdi-view-dashboard</v-icon> </v-list-item-icon>
-         <v-list-item-content>
-        <v-list-item-title :to="'dashboard'">
-          <router-link :to="{ name: 'dashboard' }" >Dashboard</router-link></v-list-item-title>
-           </v-list-item-content>
-      </v-list-item>  -->
-     
-        <v-list-group id="liner" :value="false" v-for="item in items" :key="item.title" 
-          :prepend-icon="item.action" no-action>
-           <template v-slot:activator>
+       <template  v-for="item in items1" >
+        <template v-if="item.dashboard == false">
+          <v-list-group id="aa"  :value="false" :prepend-icon="item.action" 
+                :key="item.title" >
+             <v-list-item slot="activator"  >
               <v-list-item-content>
-                <v-list-item-title v-text="item.title"></v-list-item-title>
-              </v-list-item-content>
-            </template>             
-
-            <v-list-item v-for="subItem in item.items" :key="subItem.title" @click="" :value="false"> 
-              <v-list-item-content>
-                <v-list-item-title v-text="subItem.title"></v-list-item-title>
+                <v-list-item-title  >{{ item.title }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-          
+            <v-list-item  v-for="(cRoute, idx) in item.items" :to="{ name: cRoute.title }" :key="idx">
+              <v-list-item-action>  <v-icon>{{  }}</v-icon>  </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>{{ cRoute.name }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list-group>
-                 
+        </template>
+           <template v-else>
+          <v-list-item  :to="{ name: items1.title }" :key="items1.title">
+            <v-list-item-action><v-icon>{{ items1.action }}</v-icon></v-list-item-action>
+            <v-list-item-content> <v-list-item-title>{{ items1.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </template>
     </v-list>
            </v-navigation-drawer>
       </div>
@@ -68,18 +69,20 @@ export default {
   
      data(){return{ drwr:true, 
      
-      items: [
-          { action: 'mdi-view-dashboard', title: 'Dashboard'},
-           { action: 'mdi-folder', title: 'QLD', items: [ { title: 'Geebung' }, ], },
-          { action: 'mdi-folder', title: 'NSW',items: [
-              { title: 'Smithfield' },
-              { title: 'Nowra' },
-              { title: 'Beresfield' },
+      items1: [
+         
+          { action: 'mdi-school', dashboard:false,title: 'Dining',items: [
+              { title: 'Breakfast & brunch' },
+              { title: 'New American' },
+              { title: 'Sushi' },
             ],
           },
-          { action: 'mdi-folder', title: 'SA', items: [ { title: 'Elizabeth' }, ], },
-          { action: 'mdi-folder', title: 'VIC', items: [{ title: 'Bayswater' },], },
-          
+          { action: 'mdi-school', title: 'Education',dashboard:false, items: [ { title: 'List Item' }, ], },
+          { action: 'mdi-school', title: 'Family', dashboard:false,items: [{ title: 'List Item' },], },
+          { action: 'mdi-school', title: 'Health',dashboard:false, items: [ { title: 'List Item' },  ],},
+          { action: 'mdi-school',  title: 'Office',dashboard:false, items: [{ title: 'List Item' },  ],  },
+          { action: 'mdi-school', title: 'Promotions',dashboard:false, items: [ { title: 'List Item' }, ],},
+          { action: 'mdi-school', title: 'dashboard',dashboard:true, items: [ { title: 'List Item' }, ],},
         ],
      
          } //return complete
@@ -138,10 +141,6 @@ background-color:rgb(123,196,189)
 }
 #dashboard-l:focus{
 background-color:rgb(123,196,189)
-}
-.v-list .v-list-item--active {
-    color: inherit;
-    background-color: blue;
 }
 
 </style>

@@ -21,51 +21,44 @@
         </v-app-bar><!-- toolbar finish --drawer start-->
         <div v-if="authenticated">
             <div snackbar="true" > </div>
-            <v-navigation-drawer v-model="drwr" app  class="teal lighten-3" id="sidebar">
+            <v-navigation-drawer v-model="drwr" app  class="blue-grey lighten-5" id="sidebar">
                <v-layout column align-center>
                     <v-flex class="mt-5">
-                         <v-avatar size="100" class="teal lighten-4"><img src="@/assets/free-time.svg"></v-avatar>
+                         <v-avatar size="100" class=""><img src="@/assets/free-time.svg"></v-avatar>
                          <p class=" subheading mt-1">{{user.email}}</p>
                     </v-flex> <!--popup to add projects below -->
-                   
-               </v-layout>
-               <v-list  dense rounded>
-                  
+               </v-layout>            
       <!---multi leve finish ---------->
-      <template v-for="(route, index) in routes">
-        <template v-if="route.meta && route.meta.hasMulSub">
-          <v-list-group id="aa" v-if="roleShow(route)" :value="false" :prepend-icon="route.meta && route.meta.icon" 
-                :key="index" >
-             <v-list-item slot="activator"  >
+    <v-list dense>
+     <!--  <v-list-item id="dashboard-l">
+        <v-list-item-icon> <v-icon>mdi-view-dashboard</v-icon> </v-list-item-icon>
+         <v-list-item-content>
+        <v-list-item-title :to="'dashboard'">
+          <router-link :to="{ name: 'dashboard' }" >Dashboard</router-link></v-list-item-title>
+           </v-list-item-content>
+      </v-list-item>  -->
+     
+        <v-list-group id="liner" :value="false" v-for="item in items" :key="item.title" 
+          :prepend-icon="item.action" no-action>
+           <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title  >{{ route.name }}</v-list-item-title>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
               </v-list-item-content>
-            </v-list-item>
-            <v-list-item ripple v-for="(cRoute, idx) in route.children" :to="{ name: cRoute.name }" :key="idx">
-              <v-list-item-action>  <v-icon>{{ cRoute.meta && cRoute.meta.icon }}</v-icon>  </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>{{ cRoute.name, route }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-         
-          </v-list-group>
-        </template>
-           <template v-else>
-          <v-list-item v-if="roleShow(route)"  :to="{ name: route.name }" :key="index">
-            <v-list-item-action><v-icon>{{ route.meta && route.meta.icon }}</v-icon></v-list-item-action>
-            <v-list-item-content> <v-list-item-title>{{ route.name }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-      </template>
-      <!------  -->
-              </v-list>
-            </v-navigation-drawer>
-      </div>
+            </template>             
 
+            <v-list-item v-for="subItem in item.items" :key="subItem.title" @click="" :value="false"> 
+              <v-list-item-content>
+                <v-list-item-title v-text="subItem.title"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          
+          </v-list-group>
+                 
+    </v-list>
+           </v-navigation-drawer>
+      </div>
     </nav>
- 
-</template>
+ </template>
 
 <script>
 //import HelloWorld from './components/HelloWorld';
@@ -73,36 +66,29 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   
-     data(){return{ ps: null,drwr:true, links: [
-        { icon: 'mdi-view-dashboard', text: 'Dashboard', route: '/dashboard' , },
-        { icon: 'mdi-folder', text: 'My Projects', route: '/projects' },
-        { icon: 'mdi-account', text: 'Team', route: '/team' },
-      ], snackbar:false,
-      admins: [ ['Management', 'mdi-folder'], ['Settings', 'mdi-folder'], ],
-      cruds: [ ['Create', 'mdi-folder'], ['Read', 'mdi-folder'],
-        ['Update', 'mdi-folder'], ['Delete', 'mdi-folder'],
-      ],}
+     data(){return{ drwr:true, 
+     
+      items: [
+          { action: 'mdi-view-dashboard', title: 'Dashboard'},
+           { action: 'mdi-folder', title: 'QLD', items: [ { title: 'Geebung' }, ], },
+          { action: 'mdi-folder', title: 'NSW',items: [
+              { title: 'Smithfield' },
+              { title: 'Nowra' },
+              { title: 'Beresfield' },
+            ],
+          },
+          { action: 'mdi-folder', title: 'SA', items: [ { title: 'Elizabeth' }, ], },
+          { action: 'mdi-folder', title: 'VIC', items: [{ title: 'Bayswater' },], },
+          
+        ],
+     
+         } //return complete
     },
     computed:{
         ...mapGetters({authenticated:'auth/authenticated',
                        user:'auth/user'
                       }),
-           routes() { const routeName = this.$route.name;
-               const { routes } = this.$router.options;
-               console.log('sidebar-routes=',routes)
-               // console.log('sidebar-routes[2].children=',routes[2].children)
-               try { for (let i = 0, len = routes.length; i < len; i += 1) 
-                        { if (routes[i].children) 
-                            { for (let j = 0, len = routes[i].children.length; j < len; j += 1) 
-                                  { const child = routes[i].children[j];
-                                    if (child.name === routeName) { return routes[i].children; }
-                                   }
-                            } else if (routes[i].name === routeName) { return routes[i]; }
-                        }
-                    } catch (err) { console.log('>>>sidebar', err);  }
-                    console.log('sidebar-routes=',routes[2].children)
-                return routes[2].children;
-              },
+          
     },
     methods:{
         ...mapActions({signOut1:'auth/signOut'}),
@@ -115,24 +101,15 @@ export default {
                 });
             })
         },
-        roleShow(route) 
-           {  // hack, there is no user when logout
-             if (!route.meta) { return true; }
-             if (!this.user || route.meta.hidden) { return false; }
-             const { auth } = route.meta;
-            // return auth ? (!auth.length && !this.user.role) || auth.includes(this.user.role) : !auth;
-             return true;
-             },
-            toggleSidebar() { this.drawer = !this.drawer;  },
-            toggleTemporary(val) { this.temporary = val; },
-           
+                   
     },
     
 }
 </script>
 <style scoped>
-
-#aa:before {
+.v-application a {  text-decoration: none; color:black}
+/*
+#liner:before {
   content: '';
     height: 1px;
    left: 1rem;
@@ -143,7 +120,7 @@ export default {
     justify-content: center;
     padding-right: 2 rem;
 }
-#aa:after{
+#liner:after{
 
  content: '';
     height: 1px;
@@ -153,8 +130,20 @@ export default {
     transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
     width: 87%;
     justify-content: center;
- 
-   
+}
+*/
+#dashboard-l:hover{
+background-color:rgb(123,196,189)
+}
+#dashboard-l:active{
+background-color:rgb(123,196,189)
+}
+#dashboard-l:focus{
+background-color:rgb(123,196,189)
+}
+.v-list .v-list-item--active {
+    color: inherit;
+    background-color: blue;
 }
 
 </style>

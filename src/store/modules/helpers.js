@@ -13,7 +13,7 @@ export function initialize(store, router)
    })
     //first param=promise has been resolved--not needed so=null
     axios.interceptors.response.use(null, (error) => {
-        if (error.resposne.status == 401) {
+        if (error.response.status == 401) {
             store.commit('signOut');
             router.push('/login');
         }

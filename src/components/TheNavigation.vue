@@ -21,15 +21,15 @@
         </v-app-bar><!-- toolbar finish --drawer start-->
         <div v-if="authenticated">
             <div snackbar="true" > </div>
-            <v-navigation-drawer v-model="drwr" app  class="blue-grey lighten-5" id="sidebar">
+            <v-navigation-drawer v-model="drwr" app  class="blue lighten-4" id="sidebar">
                <v-layout column align-center>
                     <v-flex class="mt-5">
                          <v-avatar size="100" class=""><img src="@/assets/user.png"></v-avatar>
-                         <p class=" subheading mt-1">{{user.email}}</p>
+                         <p class="subheading mt-1">{{user.email}}</p>
                     </v-flex> <!--popup to add projects below -->
                </v-layout>            
       <!---multi leve finish ---------->
-    <v-list dense>
+    <v-list dense >
      <!--  <v-list-item id="dashboard-l">
         <v-list-item-icon> <v-icon>mdi-view-dashboard</v-icon> </v-list-item-icon>
          <v-list-item-content>
@@ -38,10 +38,11 @@
            </v-list-item-content>
       </v-list-item>  -->
      
-        <v-list-group id="liner" :value="false" v-for="item in items" :key="item.title" 
-          :prepend-icon="item.action" no-action>
-           <template v-slot:activator>
-              <v-list-item-content>
+        <v-list-group :value="false" id="anid" v-for="item in items"  :key="item.title" 
+          :prepend-icon="item.action"  no-action color="blue" >
+          
+           <template  v-slot:activator >
+              <v-list-item-content  >
                 <v-list-item-title v-text="item.title"></v-list-item-title>
               </v-list-item-content>
             </template>             
@@ -69,7 +70,13 @@ export default {
      data(){return{ drwr:true, 
      
       items: [
-          { action: 'mdi-view-dashboard', title: 'Dashboard', },
+          { action: 'mdi-home', title: 'Dashboard', },
+          { action: 'mdi-settings', title: 'Settings',  },
+          { action: 'mdi-hand-saw', title: 'SAW',items: [
+              { title: 'Geebung', route:'/saw' },
+              { title: 'Nowra' },
+             ],
+          },
            { action: 'mdi-folder', title: 'QLD', items: [ { title: 'Geebung', route:'/test' }, ], },
           { action: 'mdi-folder', title: 'NSW',items: [
               { title: 'Smithfield' },
@@ -79,6 +86,7 @@ export default {
           },
           { action: 'mdi-folder', title: 'SA', items: [ { title: 'Elizabeth', route:'eli' }, ], },
           { action: 'mdi-folder', title: 'VIC', items: [{ title: 'Bayswater' },], },
+          
           
         ],
      
@@ -108,30 +116,7 @@ export default {
 </script>
 <style scoped>
 .v-application a {  text-decoration: none; color:black}
-/*
-#liner:before {
-  content: '';
-    height: 1px;
-   left: 1rem;
-    position: absolute;
-    -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-    width: 87%;
-    justify-content: center;
-    padding-right: 2 rem;
-}
-#liner:after{
 
- content: '';
-    height: 1px;
-    left: 1rem;
-    position: absolute;
-    -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-    width: 87%;
-    justify-content: center;
-}
-*/
 #dashboard-l:hover{
 background-color:rgb(123,196,189)
 }
@@ -141,6 +126,9 @@ background-color:rgb(123,196,189)
 #dashboard-l:focus{
 background-color:rgb(123,196,189)
 }
-
+.v-icon notranslate theme--light{
+  color:white;
+}
+#anid .v-list-item__icon .v-list-group__header__prepend-icon .v-icon {color: white !important;}
 
 </style>

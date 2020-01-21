@@ -4,12 +4,14 @@ import router from './router'
 import store from './store'
 import axios from 'axios';
 import vuetify from './plugins/vuetify';
-import {initialize} from './router/helpers';
+import {initialize} from './store/modules/helpers';
 import '@/styles/index.scss';
 require ('@/plugins/Sweetalert');
 
 require('@/store/modules/subscriber')  
-axios.defaults.baseURL='http://127.0.0.1:8000/api'
+//axios.defaults.baseURL='http://127.0.0.1:8000/api'
+axios.defaults.baseURL='http://uat.oms.dowell.com.au/api'
+
 Vue.config.productionTip = false
 initialize(store, router);
 store.dispatch('auth/attempt',localStorage.getItem('token'))

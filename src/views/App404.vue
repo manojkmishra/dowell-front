@@ -6,7 +6,7 @@
           <v-flex text-xs-center class="up">
             <div  class="display-2"
               :class="[$style.errorHint]"> Whoops, 404</div>
-            <p :class="[$style.errorText]">You are lost</p>
+            <p :class="[$style.errorText]">Page Not Found</p>
              <div v-if="authenticated">
                 <v-btn rounded dark color="primary" :to="todashboard"> Back to Dashboard </v-btn>
               </div>

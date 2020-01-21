@@ -2,11 +2,11 @@
  
         <v-container fill-height fluid >
          <v-layout wrap >
-          <!--  <v-flex lg6 md6  class="d-none d-md-flex svg1"  >   -->
-            <v-flex lg6 md6  class="hidden-sm-and-down svg1">        
-                   <v-img   src="../assets/graphic.svg" alt=""> </v-img>
+           <v-flex lg6 md6  class="d-none d-md-flex svg1"  >  
+           <!--  <v-flex lg6 md6  class="hidden-sm-and-down svg1">     -->    
+                   <v-img   src="../assets/graphic.svg" alt="" style="width: 20rem; height: 30rem;"> </v-img>
             </v-flex>
-           <v-flex class="zz1 lg6 md6   sm12 " >
+           <v-flex class="zz1 lg6 md6 sm12 " >
               <v-hover v-slot:default="{ hover }">
               <v-card :elevation="hover ? 12 : 2" color="grey lighten-4" class="mx-auto ">
               <v-toolbar color="blue lighten-2"  dark>
@@ -86,6 +86,6 @@ export default
 .svg1:hover{  transform: scale(1.1)
 
 }
-.svg1{width:100%; transition:all 1s ease}
+.svg1{width:100%; height:auto; transition:all 1s ease}
 
 </style>

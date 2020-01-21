@@ -6,7 +6,7 @@
           <v-flex text-xs-center class="up">
             <div  class="display-2"
               :class="[$style.errorHint]"> Whoops, 404</div>
-            <p :class="[$style.errorText]">The page you were looking for does not exist</p>
+            <p :class="[$style.errorText]">You are lost</p>
              <div v-if="authenticated">
                 <v-btn rounded dark color="primary" :to="todashboard"> Back to Dashboard </v-btn>
               </div>
@@ -24,8 +24,8 @@
 import {mapGetters, mapActions} from 'vuex'
 export default {
   props: {
-    to: { type: String, default: '/', },
-     todashboard: { type: String, default: '/dashboard', },
+    to: { type: String, default: '/login', },
+     todashboard: { type: String, default: '/', },
   },
   computed:{
         ...mapGetters({authenticated:'auth/authenticated',

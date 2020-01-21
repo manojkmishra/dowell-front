@@ -1,23 +1,17 @@
 <template>
-  <div>
- Dashboard
- <div v-if="authenticated">
- <li> User={{user.name}} email={{user.email}}</li>
- </div>
- <li> <router-link :to="{name:'dashboard'}">Dashboard</router-link> </li>
-  </div>
+  <div> Dashboard </div>
 </template>
 
 <script>
 //import HelloWorld from './components/HelloWorld';
 import {mapGetters, mapActions} from 'vuex'
+import sawdashboard from '@/components/saw/Saw.vue'
 export default {
   name: 'dashboard',
-  components: { },
-   computed:{
-        ...mapGetters({authenticated:'auth/authenticated',
-                       user:'auth/user'
-                      })
-    },
+  components: {sawdashboard },
+  computed:{ ...mapGetters({authenticated:'auth/authenticated',
+                            user:'auth/user'
+                           })
+           },
 }
 </script>

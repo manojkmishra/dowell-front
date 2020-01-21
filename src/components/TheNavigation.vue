@@ -1,8 +1,8 @@
 <template>
     <nav>
-          
+         
           <v-app-bar flat app ><!--toolbar  -->
-            <div v-if="authenticated">
+            <div v-if="authenticated && user">
                 <v-app-bar-nav-icon class="grey--text" @click="drwr = !drwr"></v-app-bar-nav-icon>
             </div>
             <v-toolbar-title class="transparent"> 
@@ -15,7 +15,7 @@
             </div>
             <div v-else>
                   <v-btn text color="grey"> 
-                      <router-link :to="{name:'signin'}"></router-link>
+                      <router-link :to="{name:'login'}"></router-link>
                    </v-btn>
             </div>
         </v-app-bar><!-- toolbar finish --drawer start-->
@@ -24,7 +24,7 @@
             <v-navigation-drawer v-model="drwr" app  class="blue-grey lighten-5" id="sidebar">
                <v-layout column align-center>
                     <v-flex class="mt-5">
-                         <v-avatar size="100" class=""><img src="@/assets/free-time.svg"></v-avatar>
+                         <v-avatar size="100" class=""><img src="@/assets/user.png"></v-avatar>
                          <p class=" subheading mt-1">{{user.email}}</p>
                     </v-flex> <!--popup to add projects below -->
                </v-layout>            
@@ -46,9 +46,9 @@
               </v-list-item-content>
             </template>             
 
-            <v-list-item v-for="subItem in item.items" :key="subItem.title" @click="" :value="false"> 
+            <v-list-item v-for="subItem in item.items" :key="subItem.title" router-link :to="subItem.route"> 
               <v-list-item-content>
-                <v-list-item-title v-text="subItem.title"></v-list-item-title>
+                <v-list-item-title v-text="subItem.title" ></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           
@@ -69,15 +69,15 @@ export default {
      data(){return{ drwr:true, 
      
       items: [
-          { action: 'mdi-view-dashboard', title: 'Dashboard'},
-           { action: 'mdi-folder', title: 'QLD', items: [ { title: 'Geebung' }, ], },
+          { action: 'mdi-view-dashboard', title: 'Dashboard', },
+           { action: 'mdi-folder', title: 'QLD', items: [ { title: 'Geebung', route:'/test' }, ], },
           { action: 'mdi-folder', title: 'NSW',items: [
               { title: 'Smithfield' },
               { title: 'Nowra' },
               { title: 'Beresfield' },
             ],
           },
-          { action: 'mdi-folder', title: 'SA', items: [ { title: 'Elizabeth' }, ], },
+          { action: 'mdi-folder', title: 'SA', items: [ { title: 'Elizabeth', route:'eli' }, ], },
           { action: 'mdi-folder', title: 'VIC', items: [{ title: 'Bayswater' },], },
           
         ],
@@ -94,7 +94,7 @@ export default {
         ...mapActions({signOut1:'auth/signOut'}),
         signOut(){
             this.signOut1().then(()=>{
-                this.$router.replace({name:'signin'})
+                this.$router.replace({path:'/login'})
                  toast.fire({
                     icon: "success",
                     title: "You have logged out successfully"
@@ -141,9 +141,6 @@ background-color:rgb(123,196,189)
 #dashboard-l:focus{
 background-color:rgb(123,196,189)
 }
-.v-list .v-list-item--active {
-    color: inherit;
-    background-color: blue;
-}
+
 
 </style>

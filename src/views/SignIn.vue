@@ -53,22 +53,16 @@ export default
         ...mapActions({signIn:'auth/signIn'}),
          submit()
             { console.log('submit pressed form=',this.form);
-            // let resp=axios.post('http://127.0.0.1:8000/api/auth/signin',this.form); // eslint-disable-line
-            // let resp=axios.post('/auth/signin',this.form); // eslint-disable-line
-            // console.log('signin res=',resp);
-              this.signIn(this.form).then(()=>{
+              this.signIn(this.form).then(()=>
+              {
                 console.log('authenticated- forwarding to dashboard');
-                toast.fire({
-                                icon: "success",
-                                title: "You have logged in successfully"
+                toast.fire({   icon: "success",
+                               title: "You have logged in successfully"
                             })
                 this.$router.replace({name:'dashboard'})
               }).catch(()=>{console.log('singin view-sigin failed');
-              swal.fire(
-                                "Login Failed",
-                                "There was an error logging in. Please try again.",
-                                "warning"
-                            )})
+                               swal.fire("Login Failed","There was an error logging in. Please try again!","warning");
+                               })
             }    
     }
 }

@@ -1,14 +1,14 @@
 <template>
-  <div class="middle"  v-if="authenticated">
-      <center>
-        <br>USER={{user.name}}  ROLE={{user.role}} EMAIL={{user.email}}<br>
-   <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4" v-for="aaa in aa"> 
-      <button type="button3" class="button3">
+ <div class="xs12 sm8 md6 lg4">
+     
+       
+   <v-flex  v-for="aaa in aa"> 
+      <button class="button3">
         {{aaa.SawCode}}
         </button>
-  </div>
-   </center>
-    </div>  
+  </v-flex>
+ 
+   </div>  
 </template>
 <script>
 import Vue from 'vue'
@@ -16,8 +16,11 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 import axios from "axios";
 export default
 {  computed: 
-   { ...mapState({ sawlist: state => state.saw.sawlist, }),
-     ...mapActions({getsaws:'saw/getsaws'}),
+   { //...mapState({ sawlist: 'saw/sawlist', }),
+    // ...mapActions({getsaws:'saw/getsaws'}),
+    ...mapState({ sawlist: state => state.saw.sawlist, 
+                             
+               }),
      ...mapGetters({authenticated:'auth/authenticated',
                        user:'auth/user'
                       }),
@@ -28,32 +31,18 @@ export default
                }
             },
   data() { return { label: 'danger', aa1:[], user1:'',
-                     formData: { dateRange: ['',''], SawCode:'', Location:'',},
+                     formData: {  SawCode:'', Location:'',},
                   }  
           },
 
-  created() {  console.log('api---/saw/getSaws-',this.user);
-              
-             
-
-                 
-             // this.$store.dispatch('getsaws',this.formData)
-              //     .then((response) => {    })
-               //    .catch((error) => {});
-               
-                //   this.getsaws(this.form).then(()=>{
-               // console.log('getsawys resp=');
-             // }).catch(()=>{console.log('singin view-sigin failed');
-             // })
+  created() {  
           
           }
 }
 </script>
 
-<style>
-
-  
-    .button3 {
+<style scoped>
+.button3 {
 height: 120px;
 width: 80%;
 background-color: #237fbc; border-color: #237fbc;

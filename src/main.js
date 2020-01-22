@@ -8,9 +8,9 @@ import {initialize} from './store/helpers';
 import '@/styles/index.scss';
 require ('@/plugins/Sweetalert');
 
-require('@/store/modules/subscriber')  
-axios.defaults.baseURL='http://127.0.0.1:8000/api'
-//axios.defaults.baseURL='//uat.oms.dowell.com.au/api'
+require('@/store/subscriber')  
+//axios.defaults.baseURL='http://127.0.0.1:8000/api'
+axios.defaults.baseURL='//uat.oms.dowell.com.au/api'
 
 Vue.config.productionTip = false
 initialize(store, router);

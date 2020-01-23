@@ -21,11 +21,11 @@
         </v-app-bar><!-- toolbar finish --drawer start-->
         <div v-if="authenticated">
             <div snackbar="true" > </div>
-            <v-navigation-drawer v-model="drwr" app  class="blue lighten-4" id="sidebar">
+            <v-navigation-drawer v-model="drwr" app  class="blue-grey lighten-5" id="sidebar">
                <v-layout column align-center>
                     <v-flex class="mt-5" >
                          <v-avatar size="100" class=""><img src="@/assets/user.png"></v-avatar>
-                         <p class="subheading mt-1">{{user.email}}</p>
+                         <p class="subheading mt-1" style="text-align: center">{{user.name}}</p>
                     </v-flex> <!--popup to add projects below -->
                </v-layout>            
       <!---multi leve finish ---------->

@@ -14,7 +14,7 @@ const routes = [
   { path: '/',   name: 'dashboard',   component: Dashboard ,meta: { requiresAuth: true  }, } ,
   { path: '/login',   name: 'login',   component: Login  } ,
 //  { path: '/dashboard',   name: 'dashboard',   component: Dashboard,meta: { requiresAuth: true  }, } ,
-  { path: '/saw', component: sawdashboard,meta: { requiresAuth: true }},
+  { path: '/saw',name:'saw', component: sawdashboard,meta: { requiresAuth: true }},
   { path: '/404', component: () => import('@/views/App404.vue'),meta: { requiresAuth: true  }, },
   { path: '*', redirect: '/404' },
 ]

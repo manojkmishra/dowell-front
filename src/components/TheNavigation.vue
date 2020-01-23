@@ -11,7 +11,7 @@
             <v-spacer></v-spacer>
             <div v-if="authenticated">
                 <v-btn text color="grey" @click.prevent="signOut"> Sign Out
-                <v-icon >mdi-export-variant</v-icon>  </v-btn>
+                <v-icon >mdi-logout-variant</v-icon>  </v-btn>
             </div>
             <div v-else>
                   <v-btn text color="grey"> 
@@ -23,38 +23,43 @@
             <div snackbar="true" > </div>
             <v-navigation-drawer v-model="drwr" app  class="blue lighten-4" id="sidebar">
                <v-layout column align-center>
-                    <v-flex class="mt-5">
+                    <v-flex class="mt-5" >
                          <v-avatar size="100" class=""><img src="@/assets/user.png"></v-avatar>
                          <p class="subheading mt-1">{{user.email}}</p>
                     </v-flex> <!--popup to add projects below -->
                </v-layout>            
       <!---multi leve finish ---------->
     <v-list dense >
-     <!--  <v-list-item id="dashboard-l">
-        <v-list-item-icon> <v-icon>mdi-view-dashboard</v-icon> </v-list-item-icon>
-         <v-list-item-content>
-        <v-list-item-title :to="'dashboard'">
-          <router-link :to="{ name: 'dashboard' }" >Dashboard</router-link></v-list-item-title>
-           </v-list-item-content>
-      </v-list-item>  -->
-     
-        <v-list-group :value="false" id="anid" v-for="item in items"  :key="item.title" 
-          :prepend-icon="item.action"  no-action color="blue" >
-          
-           <template  v-slot:activator >
-              <v-list-item-content  >
-                <v-list-item-title v-text="item.title"></v-list-item-title>
-              </v-list-item-content>
-            </template>             
+  
+     <!--- -->
+       <template v-for="(item, index) in items">
+		      <template v-if="item.hasMulSub">
+			       <v-list-group :value="false" :prepend-icon="item.action"  :key="index"  no-action
+              color="blue darken-4" >
+                <template v-slot:activator >
+                  <v-list-item-content  >
+                    <v-list-item-title v-text="item.title"></v-list-item-title>
+                  </v-list-item-content>
+                </template>             
 
-            <v-list-item v-for="subItem in item.items" :key="subItem.title" router-link :to="subItem.route"> 
-              <v-list-item-content>
-                <v-list-item-title v-text="subItem.title" ></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+              <v-list-item v-for="subItem in item.items" :key="subItem.title"
+               router-link :to="subItem.route" color="blue darken-4"> 
+                <v-list-item-content>
+                  <v-list-item-title v-text="subItem.title" ></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
           
           </v-list-group>
-                 
+          </template>
+		     <template v-else>
+          <v-list-item  router-link :to="item.route" :key="index" no-action color="blue darken-4">
+            <v-list-item-action><v-icon>{{ item.action }}</v-icon></v-list-item-action>
+            <v-list-item-content> <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+	    </template>
+       <!---- -->          
     </v-list>
            </v-navigation-drawer>
       </div>
@@ -70,22 +75,22 @@ export default {
      data(){return{ drwr:true, 
      
       items: [
-          { action: 'mdi-home', title: 'Dashboard', },
-          { action: 'mdi-settings', title: 'Settings',  },
-          { action: 'mdi-hand-saw', title: 'SAW',items: [
+          { action: 'mdi-view-dashboard', title: 'Dashboard', route:'/',hasMulSub: false },
+          { action: 'mdi-settings', title: 'Settings',route:'/saw', hasMulSub: false },
+          { action: 'mdi-hand-saw', title: 'SAW',hasMulSub: true,items: [
               { title: 'Geebung', route:'/saw' },
               { title: 'Nowra' },
              ],
           },
-           { action: 'mdi-folder', title: 'QLD', items: [ { title: 'Geebung', route:'/test' }, ], },
-          { action: 'mdi-folder', title: 'NSW',items: [
+           { action: 'mdi-folder', title: 'QLD',hasMulSub: true, items: [ { title: 'Geebung', route:'test' }, ], },
+          { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [
               { title: 'Smithfield' },
               { title: 'Nowra' },
               { title: 'Beresfield' },
             ],
           },
-          { action: 'mdi-folder', title: 'SA', items: [ { title: 'Elizabeth', route:'eli' }, ], },
-          { action: 'mdi-folder', title: 'VIC', items: [{ title: 'Bayswater' },], },
+          { action: 'mdi-folder', title: 'SA', hasMulSub: true,items: [ { title: 'Elizabeth', route:'eli' }, ], },
+          { action: 'mdi-folder', title: 'VIC', hasMulSub: true,items: [{ title: 'Bayswater' },], },
           
           
         ],

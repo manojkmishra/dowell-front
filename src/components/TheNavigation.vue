@@ -76,13 +76,14 @@ export default {
      
       items: [
           { action: 'mdi-view-dashboard', title: 'Dashboard', route:'/',hasMulSub: false },
-          { action: 'mdi-settings', title: 'Settings',route:'/saw', hasMulSub: false },
+           { action: 'mdi-account', title: 'User Profile',route:'/user', hasMulSub: false },
+          { action: 'mdi-settings', title: 'Settings',route:'/settings', hasMulSub: false },
           { action: 'mdi-hand-saw', title: 'SAW',hasMulSub: true,items: [
               { title: 'Geebung', route:'/saw' },
               { title: 'Nowra' },
              ],
           },
-           { action: 'mdi-folder', title: 'QLD',hasMulSub: true, items: [ { title: 'Geebung', route:'test' }, ], },
+           { action: 'mdi-chart-bar', title: 'Charts',hasMulSub: true, items: [ { title: 'Geebung', route:'test' }, ], },
           { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [
               { title: 'Smithfield' },
               { title: 'Nowra' },

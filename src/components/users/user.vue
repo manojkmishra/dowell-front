@@ -1,16 +1,16 @@
 <template>
     <div>
-        <SawList></SawList> 
+        <UserList></UserList> 
             
     </div>
 </template>
 <script>
  import Vue from 'vue';
     import { mapGetters, mapState, mapActions} from 'vuex'
-    import SawList from '../saw/SawList.vue'
+    import UserList from './userlist.vue'
     export default 
-    {   components: { 'SawList': SawList, },
-        created(){  this.$store.dispatch('getsaws')}
+    {   components: { 'UserList': UserList, },
+    created(){  this.$store.dispatch('getusers')}
 
     }
 

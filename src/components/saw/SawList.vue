@@ -1,11 +1,8 @@
 <template>
  <div >
-     
-      
-
-       <v-layout row wrap class="justify-center">
+    <v-layout row wrap class="justify-center">
       <div v-for="aaa in aa" >
-        <v-btn class="primary dark " id="button3"> {{aaa.SawCode}}</v-btn>
+        <v-btn class="primary dark" id="button3" @click.prevent="getjobs(aaa)"> {{aaa.SawCode.replace(/_/g, " ")}}</v-btn>
       </div>
     </v-layout>
  
@@ -35,33 +32,38 @@ export default
                      formData: {  SawCode:'', Location:'',},
                   }  
           },
+   methods: {  onChangeDateRange(val) 
+                 {   console.log('/cs/Search.vue-onChangeDateRange val=',val);
+                     this.formSearchData.dateRange = val;
+                 },
 
-  created() {  
-          
-          }
+              getjobs(data)
+                {  
+                    this.$router.push({name: 'sawjobs', params: {  myProperty: data.SawCode  }});
+                }           
+           },
+
 }
 </script>
 
 <style scoped>
 #button3 {
-  padding: 10rem;
-height: 120px;
-width: 80%;
+padding: 2rem;
+height: 6rem; width: 10rem;
+border-radius: 1rem;
+margin-top:3rem; margin-right:2rem;
 background-color: #237fbc; border-color: #237fbc;
+color: white;  
 font-family: Open Sans, Helvetica,Arial,sans-serif;
-font-size: 100%;
-color: white;
-   
-border-radius: 5px;
-margin-top:10px;
-
-font-size: 18px;  width:60%; padding:2rem; font-family: Open Sans, Helvetica,Arial,sans-serif;
-display: inline-block;zoom: 1; color: #fff; text-align: center; position:relative; 
--webkit-transition: border .25s linear, color .25s linear, background-color .25s linear; 
-transition: border .25s linear, color .25s linear, background-color .25s linear;
+font-size: .8rem;  
+display: inline-block;
+zoom: 1; 
+color: #fff; 
+text-align: center;
+white-space: normal;
 
 }
 
-    .button3:hover {background-color: aquamarine; color:#237fbc}
-    .button3:active{ top: 3px; outline: none; -webkit-box-shadow: none; box-shadow: none;}
+#button3:hover {background-color: rgb(23, 227, 241) !important; color:#237fbc}
+#button3:active{ top: 3px; outline: none; -webkit-box-shadow: none; box-shadow: none;}
 </style>

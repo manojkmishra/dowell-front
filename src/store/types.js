@@ -1,3 +1,4 @@
+export const GET_USER_LIST  = 'GET_USER_LIST';
 export const GET_SAW_SAWLIST  = 'GET_SAW_SAWLIST';
 export const GET_SAW_JOBLIST = 'GET_SAW_JOBLIST';
 

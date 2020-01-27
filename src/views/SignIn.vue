@@ -15,7 +15,7 @@
               </v-toolbar>
               <v-card-text >
                 <v-form color="grey lighten-2" @submit.prevent="submit" >
-                  <v-text-field label="Login" name="login" prepend-icon="mdi-account-circle" type="text" v-model="form.email"/>
+                  <v-text-field label="E-mail" name="login" prepend-icon="mdi-email" type="text" v-model="form.email"/>
                   <v-text-field :type="showPassword ? 'text':'password'" id="password" label="Password" name="password" v-model="form.password"
                      prepend-icon="mdi-lock"  :append-icon="showPassword ? 'mdi-eye':'mdi-eye-off'" @click:append="showPassword=!showPassword" />
                   <v-spacer />

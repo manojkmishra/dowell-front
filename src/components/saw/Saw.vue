@@ -10,8 +10,11 @@
     import SawList from './SawList.vue'
     export default 
     {   components: { 'SawList': SawList, },
-    created(){  this.$store.dispatch('getsaws')}
+    created(){  this.$store.dispatch('getsaws')
+    // .then((res) => { console.log('get saws ok',res.data);
+   // });
 
+    }
     }
 
 </script>

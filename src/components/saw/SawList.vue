@@ -32,14 +32,23 @@ export default
                      formData: {  SawCode:'', Location:'',},
                   }  
           },
-   methods: {  onChangeDateRange(val) 
-                 {   console.log('/cs/Search.vue-onChangeDateRange val=',val);
-                     this.formSearchData.dateRange = val;
-                 },
+   methods: {  
 
               getjobs(data)
                 {  
-                    this.$router.push({name: 'sawjobs', params: {  myProperty: data.SawCode  }});
+                   // this.$router.push({name: 'sawjobs', params: {  myProperty: data.SawCode  }});
+                   console.log('data=',data)
+                  this.formData.SawCode = data.SawCode;
+                  this.formData.Location = data.Location;
+                  this.$store.dispatch('getJobs', this.formData)
+                  .then((res) => {  console.log('sawlist--- getJobs success response',res.data);  
+                                      this.$router.push({name: 'sawjobs', params: {  myProperty: data.SawCode  }});           
+   
+                                  })
+                  .catch((error) => { console.log('getJobs error',error);
+                  });
+
+
                 }           
            },
 

@@ -11,9 +11,7 @@
     export default 
     {   components: { 'SawList': SawList, },
     created(){  this.$store.dispatch('getsaws')
-    // .then((res) => { console.log('get saws ok',res.data);
-   // });
-
+   
     }
     }
 

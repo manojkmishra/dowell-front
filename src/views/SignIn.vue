@@ -52,15 +52,15 @@ export default
   methods: { 
         ...mapActions({signIn:'auth/signIn'}),
          submit()
-            { console.log('submit pressed form=',this.form);
+            { 
               this.signIn(this.form).then(()=>
               {
-                console.log('authenticated- forwarding to dashboard');
+                
                 toast.fire({   icon: "success",
                                title: "You have logged in successfully"
                             })
                 this.$router.replace({name:'dashboard'})
-              }).catch(()=>{console.log('singin view-sigin failed');
+              }).catch(()=>{
                                swal.fire("Login Failed","There was an error logging in. Please try again!","warning");
                                })
             }    

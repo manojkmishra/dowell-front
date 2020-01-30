@@ -67,14 +67,12 @@ export default {
   methods: { 
         ...mapActions({signIn:'auth/signIn'}),
          submit()
-            { console.log('submit pressed form=',this.form);
-            // let resp=axios.post('http://127.0.0.1:8000/api/auth/signin',this.form); // eslint-disable-line
-            // let resp=axios.post('/auth/signin',this.form); // eslint-disable-line
-            // console.log('signin res=',resp);
+            { 
+           
               this.signIn(this.form).then(()=>{
-                console.log('authenticated- forwarding to dashboard')
+              
                 this.$router.replace({name:'dashboard'})
-              }).catch(()=>{console.log('singin view-sigin failed')})
+              }).catch(()=>{})
             }    
     }
 }

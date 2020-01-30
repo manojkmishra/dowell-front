@@ -23,7 +23,7 @@ export default
                        user:'auth/user'
                       }),
         aa() { if (this.sawlist)  
-                        {  console.log('sawlist----this.sawlist=',this.sawlist);
+                        { 
                             return this.sawlist;
                         }
                }
@@ -37,15 +37,15 @@ export default
               getjobs(data)
                 {  
                    // this.$router.push({name: 'sawjobs', params: {  myProperty: data.SawCode  }});
-                   console.log('data=',data)
+              
                   this.formData.SawCode = data.SawCode;
                   this.formData.Location = data.Location;
                   this.$store.dispatch('getJobs', this.formData)
-                  .then((res) => {  console.log('sawlist--- getJobs success response',res.data);  
+                  .then((res) => {  
                                       this.$router.push({name: 'sawjobs', params: {  myProperty: data.SawCode  }});           
    
                                   })
-                  .catch((error) => { console.log('getJobs error',error);
+                  .catch((error) => {
                   });
 
 

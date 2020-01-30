@@ -14,7 +14,7 @@ export default
      [types.GET_SAW_SAWLIST ] (state, payload) 
         { state.sawlist = payload.sawlist; },
      [types.GET_SAW_JOBLIST ] (state, payload) 
-        {  state.joblist = payload.joblist; console.log('state=',state) }
+        {  state.joblist = payload.joblist;  }
   
   },
   actions: 
@@ -24,9 +24,9 @@ export default
           commit({type:types.GET_SAW_SAWLIST ,  sawlist: resp.data} );        
         },
       async getJobs ({commit,dispatch}, formData) 
-        { console.log('formdata=',formData)  
+        { 
           let res= await axios.post(api.getJobs, formData)
-          console.log('joblist=res.data',res.data); 
+         
           commit({type: types.GET_SAW_JOBLIST, joblist: res.data} );  
           return res;  
         },

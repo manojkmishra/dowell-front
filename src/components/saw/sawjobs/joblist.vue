@@ -1,124 +1,222 @@
 <template>
-  <v-data-table
-    v-model="selected"
-    :headers="headers"
-    :items="desserts"
-    :single-select="singleSelect"
-    item-key="name"
-    show-select
-    class="elevation-1"
-  >
+  <v-data-table :headers="headers" :items="desserts" sort-by="calories" hide-default-footer class="elevation-1">
     <template v-slot:top>
-      <v-switch v-model="singleSelect" label="Single select" class="pa-3"></v-switch>
+      <v-toolbar flat color="white">
+        <v-toolbar-title>JOB LIST</v-toolbar-title>
+        <v-divider class="mx-4" inset vertical ></v-divider>
+        <v-spacer></v-spacer>
+        <v-dialog v-model="dialog" max-width="500px">
+          <template v-slot:activator="{ on }">
+            <v-btn color="primary" dark class="mb-2" v-on="on">Return to SAW</v-btn>
+          </template>
+          <v-card>
+            <v-card-title><span class="headline">{{ formTitle }}</span></v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+    <template v-slot:item.action="{ item }">
+      <v-icon
+        small
+        class="mr-2"
+        @click="editItem(item)"
+      >
+        edit
+      </v-icon>
+      <v-icon
+        small
+        @click="deleteItem(item)"
+      >
+        delete
+      </v-icon>
+    </template>
+    <template v-slot:no-data>
+      <v-btn color="primary" @click="initialize">Reset</v-btn>
     </template>
   </v-data-table>
 </template>
  
 <script>
-import Vue from 'vue'
-import {  mapGetters,  mapState } from 'vuex'
+  export default {
+    data: () => ({
+      dialog: false,
+      headers: [
+        {
+          text: 'Dessert (100g serving)',
+          align: 'left',
+          sortable: false,
+          value: 'name',
+        },
+        { text: 'Calories', value: 'calories' },
+        { text: 'Fat (g)', value: 'fat' },
+        { text: 'Carbs (g)', value: 'carbs' },
+        { text: 'Protein (g)', value: 'protein' },
+        { text: 'Actions', value: 'action', sortable: false },
+      ],
+      desserts: [],
+      editedIndex: -1,
+      editedItem: {
+        name: '',
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
+      defaultItem: {
+        name: '',
+        calories: 0,
+        fat: 0,
+        carbs: 0,
+        protein: 0,
+      },
+    }),
 
+    computed: {
+      formTitle () {
+        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+      },
+    },
 
+    watch: {
+      dialog (val) {
+        val || this.close()
+      },
+    },
 
-export default {
-    computed: {     ...mapGetters({}),
-                    ...mapState({       stateNodes3: state => state.saw.joblist,
-                                        selectedSaw: state => state.saw.selectedSaw,
-                                        user: state => state.authUser,
-                                }),
-            },
-    data() {   return { seen: true,  formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'',  }    }    },
-    created() {},
-    updated() {},
- 
-    mounted() { console.log('this.stateNode3=',this.stateNodes3)    },
-    methods: {   backToSaw() {    this.$router.push({  name: 'saw'     });    },
-                 onActions(data) {  let payload = {  isShow: true,  data: data    };
-                                    if (data.action === 'Delete') 
-                                     {   this.formSearchData.SawCode = this.selectedSaw;
-                                         this.formSearchData.QuoteID = data.data.quote_ID;
-                                         this.$store.dispatch('selectedJob', data);
-                                         this.$store.dispatch('getjobdetails', this.formSearchData)
-                                                 .then((response) => {   console.log('sawlist--- getJobs success response',response.data);  
-                                                         this.$router.push({  name: 'jobdetails'       });
-                                                        })
-                                                .catch((error) => {console.log('getJobs error',response);});
-                                     }
-                                   if (data.action === 'Edit') { this.$store.dispatch('jobListShowModal', payload);   }
+    created () {
+      this.initialize()
+    },
 
-                                 },
-                 onClickSChange(action, data, index) 
-                                {    console.log('joblist--- selected data=',data);  
-                                     this.formSearchData.SawCode = this.selectedSaw;
-                                     this.formSearchData.QuoteID = data.quote_ID;
-                                     this.$store.dispatch('selectedJob', data);
-                                    if(data.cut_saw==null)
-                                        { this.formSearchData.status=data.Status_id;
-                                          this.formSearchData.id = data.id;
-                                          this.formSearchData.order_ID = data.Order_Number;
-                                          this.$store.dispatch('updateJobList', this.formSearchData)
-                                   
-                                        }
-     
-                                       this.$store.dispatch('getjobdetails', this.formSearchData)
-                                           .then((response) => {console.log('joblist--- success response',response.data);  
-                                                                this.$router.push({  name: 'jobdetails'      });
-                                                               })
-                                           .catch((error) => {});
-                
-         
-                                },
-                    cutall(action, data, index)  {
-                                 
-                                this.formSearchData.QuoteID = data.quote_ID;
+    methods: {
+      initialize () {
+        this.desserts = [
+          {
+            name: 'Frozen Yogurt',
+            calories: 159,
+            fat: 6.0,
+            carbs: 24,
+            protein: 4.0,
+          },
+          {
+            name: 'Ice cream sandwich',
+            calories: 237,
+            fat: 9.0,
+            carbs: 37,
+            protein: 4.3,
+          },
+          {
+            name: 'Eclair',
+            calories: 262,
+            fat: 16.0,
+            carbs: 23,
+            protein: 6.0,
+          },
+          {
+            name: 'Cupcake',
+            calories: 305,
+            fat: 3.7,
+            carbs: 67,
+            protein: 4.3,
+          },
+          {
+            name: 'Gingerbread',
+            calories: 356,
+            fat: 16.0,
+            carbs: 49,
+            protein: 3.9,
+          },
+          {
+            name: 'Jelly bean',
+            calories: 375,
+            fat: 0.0,
+            carbs: 94,
+            protein: 0.0,
+          },
+          {
+            name: 'Lollipop',
+            calories: 392,
+            fat: 0.2,
+            carbs: 98,
+            protein: 0,
+          },
+          {
+            name: 'Honeycomb',
+            calories: 408,
+            fat: 3.2,
+            carbs: 87,
+            protein: 6.5,
+          },
+          {
+            name: 'Donut',
+            calories: 452,
+            fat: 25.0,
+            carbs: 51,
+            protein: 4.9,
+          },
+          {
+            name: 'KitKat',
+            calories: 518,
+            fat: 26.0,
+            carbs: 65,
+            protein: 7,
+          },
+        ]
+      },
 
-                               if(data.cut_saw==null) this.formSearchData.order_ID = data.Order_Number;
-                               else this.formSearchData.order_ID = null;
-                                this.formSearchData.SawCode = this.selectedSaw;
-                                this.formSearchData.loc = "GBG";
-                                console.log('cutall formSearchData=',this.formSearchData);               
-                                this.$store.dispatch('jobcutall', this.formSearchData)
-                                    .then((response) => {  console.log('cutall--- response',response.data);  
-                                    })
-                                    .catch((error) => {});
-           
-                              },
-            }//methods finished
+      editItem (item) {
+        this.editedIndex = this.desserts.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
+      },
 
-}
+      deleteItem (item) {
+        const index = this.desserts.indexOf(item)
+        confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+      },
+
+      close () {
+        this.dialog = false
+        setTimeout(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        }, 300)
+      },
+
+      save () {
+        if (this.editedIndex > -1) {
+          Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        } else {
+          this.desserts.push(this.editedItem)
+        }
+        this.close()
+      },
+    },
+  }
 </script>
-
-<style>
-#backToSaw {
-    margin-bottom: 10px;
-}
-
-.black-background {
-    background-color: #000000;
-}
-
-.white {
-    color: #ffffff;
-}
-
-.btn.btn-black {
-    color: #d7d7d7;
-    border: solid 1px #333;
-    background: #333;
-    background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#000));
-    background: -moz-linear-gradient(top, #666, #000);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#666666', endColorstr='#000000');
-}
-
-.black {
-    color: black
-}
-
-.red {
-    color: red
-}
-
-.amber {
-    color: darkgoldenrod
-}
-</style>

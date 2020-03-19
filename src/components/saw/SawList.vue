@@ -16,41 +16,41 @@ export default
 {  computed: 
    { //...mapState({ sawlist: 'saw/sawlist', }),
     // ...mapActions({getsaws:'saw/getsaws'}),
-    ...mapState({ sawlist: state => state.saw.sawlist, 
-                             
-               }),
-     ...mapGetters({authenticated:'auth/authenticated',
-                       user:'auth/user'
+        ...mapState({ sawlist: state => state.saw.sawlist, 
+
+              }),
+        ...mapGetters({authenticated:'auth/authenticated',
+                      user:'auth/user'
                       }),
         aa() { if (this.sawlist)  
                         { 
                             return this.sawlist;
                         }
-               }
+              }
             },
   data() { return { label: 'danger', aa1:[], user1:'',
-                     formData: {  SawCode:'', Location:'',},
+                    formData: {  SawCode:'', Location:'',},
                   }  
           },
-   methods: {  
+  methods: {  
 
               getjobs(data)
                 {  
                    // this.$router.push({name: 'sawjobs', params: {  myProperty: data.SawCode  }});
-              
+                  this.$store.dispatch('selectedSaw', data);
                   this.formData.SawCode = data.SawCode;
                   this.formData.Location = data.Location;
                   this.$store.dispatch('getJobs', this.formData)
                   .then((res) => {  
-                                      this.$router.push({name: 'sawjobs', params: {  myProperty: data.SawCode  }});           
-   
+                                      
+                    this.$router.push({name: 'joblist'});           
                                   })
                   .catch((error) => {
                   });
 
 
                 }           
-           },
+          },
 
 }
 </script>

@@ -5,7 +5,8 @@
         <v-toolbar flat color="white">
           <v-toolbar-title>JOB LIST</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
-          <v-spacer></v-spacer>
+         
+          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
         </v-toolbar>
     </template>
  
@@ -14,7 +15,7 @@
        <v-btn v-else-if="item.Status_id =='12'"  color="teal" rounded dark   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn v-else-if="item.Status =='Up Next'"  color="blue darken-3" rounded dark   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn v-else-if="item.Status =='Flagged'"  color="red lighten-1" rounded dark   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-       <v-btn v-else color="blue lighten-3" rounded dark    @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn v-else color="blue lighten-2" rounded dark    @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template>
     <template v-slot:item.flag="{ item }">
         <v-icon small > mdi-flag-outline </v-icon>
@@ -37,12 +38,13 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Status', value: 'action', sortable: false },
                { text: 'Flag', value: 'flag', sortable: false },
             ],
- 
+           formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'',  }
         }),
 
     computed: 
        {  ...mapState({ sawlist: state => state.saw.sawlist, 
                         joblist:state =>state.saw.joblist,
+                        selectedSaw: state => state.saw.selectedSaw,
                    }),
            
        },
@@ -52,10 +54,39 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 console.log('joblist.vue-this.joblist=',this.joblist)    
               },
     methods: 
-    {   chstatus(item){console.log('chstatus-',item)},
+    {   chstatus(data)
+          {    console.log('chstatus-',data);
+               this.formSearchData.SawCode = this.selectedSaw;
+               this.formSearchData.QuoteID = data.quote_ID;
+              // this.$store.dispatch('selectedJob', data);
+               if(data.cut_saw==null)
+                      { this.formSearchData.status=data.Status_id;
+                        this.formSearchData.id = data.id;
+                        this.formSearchData.order_ID = data.Order_Number;
+                        this.$store.dispatch('updateJobList', this.formSearchData)
+                       
+                      }
+                    this.$store.dispatch('getjobdetails', this.formSearchData)
+                      .then((res) => 
+                         { 
+                               this.$router.push({  name: 'jobdetails'      });
+                          })
+                      .catch((error) => {console.log('jobdetails--- error',error); });
+                      
+                      
+           },
       
 
 
     },
   }
 </script>
+<style scoped>
+
+.theme--light.v-data-table tbody td {
+    font-size: 20px !important;
+}
+.v-data-table td{
+   font-size: 10px;
+}
+</style>

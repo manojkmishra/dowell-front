@@ -12,11 +12,11 @@ export default{
   { //all mutations take current state and data to be mutated as input
     SET_TOKEN(state,token1)
         {   state.token=token1;
-            
+          console.log('/store---types.SET_TOKEN state=', state);
         },
     SET_USER(state,data)
         {   state.user=data;
-          
+          console.log('/store---types.SET_USER state=', state);
         }
   },
   actions: { //actions take first option as dispatch(action) or commit(mutation)

@@ -14,7 +14,7 @@ export default{
     [types.GET_USER_LIST ] (state, payload) 
         {
           state.userlist = payload.userlist;   
-        
+          console.log('/store---types.GET_USER_LIST state=', state);
          },
   
   },
@@ -22,10 +22,10 @@ export default{
   { //actions take first option as dispatch(action) or commit(mutation)
       async getusers({commit})
       { let resp= await axios.get(api.users);
-     
+
         commit({type:types.GET_USER_LIST ,  userlist: resp.data} );
         
-        },
+      },
       
   }
 }

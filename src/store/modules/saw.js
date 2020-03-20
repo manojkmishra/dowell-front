@@ -4,7 +4,9 @@ import * as types from '../types';
 import * as api from '../config';
 export default
 {
-  state: {sawlist:null,joblist:null, selectedSaw:null, },
+  state: {sawlist:null,joblist:null, selectedSaw:null,jobdetailslist:null,
+          selectedJob:null,selectedJobDetail:null,
+        },
   getters:{
       
   },
@@ -24,6 +26,20 @@ export default
           //  console.log('/store/saw.js-types.SET_SELECTED_SAW state=', state);
             state.selectedSaw=payload.selectedSaw.SawCode;
             console.log('/store/saw.js-types.SET_SELECTED_SAW state=', state);
+        },
+      [types.GET_SAW_JOBDETAILSLIST ] (state, payload) 
+        {  state.jobdetailslist = payload.jobdetailslist;  
+           console.log('/store/saw.js-types.GET_SAW_JOBDETAILSLIST state=', state);
+        },
+        [types.SET_SELECTED_JOB] (state, payload) 
+        {   state.selectedJob=payload.selectedJob;
+            console.log('/store/saw.js-types.SET_SELECTED_JOB state=', state);
+           
+        },
+        [types.SET_SELECTED_JOBDETAIL] (state, payload) 
+        {   state.selectedJobDetail=payload.selectedJobDetail;
+            console.log('/store/saw.js-types.SET_SELECTED_JOBDETAIL state=', state);
+           
         },
   
   },
@@ -51,8 +67,12 @@ export default
      async getjobdetails ({commit,dispatch}, formData)
         {   let res= await axios.post(api.getjobdetails, formData)
             console.log('getjobdetails-- res=', res);
+            commit({type: types.GET_SAW_JOBDETAILSLIST, jobdetailslist: res.data} );  
+            return res;
            
         },
+      selectedJob: ({commit}, data) => {commit({  type: types.SET_SELECTED_JOB ,selectedJob: data   });  },
+      selectedJobDetail: ({commit}, data) => {commit({  type: types.SET_SELECTED_JOBDETAIL ,selectedJobDetail: data   });  },
       
   }
 }

@@ -6,6 +6,7 @@ import Login from '../views/SignIn.vue'
 import Dashboard from '../components/Dashboard/Dashboard.vue'
 import saw from '@/components/saw/Saw.vue'
 import joblist from '@/components/saw/joblist/sawjobs.vue'
+import jobdetails from '@/components/saw/jobdetails/jobdetails.vue'
 import user from '@/components/users/user.vue'
 
 
@@ -18,6 +19,7 @@ const routes = [
   { path: '/user',name:'user', component: user,meta: { requiresAuth: true }},
   { path: '/saw',name:'saw', component: saw,meta: { requiresAuth: true }},
   { path: '/saw/joblist',name:'joblist', component: joblist,meta: { requiresAuth: true }},
+  { path: '/saw/jobdetails',name:'jobdetails', component: jobdetails,meta: { requiresAuth: true }},
   { path: '/404', component: () => import('@/views/App404.vue'),meta: { requiresAuth: true  }, },
   { path: '*', redirect: '/404' },
 ]

@@ -58,7 +58,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           {    console.log('chstatus-',data);
                this.formSearchData.SawCode = this.selectedSaw;
                this.formSearchData.QuoteID = data.quote_ID;
-              // this.$store.dispatch('selectedJob', data);
+               this.$store.dispatch('selectedJob', data);
                if(data.cut_saw==null)
                       { this.formSearchData.status=data.Status_id;
                         this.formSearchData.id = data.id;

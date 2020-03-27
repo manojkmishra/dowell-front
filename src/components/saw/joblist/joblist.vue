@@ -89,4 +89,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 .v-data-table td{
    font-size: 10px;
 }
+tr > td > .text-left{
+  padding-right:50px;
+}
 </style>

@@ -5,9 +5,14 @@
             <div v-if="authenticated && user">
                 <v-app-bar-nav-icon class="grey--text" @click="drwr = !drwr"></v-app-bar-nav-icon>
             </div>
+
+              <router-link class="logoimg" to="/">
+                <img src="../assets/dowell.png" alt="Dowell Windows and Doors">
+              </router-link>
             <v-toolbar-title class="transparent"> 
                 <span class="font-weight-light">Saw</span><span>Screens</span>
             </v-toolbar-title>
+            
             <v-spacer></v-spacer>
             <div v-if="authenticated">
                 <v-btn text color="grey" @click.prevent="signOut"> Sign Out
@@ -137,4 +142,7 @@ background-color:rgb(123,196,189)
 }
 #anid .v-list-item__icon .v-list-group__header__prepend-icon .v-icon {color: white !important;}
 
+.logoimg{
+padding-right:10px;
+}
 </style>

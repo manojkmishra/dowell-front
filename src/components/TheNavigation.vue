@@ -83,8 +83,8 @@ export default {
           { action: 'mdi-view-dashboard', title: 'Dashboard', route:'/',hasMulSub: false },
            { action: 'mdi-account', title: 'User Profile',route:'/user', hasMulSub: false },
           { action: 'mdi-table-settings', title: 'Settings',route:'/settings', hasMulSub: false },
-          { action: 'mdi-hand-saw', title: 'SAW',hasMulSub: true,items: [
-              { title: 'Geebung', route:'/saw' },
+          { action: 'mdi-hand-saw', title: 'SAW Settings',hasMulSub: true,items: [
+              { title: 'Schedules', route:'/sawschedules' },
               { title: 'Nowra' },
              ],
           },

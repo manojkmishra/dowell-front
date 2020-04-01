@@ -6,3 +6,4 @@ export const getJobs = apiDomain+ '/saw/getJobs';
 export const updateJobList = apiDomain + '/saw/updateJobList';
 export const getjobdetails = apiDomain + '/saw/getjobdetails';
 export const getprofilecutting = apiDomain + '/saw/getprofilecutting';
+export const getsawschedules = apiDomain+ '/saw/getsawschedules';

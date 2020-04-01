@@ -1,5 +1,13 @@
 <template> 
 <v-simple-table light class="elevation-1">
+     <template v-slot:top>
+        <v-toolbar flat color="white">
+          <v-toolbar-title>CUTS INFO</v-toolbar-title>
+          <v-divider class="mx-4" inset vertical ></v-divider>
+         
+          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
+        </v-toolbar>
+    </template> 
     <template v-slot:default>
       <thead>
         <tr>

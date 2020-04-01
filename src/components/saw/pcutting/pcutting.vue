@@ -6,11 +6,11 @@
             <v-icon id="return-btn">mdi-keyboard-backspace</v-icon>RETURN TO JOBDETAILS
          </v-btn>
        </v-flex>
-   <v-flex xs6>
+   <v-flex md6>
          <profile-information ></profile-information> <br/>
          <opt-cut ></opt-cut> 
     </v-flex> 
-       <v-flex xs6>
+       <v-flex md6>
          <profile-cutting-list ></profile-cutting-list> 
     </v-flex> 
 

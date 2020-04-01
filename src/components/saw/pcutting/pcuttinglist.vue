@@ -11,9 +11,9 @@
         </v-toolbar>
     </template> 
  <template v-slot:item.action="{ item }">
-      <v-btn v-if="item.Status_id =='7'" :loading="loading" color="danger" rounded dark   @click.prevent="onClickSChange(item)">{{item.Status}}</v-btn>
-       <v-btn v-else-if="item.Status_id =='6'" :loading="loading" color="teal" rounded dark   @click.prevent="onClickSChange(item)">{{item.Status}}</v-btn>
-        <v-btn  v-else :loading="loading" color="blue lighten-3" rounded dark  @click.prevent="onClickSChange(item)">{{ item.Status }}</v-btn>
+      <v-btn  ripple small v-if="item.Status_id =='7'" :loading="loading" color="danger" rounded dark   @click.prevent="onClickSChange(item)">{{item.Status}}</v-btn>
+       <v-btn  ripple small v-else-if="item.Status_id =='6'" :loading="loading" color="teal" rounded dark   @click.prevent="onClickSChange(item)">{{item.Status}}</v-btn>
+        <v-btn ripple small  v-else :loading="loading" color="blue lighten-3" rounded dark  @click.prevent="onClickSChange(item)">{{ item.Status }}</v-btn>
     </template>
 
   </v-data-table>
@@ -28,6 +28,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'S.No', align: 'left', sortable: false, value: 'SNO',},
               { text: 'Extrusion', value: 'Length',sortable: false },
               { text: 'Description', value: 'Cuts' ,sortable: false},
+              { text: 'Machine', value: 'Machine' ,sortable: false},
               { text: 'Status', value: 'action', sortable: false },
 
             ],

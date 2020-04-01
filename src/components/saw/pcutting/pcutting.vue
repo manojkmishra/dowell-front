@@ -6,17 +6,26 @@
             <v-icon id="return-btn">mdi-keyboard-backspace</v-icon>RETURN TO JOBDETAILS
          </v-btn>
        </v-flex>
-   <v-flex xs12>
-        <!-- <job-details-list ></job-details-list> -->
+   <v-flex xs6>
+         <profile-information ></profile-information> <br/>
+         <opt-cut ></opt-cut> 
     </v-flex> 
+       <v-flex xs6>
+         <profile-cutting-list ></profile-cutting-list> 
+    </v-flex> 
+
   </v-layout>
  </v-container>
 </template>
 <script>
- //import JobDetailsList from './jobdetailslist.vue'
+ import pcuttinglist from './pcuttinglist.vue'
+  import pinformation from './pinformation.vue'
+    import optcut from './optcut.vue'
 export default {
         components: { 
-       // 'job-details-list': JobDetailsList, 
+        'profile-cutting-list': pcuttinglist, 
+        'profile-information': pinformation, 
+        'opt-cut': optcut, 
          },
        methods: {   backToJobdetails() { this.$router.push({name: 'jobdetails'});  },
             },

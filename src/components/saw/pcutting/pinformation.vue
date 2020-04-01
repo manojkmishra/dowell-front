@@ -1,22 +1,28 @@
 <template> 
-  <v-data-table :headers="headers" :items="stateNodes3"   class="elevation-1" 
-       :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
-
-   <template v-slot:top>
-        <v-toolbar flat color="white">
-          <v-toolbar-title>PROFILECUTTING LIST</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical ></v-divider>
-         
-          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
-        </v-toolbar>
-    </template> 
- <template v-slot:item.action="{ item }">
-      <v-btn v-if="item.Status_id =='7'" :loading="loading" color="danger" rounded dark   @click.prevent="onClickSChange(item)">{{item.Status}}</v-btn>
-       <v-btn v-else-if="item.Status_id =='6'" :loading="loading" color="teal" rounded dark   @click.prevent="onClickSChange(item)">{{item.Status}}</v-btn>
-        <v-btn  v-else :loading="loading" color="blue lighten-3" rounded dark  @click.prevent="onClickSChange(item)">{{ item.Status }}</v-btn>
+<v-simple-table light class="elevation-1">
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th class="text-left">Extrusion</th>
+          <th class="text-left">Description</th>
+            <th class="text-left">Color</th>
+          <th class="text-left">Stock Length</th>
+            <th class="text-left">Bars</th>
+          <th class="text-left">Pieces</th>
+        </tr>
+      </thead>
+<tbody>
+            <tr>
+                <td>{{ stateNode[0].Extrusion }}</td>
+                <td>{{ stateNode[0].Description }}</td>
+                <td>{{ stateNode[0].Color }}</td>
+                <td>{{ stateNode[0].Stock_Length }}</td>
+                <td>{{ selectedJobDetail.Bars }}</td>
+                <td>{{ selectedJobDetail.Pieces }}</td>
+            </tr>
+        </tbody>
     </template>
-
-  </v-data-table>
+  </v-simple-table>
 </template>
  
 <script>
@@ -25,25 +31,27 @@ import { mapGetters, mapState, mapActions} from 'vuex';
   {   data: () => (
         { dialog: false,
           headers: [
-              { text: 'S.No', align: 'left', sortable: false, value: 'SNO',},
-              { text: 'Extrusion', value: 'Length',sortable: false },
-              { text: 'Description', value: 'Cuts' ,sortable: false},
-              { text: 'Status', value: 'action', sortable: false },
+              { text: 'S.No', align: 'left', sortable: false, value: 'Extrusion',},
+              { text: 'Extrusion', value: 'Description',sortable: false },
+              { text: 'Description', value: 'Color' ,sortable: false},
+              { text: 'Status', value: 'Stock_Length', sortable: false },
 
             ],
             formSearchData: {  SawCode: '', QuoteID: '', extn_id: '', loc:'',  }, loading:false,
         }),
 
     computed: 
-      {  ...mapState({  stateNodes2: state => state.saw.profilecutting[0],
-                            selectedJob: state => state.saw.selectedJob,
+      {  ...mapState({
+                       
+                         stateNode: state => state.saw.profilecutting[0],
+                          selectedJob: state => state.saw.selectedJob,
+                         selectedSaw: state => state.saw.selectedSaw,
+                           stateNodes3: state => state.saw.jobdetails,
+
                             selectedJobDetail: state => state.saw.selectedJobDetail,
-                            selectedSaw: state => state.saw.selectedSaw,
-                            jobdetails1: state => state.saw.jobdetails,
-                            joblist: state => state.saw.joblist,
-                    }),
-                    stateNodes3() {   return this.stateNodes2.slice().sort(function(a, b) {    return a.Length - b.Length;  });
-                            }
+          }),
+          order() {    return stateNode[0].Profile_Section;
+          }
       },
     watch: {   },
     created () {  },
@@ -87,9 +95,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 <style scoped>
 
 .theme--light.v-data-table tbody td {
-    font-size: 20px !important;
+   
 }
-.v-data-table td{
-   font-size: 10px;
+td{
+  
 }
 </style>

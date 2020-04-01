@@ -46,6 +46,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
        {  ...mapState({ sawlist: state => state.saw.sawlist, 
                         jobdetailslist:state =>state.saw.jobdetailslist,
                         selectedSaw: state => state.saw.selectedSaw,
+                        selectedJob: state => state.saw.selectedJob,
                    }),
            
        },

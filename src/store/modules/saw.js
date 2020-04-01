@@ -5,7 +5,7 @@ import * as api from '../config';
 export default
 {
   state: {sawlist:null,joblist:null, selectedSaw:null,jobdetailslist:null,
-          selectedJob:null,selectedJobDetail:null,
+          selectedJob:null,selectedJobDetail:null,profilecutting:null,
         },
   getters:{
       
@@ -39,7 +39,12 @@ export default
         [types.SET_SELECTED_JOBDETAIL] (state, payload) 
         {   state.selectedJobDetail=payload.selectedJobDetail;
             console.log('/store/saw.js-types.SET_SELECTED_JOBDETAIL state=', state);
-           
+        },
+        [types.GET_SAW_PROFILECUTTING] (state, payload) 
+        {   console.log('/store/saw.js-types.GET_SAW_PROFILECUTTING payload=', payload);
+            console.log('/store/saw.js----GET_SAW_PROFILECUTTING state=', state);
+            state.profilecutting = payload.profilecutting; 
+            
         },
   
   },
@@ -73,6 +78,11 @@ export default
         },
       selectedJob: ({commit}, data) => {commit({  type: types.SET_SELECTED_JOB ,selectedJob: data   });  },
       selectedJobDetail: ({commit}, data) => {commit({  type: types.SET_SELECTED_JOBDETAIL ,selectedJobDetail: data   });  },
-      
+      async getprofilecutting ({commit,dispatch}, formData)
+      {   let res= await axios.post(api.getprofilecutting, formData)
+          console.log('api.getprofilecutting-- res=', res);
+          commit({type: types.GET_SAW_PROFILECUTTING, profilecutting: res.data} );  
+          return res;         
+      },
   }
 }

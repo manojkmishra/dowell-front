@@ -2,7 +2,7 @@
  <div >
     <v-layout row wrap class="justify-center">
       <div v-for="aaa in aa" >
-        <v-btn class="primary dark" id="button3" @click.prevent="getjobs(aaa)"> {{aaa.SawCode.replace(/_/g, " ")}}</v-btn>
+        <v-btn class="primary dark" id="button3" :loading="loading" @click.prevent="getjobs(aaa)"> {{aaa.SawCode.replace(/_/g, " ")}}</v-btn>
       </div>
     </v-layout>
  
@@ -28,20 +28,20 @@ export default
                         }
               }
             },
-  data() { return { label: 'danger', aa1:[], user1:'',
+  data() { return { loading: false, 
                     formData: {  SawCode:'', Location:'',},
                   }  
           },
   methods: {  
 
               getjobs(data)
-                {  
+                {  this.loading=true;
                    // this.$router.push({name: 'sawjobs', params: {  myProperty: data.SawCode  }});
                   this.$store.dispatch('selectedSaw', data);
                   this.formData.SawCode = data.SawCode;
                   this.formData.Location = data.Location;
                   this.$store.dispatch('getJobs', this.formData)
-                  .then((res) => {  
+                  .then((res) => {  this.loading=false;
                                       
                     this.$router.push({name: 'joblist'});           
                                   })

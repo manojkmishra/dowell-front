@@ -21,7 +21,7 @@
                   <v-spacer />
                    <v-layout column wrap justify-end align-end >
                        <v-card-text class="text-md-right text-sm-center text-xs-center">
-                           <v-btn type="submit" rounded color="teal lighten-2" dark >Submit</v-btn>
+                           <v-btn type="submit" :loading="loading" rounded color="teal lighten-2" dark >Submit</v-btn>
                         </v-card-text>
                     </v-layout>
                 </v-form>
@@ -48,14 +48,14 @@ export default
 
   name: 'signin',
   components: { navi1 },
-  data(){return {form:{email:'',password:''}, showPassword:false,aalert:true }},
+  data(){return {form:{email:'',password:''}, showPassword:false,aalert:true, loading:false }},
   methods: { 
         ...mapActions({signIn:'auth/signIn'}),
          submit()
-            { 
+            { this.loading=true;
               this.signIn(this.form).then(()=>
               {
-                
+                this.loading=false;
                 toast.fire({   icon: "success",
                                title: "You have logged in successfully"
                             })

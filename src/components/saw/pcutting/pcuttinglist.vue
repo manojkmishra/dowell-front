@@ -4,7 +4,7 @@
 
    <template v-slot:top>
         <v-toolbar flat color="white">
-          <v-toolbar-title>JOBDETAILS</v-toolbar-title>
+          <v-toolbar-title>JOBDETAILS LIST</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
          
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
@@ -14,7 +14,7 @@
       <v-btn v-if="item.Status_id =='9'" :loading="loading" color="danger" rounded dark   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn v-else-if="item.Status_id =='2'" :loading="loading" color="teal" rounded dark   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn v-else-if="item.Status_id =='3'" :loading="loading" color="teal" rounded dark   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-       <v-btn v-else color="blue lighten-3" :loading="loading" rounded dark    @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn v-else color="blue lighten-2" :loading="loading" rounded dark    @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template>
     <template v-slot:item.flag="{ item }">
         <v-icon small > mdi-flag-outline </v-icon>
@@ -69,7 +69,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                   .then((response) => { this.loading=false;
                       console.log('profilecutting response',response.data);  
                       this.$router.push({
-                          name: 'profilecutting'
+                          name: 'pcutting'
                       });
                   })
                   .catch((error) => {});

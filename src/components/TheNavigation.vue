@@ -6,9 +6,9 @@
                 <v-app-bar-nav-icon class="grey--text" @click="drwr = !drwr"></v-app-bar-nav-icon>
             </div>
 
-              <router-link class="logoimg" to="/">
-                <img src="../assets/dowell.png" alt="Dowell Windows and Doors">
-              </router-link>
+            <!--  <router-link class="logoimg" to="/"> -->
+                <img src="../assets/dowell.png" class="logoimg" alt="Dowell Windows and Doors">
+            <!--  </router-link> -->
             <v-toolbar-title class="transparent"> 
                 <span class="font-weight-light">Saw</span><span>Screens</span>
             </v-toolbar-title>
@@ -82,7 +82,7 @@ export default {
       items: [
           { action: 'mdi-view-dashboard', title: 'Dashboard', route:'/',hasMulSub: false },
            { action: 'mdi-account', title: 'User Profile',route:'/user', hasMulSub: false },
-          { action: 'mdi-settings', title: 'Settings',route:'/settings', hasMulSub: false },
+          { action: 'mdi-table-settings', title: 'Settings',route:'/settings', hasMulSub: false },
           { action: 'mdi-hand-saw', title: 'SAW',hasMulSub: true,items: [
               { title: 'Geebung', route:'/saw' },
               { title: 'Nowra' },

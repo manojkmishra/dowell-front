@@ -91,5 +91,11 @@ export default
         commit({type: types.GET_SAW_SCHEDULES, sawschedules: res.data} );  
         return res;  
       },
+      async getsawbars ({commit,dispatch}) 
+      { 
+        let res= await axios.get(api.getsawbars)
+       // commit({type: types.GET_SAW_BARS, sawbars: res.data} );  
+        return res;  
+      },
   }
 }

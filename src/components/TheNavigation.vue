@@ -72,7 +72,7 @@
  </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld';
+
 import {mapGetters, mapActions} from 'vuex'
 
 export default {
@@ -84,8 +84,11 @@ export default {
            { action: 'mdi-account', title: 'User Profile',route:'/user', hasMulSub: false },
           { action: 'mdi-table-settings', title: 'Settings',route:'/settings', hasMulSub: false },
           { action: 'mdi-hand-saw', title: 'SAW Settings',hasMulSub: true,items: [
-              { title: 'Schedules', route:'/sawschedules' },
-              { title: 'Nowra' },
+              { title: 'Saw Schedules', route:'/sawschedules' },
+               { title: 'Saw Bars', route:'/sawbars' },
+               { title: 'Saw Cuts', route:'/sawcuts' },
+               { title: 'Saw Status', route:'/sawstatus' },
+               { title: 'Saw Flags', route:'/sawflags' },
              ],
           },
            { action: 'mdi-chart-bar', title: 'Charts',hasMulSub: true, items: [ { title: 'Geebung', route:'test' }, ], },

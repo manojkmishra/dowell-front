@@ -97,5 +97,29 @@ export default
        // commit({type: types.GET_SAW_BARS, sawbars: res.data} );  
         return res;  
       },
+      async getsawstatus ({commit,dispatch}) 
+      { 
+        let res= await axios.get(api.getsawbars)
+       // commit({type: types.GET_SAW_BARS, sawbars: res.data} );  
+        return res;  
+      },
+      async getsawflags ({commit,dispatch}) 
+      { 
+        let res= await axios.get(api.getsawflags)
+       // commit({type: types.GET_SAW_BARS, sawbars: res.data} );  
+        return res;  
+      },
+      async getsawstatus ({commit,dispatch}) 
+      { 
+        let res= await axios.get(api.getsawstatus)
+       // commit({type: types.GET_SAW_BARS, sawbars: res.data} );  
+        return res;  
+      },
+      async getsawcuts ({commit,dispatch}) 
+      { 
+        let res= await axios.get(api.getsawcuts)
+       // commit({type: types.GET_SAW_BARS, sawbars: res.data} );  
+        return res;  
+      },
   }
 }

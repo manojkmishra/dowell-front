@@ -17,4 +17,11 @@ export const SET_SELECTED_JOB = 'SET_SELECTED_JOB';
 export const GET_SAW_PROFILECUTTING = 'GET_SAW_PROFILECUTTING';
 export const GET_SAW_SCHEDULES = 'GET_SAW_SCHEDULES'
 
+export const GET_SAW_BARS = 'GET_SAW_BARS'
+export const GET_SAW_CUTS = 'GET_SAW_CUTS'
+export const GET_SAW_STATUS = 'GET_SAW_STATUS'
+export const GET_SAW_FLAGS = 'GET_SAW_FLAGS'
+
+
+
 

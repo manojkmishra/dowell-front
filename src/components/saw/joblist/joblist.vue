@@ -2,7 +2,7 @@
   <v-data-table :headers="headers" :items="joblist"   class="elevation-1" :search="search"
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
     <template v-slot:top>
-        <v-toolbar flat color="light-blue lighten-5">
+        <v-toolbar flat color="blue lighten-2" dark>
           <v-toolbar-title>JOBS</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
@@ -99,4 +99,5 @@ tr tbody
 {
   margin-top: -25%;
 }
+
 </style>

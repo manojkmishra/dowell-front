@@ -1,6 +1,13 @@
 <template>
     <div class="mt-3">
-        <sawschedules v-bind:bb="aa" :loading="loading"></sawschedules> 
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        top
+        color="deep-purple accent-4"
+      ></v-progress-linear>
+        <sawschedules v-bind:bb="aa" ></sawschedules> 
             
     </div>
 </template>

@@ -9,7 +9,7 @@
            <v-flex class="zz1 lg6 md6 sm12 " >
               <v-hover v-slot:default="{ hover }">
               <v-card :elevation="hover ? 12 : 2" color="grey lighten-4" class="mx-auto ">
-              <v-toolbar color="blue lighten-2"  dark>
+              <v-toolbar color="blue lighten-2"  dark >
                 <v-toolbar-title>Login</v-toolbar-title>
                 <v-spacer />
               </v-toolbar>

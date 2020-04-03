@@ -2,27 +2,22 @@
   <v-data-table :headers="headers" :items="joblist"   class="elevation-1" :search="search"
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
     <template v-slot:top>
-        <v-toolbar flat color="blue lighten-2" dark>
+        <v-toolbar flat color="blue" dark>
           <v-toolbar-title>JOBS</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
           <v-spacer></v-spacer>
-                <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
+                <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details
+                ></v-text-field>
         </v-toolbar>
     </template>
  
     <template v-slot:item.action="{ item }" >
-       <v-btn ripple small v-if="item.Status_id =='9'"  color="red lighten-2" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple small v-if="item.Status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn ripple small v-else-if="item.Status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else-if="item.Status =='Up Next'"  color="blue darken-3" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else-if="item.Status =='Flagged'"  color="red darken-2" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else color="blue lighten-3" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple small v-else-if="item.Status =='Up Next'"  color="red accent-1" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple small v-else-if="item.Status =='Flagged'"  color="red darken-4" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple small v-else color="cyan lighten-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template>
     <template v-slot:item.flag="{ item }">
         <v-icon small > mdi-flag-outline </v-icon>

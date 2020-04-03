@@ -6,6 +6,7 @@ import axios from 'axios';
 import vuetify from './plugins/vuetify';
 import {initialize} from './store/helper';
 import '@/styles/index.scss';
+import '@mdi/font/css/materialdesignicons.css'
 require ('@/plugins/Sweetalert');
 
 require('@/store/subscriber')  
@@ -14,6 +15,9 @@ axios.defaults.baseURL='//uat.oms.dowell.com.au/api'
 
 Vue.config.productionTip = false
 initialize(store, router);
+Vue.use(vuetify, {
+  iconfont: 'mdi' // 'md' || 'mdi' || 'fa' || 'fa4'
+})
 store.dispatch('auth/attempt',localStorage.getItem('token'))
 .then(()=>{
       new Vue({

@@ -26,11 +26,11 @@
         </v-app-bar><!-- toolbar finish --drawer start-->
         <div v-if="authenticated">
             <div snackbar="true" > </div>
-            <v-navigation-drawer v-model="drwr" app  class="blue-grey lighten-5" id="sidebar">
+            <v-navigation-drawer v-model="drwr" app dark  id="sidebar">
                <v-layout column align-center>
                     <v-flex class="mt-5" >
                          <v-avatar size="100" class=""><img src="@/assets/user.png"></v-avatar>
-                         <p class="subheading mt-1" style="text-align: center">{{user.name}}</p>
+                         <p class="subheading mt-1" style="text-align: center; color:#90CAF9;">{{user.name}}</p>
                     </v-flex> <!--popup to add projects below -->
                </v-layout>            
       <!---multi leve finish ---------->
@@ -40,7 +40,7 @@
        <template v-for="(item, index) in items">
 		      <template v-if="item.hasMulSub">
 			       <v-list-group :value="false" :prepend-icon="item.action"  :key="index"  no-action
-              color="blue darken-4" >
+              color="white" >
                 <template v-slot:activator >
                   <v-list-item-content  >
                     <v-list-item-title v-text="item.title"></v-list-item-title>
@@ -48,7 +48,7 @@
                 </template>             
 
               <v-list-item v-for="subItem in item.items" :key="subItem.title"
-               router-link :to="subItem.route" color="blue darken-4"> 
+               router-link :to="subItem.route" color="white"> 
                 <v-list-item-content>
                   <v-list-item-title v-text="subItem.title" ></v-list-item-title>
                 </v-list-item-content>
@@ -57,7 +57,7 @@
           </v-list-group>
           </template>
 		     <template v-else>
-          <v-list-item  router-link :to="item.route" :key="index" no-action color="blue darken-4">
+          <v-list-item  router-link :to="item.route" :key="index" no-action color="white">
             <v-list-item-action><v-icon>{{ item.action }}</v-icon></v-list-item-action>
             <v-list-item-content> <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
@@ -134,6 +134,9 @@ export default {
 }
 </script>
 <style scoped>
+  #sidebar{
+    background-color:#0747A6 !important;
+  }
 .v-application a {  text-decoration: none; color:black}
 
 #dashboard-l:hover{

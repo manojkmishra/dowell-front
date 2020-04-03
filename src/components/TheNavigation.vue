@@ -81,8 +81,13 @@ export default {
      
       items: [
           { action: 'mdi-view-dashboard', title: 'Dashboard', route:'/',hasMulSub: false },
-           { action: 'mdi-account', title: 'User Profile',route:'/user', hasMulSub: false },
-          { action: 'mdi-table-settings', title: 'Settings',route:'/settings', hasMulSub: false },
+          // { action: 'mdi-account', title: 'User Profile',route:'/user', hasMulSub: false },
+           { action: 'mdi-account', title: 'User Settings',hasMulSub: true,items: [
+              { title: 'Users List', route:'/userlist' },
+               { title: 'User Rights', route:'/userrights' },
+
+             ],
+          },
           { action: 'mdi-hand-saw', title: 'SAW Settings',hasMulSub: true,items: [
               { title: 'Saw Schedules', route:'/sawschedules' },
                { title: 'Saw Bars', route:'/sawbars' },
@@ -92,7 +97,7 @@ export default {
              ],
           },
            { action: 'mdi-chart-bar', title: 'Charts',hasMulSub: true, items: [ { title: 'Geebung', route:'test' }, ], },
-          { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [
+       /*   { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [
               { title: 'Smithfield' },
               { title: 'Nowra' },
               { title: 'Beresfield' },
@@ -100,7 +105,7 @@ export default {
           },
           { action: 'mdi-folder', title: 'SA', hasMulSub: true,items: [ { title: 'Elizabeth', route:'eli' }, ], },
           { action: 'mdi-folder', title: 'VIC', hasMulSub: true,items: [{ title: 'Bayswater' },], },
-          
+          */
           
         ],
      

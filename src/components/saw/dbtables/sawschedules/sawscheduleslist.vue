@@ -1,6 +1,6 @@
 <template> 
 
-  <v-data-table :headers="headers" :items="sawschedules"   class="elevation-1" :search="search"
+  <v-data-table :headers="headers" :items="bb"   class="elevation-1" :search="search"
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
  <template v-slot:top >
         <v-toolbar flat color="light-blue lighten-5">
@@ -27,6 +27,7 @@
         <v-icon small > mdi-flag-outline </v-icon>
     </template>
 -->
+
   </v-data-table>
 </template>
 <script>
@@ -35,20 +36,16 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 import axios from "axios";
 export default
 {  computed: 
-   { //...mapState({ sawlist: 'saw/sawlist', }),
-    // ...mapActions({getsaws:'saw/getsaws'}),
-        ...mapState({ sawschedules: state => state.saw.sawschedules, 
-
-              }),
-        ...mapGetters({
-                      }),
+   { 
 
             },
+             props:{bb:Array},
   data() { return {dialog: false,search: '',
           headers: [
               { text: 'created_at', align: 'left', value: 'created_at'},
               { text: 'created_by', align: 'left',  value: 'createdby.name'},
-              { text: 'updated_at', align: 'left',  value: 'updatedby.name'},
+              { text: 'updated_at', align: 'left',  value: 'updated_at'},
+              { text: 'updatedby', align: 'left',  value: 'updatedby.name'},
               { text: 'cut_date', align: 'left',  value: 'cut_date'},
               { text: 'cut_time', align: 'left',  value: 'cut_time'},
 

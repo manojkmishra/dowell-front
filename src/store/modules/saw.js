@@ -5,7 +5,8 @@ import * as api from '../config';
 export default
 {
   state: {sawlist:null,joblist:null, selectedSaw:null,jobdetailslist:null,
-          selectedJob:null,selectedJobDetail:null,profilecutting:null,sawschedules:null,
+          selectedJob:null,selectedJobDetail:null,profilecutting:null,
+          cutlist:null,
         },
   getters:{
       
@@ -44,11 +45,12 @@ export default
             console.log('/store/saw.js----GET_SAW_PROFILECUTTING state=', state);
             state.profilecutting = payload.profilecutting; 
         },
-        [types.GET_SAW_SCHEDULES ] (state, payload) 
-        {  state.sawschedules = payload.sawschedules;  
-         console.log('/store/saw.js-types.GET_SAW_SCHEDULES state=', state);
-      },
-  
+        [types.GET_SAW_CUTLIST] (state, payload) 
+        {   console.log('/store/saw.js-types.GET_SAW_CUTLIST payload=', payload);
+            console.log('/store/saw.js----GET_SAW_CUTLIST state=', state);
+            state.cutlist = payload.cutlist; 
+        },
+ 
   },
   actions: 
   { 
@@ -65,17 +67,16 @@ export default
      selectedSaw: ({commit}, data) => {commit({  type: types.SET_SELECTED_SAW ,selectedSaw: data   });  },
      async updateJobList ({dispatch}, formData) 
         { 
-             console.log('updateJobList-- formData=', formData);
-             let res= await axios.post(api.updateJobList, formData)
-             dispatch('getJobs',formData);
-             return res; 
+            console.log('updateJobList-- formData=', formData);
+            let res= await axios.post(api.updateJobList, formData)
+            dispatch('getJobs',formData);
+            return res; 
         },
-     async getjobdetails ({commit,dispatch}, formData)
+      async getjobdetails ({commit,dispatch}, formData)
         {   let res= await axios.post(api.getjobdetails, formData)
             console.log('getjobdetails-- res=', res);
             commit({type: types.GET_SAW_JOBDETAILSLIST, jobdetailslist: res.data} );  
             return res;
-           
         },
       selectedJob: ({commit}, data) => {commit({  type: types.SET_SELECTED_JOB ,selectedJob: data   });  },
       selectedJobDetail: ({commit}, data) => {commit({  type: types.SET_SELECTED_JOBDETAIL ,selectedJobDetail: data   });  },
@@ -85,38 +86,23 @@ export default
           commit({type: types.GET_SAW_PROFILECUTTING, profilecutting: res.data} );  
           return res;         
       },
-      async getsawschedules ({commit,dispatch}) 
-      { 
-        let res= await axios.get(api.getsawschedules)
-        commit({type: types.GET_SAW_SCHEDULES, sawschedules: res.data} );  
-        return res;  
-      },
+//-----------------------------------------------------------------
+      async getsawschedules () 
+      { let res= await axios.get(api.getsawschedules);   return res;  },
       async getsawbars ({commit,dispatch}) 
-      { 
-        let res= await axios.get(api.getsawbars)
-       // commit({type: types.GET_SAW_BARS, sawbars: res.data} );  
-        return res;  
-      },
-      async getsawstatus ({commit,dispatch}) 
-      { 
-        let res= await axios.get(api.getsawbars)
-       // commit({type: types.GET_SAW_BARS, sawbars: res.data} );  
-        return res;  
-      },
-      async getsawflags ({commit,dispatch}) 
-      { 
-        let res= await axios.get(api.getsawflags)
-        return res;  
-      },
-      async getsawstatus ({commit,dispatch}) 
-      { 
-        let res= await axios.get(api.getsawstatus)
-        return res;  
-      },
+      { let res= await axios.get(api.getsawbars) ;  return res;    },
       async getsawcuts ({commit,dispatch}) 
-      { 
-        let res= await axios.get(api.getsawcuts)
-        return res;  
+      { let res= await axios.get(api.getsawcuts);      return res;   },
+      async getsawflags ({commit,dispatch}) 
+      { let res= await axios.get(api.getsawflags);  return res;    },
+      async getsawstatus ({commit,dispatch}) 
+      { let res= await axios.get(api.getsawstatus);    return res;    },
+//-------------------------------------------------------------
+  async getcutlist({commit,dispatch}, formData)
+      {   let res= await axios.post(api.getcutlist, formData)
+          console.log('api.getcutlist-- res=', res);
+          commit({type: types.GET_SAW_CUTLIST, cutlist: res.data} );  
+          return res;         
       },
   }
 }

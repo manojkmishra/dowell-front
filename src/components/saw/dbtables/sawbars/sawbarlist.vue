@@ -17,6 +17,10 @@
       ></v-text-field>
         </v-toolbar>
     </template>
+    <template slot="no-data">
+      <div></div>
+    </template>
+    
  <!--
     <template v-slot:item.status_id="{ item }" >
        <v-btn ripple small v-if="item.status_id =='9'"  color="red lighten-2" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>

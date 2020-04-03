@@ -75,7 +75,7 @@
 <script>
  import Vue from 'vue';
     import { mapGetters, mapState, mapActions} from 'vuex'
-    import sawschedules from './sawbarlist.vue'
+   // import sawschedules from './sawbarlist.vue'
     export default 
     {   data(){return{aa:[], loading:false,
                         dialogDelete: false,
@@ -104,9 +104,9 @@ computed: {  formTitle() {  if (this.dialogDelete) {  return "Delete Category"; 
         },
 components: { 'sawschedules': sawschedules, },
 created(){ this.loading=true;
-            this.$store.dispatch('getsawstatus')
+            this.$store.dispatch('getuserlist')
                     .then((res) => { //this.loading=false;
-                                console.log('getstatus response',res.data)  
+                                console.log('getuserlist response',res.data)  
                                 this.categories=res.data;
                                 this.loading=false;
                         })

@@ -1,5 +1,12 @@
 <template>
     <div class="mt-3">
+              <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        top
+        color="deep-purple accent-4"
+      ></v-progress-linear>
         <sawschedules v-bind:bb="aa" :loading="loading"></sawschedules> 
             
     </div>
@@ -7,7 +14,7 @@
 <script>
  import Vue from 'vue';
     import { mapGetters, mapState, mapActions} from 'vuex'
-    import sawschedules from './sawbarlist.vue'
+    import sawschedules from './sawcutslist.vue'
     export default 
     {   data(){return{aa:[], loading:false}},
         components: { 'sawschedules': sawschedules, },

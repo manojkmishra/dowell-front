@@ -13,7 +13,9 @@ import sawbars from '@/components/saw/dbtables/sawbars/sawbars.vue'
 import sawcuts from '@/components/saw/dbtables/sawcuts/sawcuts.vue'
 import sawstatus from '@/components/saw/dbtables/sawstatus/sawstatus.vue'
 import sawflags from '@/components/saw/dbtables/sawflags/sawflags.vue'
+import cutlist from '@/components/saw/cutlist/cutlist.vue'
 import user from '@/components/users/user.vue'
+//import userlist from '@/components/admin/users/userlist.vue'
 
 
 Vue.use(VueRouter)
@@ -23,6 +25,7 @@ const routes = [
   { path: '/login',   name: 'login',   component: Login  } ,
 //  { path: '/dashboard',   name: 'dashboard',   component: Dashboard,meta: { requiresAuth: true  }, } ,
   { path: '/user',name:'user', component: user,meta: { requiresAuth: true }},
+  //{ path: '/userlist',name:'userlist', component: userlist,meta: { requiresAuth: true }},
   { path: '/sawschedules',name:'sawschedules', component: sawschedules,meta: { requiresAuth: true }},
   { path: '/sawbars',name:'sawbars', component: sawbars,meta: { requiresAuth: true }},
   { path: '/sawcuts',name:'sawcuts', component: sawcuts,meta: { requiresAuth: true }},
@@ -32,6 +35,7 @@ const routes = [
   { path: '/saw/joblist',name:'joblist', component: joblist,meta: { requiresAuth: true }},
   { path: '/saw/jobdetails',name:'jobdetails', component: jobdetails,meta: { requiresAuth: true }},
   { path: '/saw/profilecutting',name:'profilecutting', component: profilecutting,meta: { requiresAuth: true }},
+  { path: '/saw/cutlist',name:'cutlist', component: cutlist,meta: { requiresAuth: true }},
   { path: '/404', component: () => import('@/views/App404.vue'),meta: { requiresAuth: true  }, },
   { path: '*', redirect: '/404' },
 ]

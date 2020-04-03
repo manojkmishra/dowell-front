@@ -1,17 +1,22 @@
 <template>
-  <v-data-table :headers="headers" :items="joblist"   class="elevation-1" :search="search"
+  <v-data-table :headers="headers" :items="joblist"   class="elevation-1" :search="search" 
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
     <template v-slot:top>
-        <v-toolbar flat color="blue" dark>
+        <v-toolbar flat color="light-blue darken-3" dark dense>
           <v-toolbar-title>JOBS</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
           <v-spacer></v-spacer>
-                <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details
+                <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>
         </v-toolbar>
     </template>
- 
+    <!------flag---------->
+     <template v-slot:item.flag="{ item }">
+      <v-icon  v-if="item.review>0" v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" >
+        mdi-flag</v-icon> 
+    </template>
+    <!----status----->
     <template v-slot:item.action="{ item }" >
        <v-btn ripple small v-if="item.Status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn ripple small v-else-if="item.Status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
@@ -19,9 +24,19 @@
        <v-btn ripple small v-else-if="item.Status =='Flagged'"  color="red darken-4" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn ripple small v-else color="cyan lighten-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template>
-    <template v-slot:item.flag="{ item }">
-        <v-icon small > mdi-flag-outline </v-icon>
+    <!----cutall---------->
+    <template v-slot:item.cutall="{ item }" >
+       <v-btn v-if="item.Status_id =='12'" small color="red accent-2" rounded dark :loading="loading"  @click.prevent="cutall(item)">UnCutJob</v-btn>
+       <v-btn v-else  small color="teal" rounded dark :loading="loading"   @click.prevent="cutall(item)">CutJob</v-btn>
     </template>
+    <!------multiselect-------->
+      <template v-slot:item.sel="{ item }">
+ 
+          <v-checkbox
+            :checked="formSearchData.selected1.indexOf(item.id) !== -1"  @click="toggleSelect(item)"
+          ></v-checkbox>
+
+      </template>
 
   </v-data-table>
 </template>
@@ -30,17 +45,20 @@
 import { mapGetters, mapState, mapActions} from 'vuex';
   export default 
   {   data: () => (
-        { dialog: false,search: '',
+        { dialog: false,search: '',selected: [],
           headers: [
               { text: 'Cut Date', align: 'left', sortable: false, value: 'cut_date', width:"12%"},
               { text: 'Order No', value: 'Order_Number',sortable: false },
               { text: 'Customer', value: 'Customer' ,sortable: false},
               { text: 'Time (Min)', value: 'Time',sortable: false },
               { text: 'Color', value: 'Color', sortable: false},
-              { text: 'Status', value: 'action', sortable: false },
               { text: 'Flag', value: 'flag', sortable: false },
+              { text: 'Status', value: 'action', sortable: false },
+              { text: 'CutAll', value: 'cutall', sortable: false },
+              { text: "Select", value: "sel", sortable: false },
+
             ],
-           formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'',  }, loading:false,
+           formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[]  }, loading:false,
         }),
 
     computed: 
@@ -56,7 +74,16 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 console.log('joblist.vue-this.joblist=',this.joblist)    
               },
     methods: 
-    {   chstatus(data)
+    {                  toggleSelect (cat) 
+                        {     console.log('toggleselect-item=',cat)
+                           if (this.formSearchData.selected1.indexOf(cat.id) !== -1) 
+                                    {   this.formSearchData.selected1.splice(this.formSearchData.selected1.findIndex(v => v === cat.id), 1)
+                                    } 
+                               else{ this.formSearchData.selected1.push(cat.id);
+                                       
+                                    }
+                        } ,
+      chstatus(data)
           {    console.log('chstatus-',data);
                this.formSearchData.SawCode = this.selectedSaw;
                this.formSearchData.QuoteID = data.quote_ID;
@@ -76,6 +103,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                           })
                       .catch((error) => {console.log('jobdetails--- error',error); });
            },
+           cutall(x){
+             console.log('cutall-item',x);
+           }
     },
   }
 </script>
@@ -94,5 +124,7 @@ tr tbody
 {
   margin-top: -25%;
 }
-
+.serc{
+  width:5% !important;
+}
 </style>

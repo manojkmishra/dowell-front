@@ -9,8 +9,8 @@
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>&nbsp;
-               <v-btn id="btn-cutselected" small  color="blue" rounded dark :loading="loading"  @click.prevent="uncutselect">UnCutSelected</v-btn>
-                <v-btn id="btn-cutselected" small  color="blue" rounded dark :loading="loading"  @click.prevent="cutselected">CutSelected</v-btn>
+               <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading"  @click.prevent="uncutselect">UnCutSelected</v-btn>
+                <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading"  @click.prevent="cutselected">CutSelected</v-btn>
         </v-toolbar>
     </template>
     <!----status----->
@@ -34,7 +34,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
   {   data: () => (
         { dialog: false,search: '',selected: [],
           headers: [
-              { text: 'SNO', align: 'left', sortable: false, value: 'SNO', width:"12%"},
+              { text: 'SNO', align: 'left', sortable: false, value: 'SNO', width:"5%"},
               { text: 'Extrusion', value: 'Extrusion',sortable: false },
               { text: 'Description', value: 'Description', sortable: false},
               { text: 'Item', value: 'Item', sortable: false },
@@ -77,8 +77,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 cutselected()
                 { //console.log('cutsel-selectedjob=',this.selectedJob)
                     //  console.log('cutsel-formdata=',this.formData)
-                  
-                    if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
+                     if(this.formData.selected1.length>0)
+                  {
+                   if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
                      { console.log('cutsel-selectedjob=',this.selectedJob)
                       console.log('cutsel-formdata=',this.formData)
                        this.formData.SawCode=this.selectedSaw;
@@ -88,10 +89,15 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                     console.log('cutsel-formdata=',this.formData)
                       this.$store.dispatch('updatecutselectscrap', this.formData)
                              .then((response) =>  {   })     
-                             .catch((error) => {         });
                       this.resetFormData();
                      }
-                   },
+                 }
+                else{ swal.fire({ position: 'top-right',
+                                  title:'<span style="color:white">Please select jobs to cut</span>',
+                                timer: 2000, toast: true, background: 'purple', color:'white'
+                                });
+                   }
+                },
               uncutselect()
                 { 
                     

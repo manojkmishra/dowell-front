@@ -155,7 +155,7 @@ tr > td > .text-left{
 }
 tr tbody
 {
-  margin-top: -25%;
+  
 }
 .serc{
   width:5% !important;

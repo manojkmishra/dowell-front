@@ -122,10 +122,15 @@ export default {
         signOut(){
             this.signOut1().then(()=>{
                 this.$router.replace({path:'/login'})
-                 toast.fire({
-                    icon: "success",
-                    title: "Logout Success"
-                });
+                 toast.fire({ icon: "success", title: "Logout Success" });
+                  swal.fire({
+                position: 'top-right',
+                title:'<span style="color:white">Logout Success!!</span>',
+                  timer: 2000,
+                  toast: true,
+                  background: 'purple',
+                  color:'white'
+                 });
             })
         },
                    

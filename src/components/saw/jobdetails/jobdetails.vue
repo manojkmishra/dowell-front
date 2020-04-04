@@ -1,5 +1,5 @@
 <template>
- <v-container grid-list-lg pa-0 mt-3>
+ <v-container grid-list-lg pa-0 mt-2>
     <v-layout wrap>
        <v-flex xs12>
          <v-btn  text  color="grey" @click="backToJob">
@@ -22,7 +22,7 @@
             
        </v-flex>
  
-   <v-flex xs12>
+   <v-flex xs12 pt-0>
          <job-details-list ></job-details-list>
     </v-flex> 
   </v-layout>

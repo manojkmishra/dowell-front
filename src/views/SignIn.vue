@@ -56,14 +56,36 @@ export default
               this.signIn(this.form).then(()=>
               {
                 this.loading=false;
-                toast.fire({   icon: "success",
-                               title: "Login Success"
-                            })
+               // toast.fire({   icon: "success", title: "Login Success" })
+                swal.fire({
+                position: 'top-right',
+                title:'<span style="color:white">Login Success!!</span>',
+                  timer: 2000,
+                  toast: true,
+                  background: 'purple',
+                  color:'white'
+                // customClass: 'swal2-popup',
+                 });
+
                 this.$router.replace({name:'dashboard'})
               }).catch(()=>{
-                               swal.fire("Login Failed","There was an error logging in. Please try again!","warning");
+                               //swal.fire("Login Failed","There was an error logging in. Please try again!","warning");
+                               swal.fire({
+                position: 'top-right',
+                title:'<span style="color:white">Login Failed!!</span>',
+               // text:"anything",
+               // width:'22em',
+               // type: "info",
+                //  showConfirmButton: false,
+                  timer: 3000,
+                  toast: true,
+                  background: 'purple',
+                  color:'white'
+                // customClass: 'swal2-popup',
+                 });
                               this.loading=false;
                               })
+                              
             }    
     }
 }

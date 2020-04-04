@@ -11,7 +11,7 @@
         <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
                   @click.prevent="scrap"><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn>
        </v-flex>
-   <v-flex md6>
+   <v-flex md6 pt-0>
          <profile-information ></profile-information> <br/>
          <opt-cut ></opt-cut> 
     </v-flex> 

@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items="joblist"   class="elevation-1" :search="search" 
+  <v-data-table :headers="headers" :items="joblist"   class="elevation-1" :search="search"
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
     <template v-slot:top>
         <v-toolbar flat color="light-blue darken-3" dark dense>
@@ -8,7 +8,8 @@
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
-                ></v-text-field>
+                ></v-text-field>&nbsp;
+                <v-btn small  color="grey darken-2" rounded dark :loading="loading"  @click.prevent="cutselcted">CutSelected</v-btn>
         </v-toolbar>
     </template>
     <!------flag---------->
@@ -26,14 +27,14 @@
     </template>
     <!----cutall---------->
     <template v-slot:item.cutall="{ item }" >
-       <v-btn v-if="item.Status_id =='12'" small color="red accent-2" rounded dark :loading="loading"  @click.prevent="cutall(item)">UnCutJob</v-btn>
-       <v-btn v-else  small color="teal" rounded dark :loading="loading"   @click.prevent="cutall(item)">CutJob</v-btn>
+       <v-btn v-if="item.Status_id =='12'" small outlined color="red accent-2" rounded dark :loading="loading"  @click.prevent="cutall(item)">UnCutJob</v-btn>
+       <v-btn v-else  small color="teal" outlined rounded dark :loading="loading"   @click.prevent="cutall(item)">CutJob</v-btn>
     </template>
     <!------multiselect-------->
       <template v-slot:item.sel="{ item }">
  
           <v-checkbox
-            :checked="formSearchData.selected1.indexOf(item.id) !== -1"  @click="toggleSelect(item)"
+            :checked="formSearchData.selected1.indexOf(item.id) !== -1"  @click.native="toggleSelect(item)"
           ></v-checkbox>
 
       </template>
@@ -54,11 +55,12 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Color', value: 'Color', sortable: false},
               { text: 'Flag', value: 'flag', sortable: false },
               { text: 'Status', value: 'action', sortable: false },
-              { text: 'CutAll', value: 'cutall', sortable: false },
+              { text: 'CutJob', value: 'cutall', sortable: false },
               { text: "Select", value: "sel", sortable: false },
 
             ],
-           formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[]  }, loading:false,
+           formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[]  }, 
+           loading:false,
         }),
 
     computed: 
@@ -74,15 +76,20 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 console.log('joblist.vue-this.joblist=',this.joblist)    
               },
     methods: 
-    {                  toggleSelect (cat) 
-                        {     console.log('toggleselect-item=',cat)
-                           if (this.formSearchData.selected1.indexOf(cat.id) !== -1) 
-                                    {   this.formSearchData.selected1.splice(this.formSearchData.selected1.findIndex(v => v === cat.id), 1)
-                                    } 
-                               else{ this.formSearchData.selected1.push(cat.id);
-                                       
-                                    }
-                        } ,
+    { toggleSelect (cat) 
+        {     console.log('toggleselect-item=',cat)
+              if (this.formSearchData.selected1.indexOf(cat.id) !== -1) 
+                  {   this.formSearchData.selected1.splice(this.formSearchData.selected1.findIndex(v => v === cat.id), 1)
+                  } 
+              else{ this.formSearchData.selected1.push(cat.id);}
+                console.log('toggleselect-selected=',this.formSearchData.selected1)  
+        } ,
+        cutselcted()
+          {  this.formSearchData.SawCode=this.selectedSaw; 
+            console.log('cutselected- formserchdata=',this.formSearchData)
+            //this.$store.dispatch('updatecutselectjob', this.formSearchData)
+            //this.resetformSearchData();                            
+          },
       chstatus(data)
           {    console.log('chstatus-',data);
                this.formSearchData.SawCode = this.selectedSaw;

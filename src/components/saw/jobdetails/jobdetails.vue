@@ -1,15 +1,27 @@
 <template>
- <v-container grid-list-lg pa-0>
+ <v-container grid-list-lg pa-0 mt-3>
     <v-layout wrap>
        <v-flex xs12>
          <v-btn  text  color="grey" @click="backToJob">
-            <v-icon id="return-btn">mdi-keyboard-backspace</v-icon>RETURN TO JOB
-         </v-btn>
+            <v-icon  mr-3>mdi-keyboard-backspace</v-icon>RETURN TO JOB</v-btn>
+        <v-btn id="flag-btn" ripple small color="red"  rounded dark   
+                  @click.prevent="scrap"><v-icon  >mdi-flag-outline</v-icon>Flag</v-btn>
+        <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   
+                  @click.prevent="scrap"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
+        <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
+                  @click.prevent="scrap"><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn>
+        <v-btn id="flag-btn" ripple medium color="blue"  rounded dark   
+                  @click.prevent="scrap"><v-icon  >mdi-clipboard-list</v-icon>CUTLIST</v-btn>
+        <v-btn id="flag-btn" ripple small color="purple lighten-3"  rounded dark   
+                  @click.prevent="scrap"><v-icon  >mdi-printer</v-icon>Print</v-btn>
+        <v-btn id="flag-btn" ripple small color="cyan"  rounded dark   
+                  @click.prevent="scrap"><v-icon  >mdi-circular-saw</v-icon>ChangeSaw</v-btn>
+        <v-btn id="flag-btn" ripple small color="orange"  rounded dark   
+                  @click.prevent="scrap"><v-icon  >mdi-check-all</v-icon>CUTALL</v-btn>
+            
+            
        </v-flex>
-       <v-flex xs12>
-            <v-btn ripple small color="blue lighten-3"  rounded dark   
-                  @click.prevent="scrap">click</v-btn>
-       </v-flex>
+ 
    <v-flex xs12>
          <job-details-list ></job-details-list>
     </v-flex> 
@@ -49,5 +61,5 @@ methods: {   backToJob() { this.$router.push({name: 'joblist'});  },
 }
 </script>
 <style scoped>
-
+#flag-btn{margin-left:10px}
 </style>

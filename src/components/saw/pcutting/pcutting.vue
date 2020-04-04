@@ -1,10 +1,15 @@
 <template>
- <v-container grid-list-lg pa-0>
+ <v-container grid-list-lg pa-0 mt-2>
     <v-layout wrap>
        <v-flex xs12>
          <v-btn  text  color="grey" @click="backToJobdetails">
             <v-icon id="return-btn">mdi-keyboard-backspace</v-icon>RETURN TO JOBDETAILS
          </v-btn>
+
+        <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   
+                  @click.prevent="scrap"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
+        <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
+                  @click.prevent="scrap"><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn>
        </v-flex>
    <v-flex md6>
          <profile-information ></profile-information> <br/>
@@ -33,7 +38,5 @@ export default {
 }
 </script>
 <style scoped>
-#return-btn{
-
-}
+#flag-btn{margin-left:10px; }
 </style>

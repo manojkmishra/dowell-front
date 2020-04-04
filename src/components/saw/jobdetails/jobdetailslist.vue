@@ -7,14 +7,16 @@
           <v-toolbar-title>BARS</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
          
-          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
+          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}  
+               <v-divider class="mx-4" inset vertical ></v-divider>
+            Order Number - {{selectedJob.Order_Number}}</v-toolbar-title>
         </v-toolbar>
     </template> 
  <template v-slot:item.action="{ item }"><!--1=qd,2-inpr,3-complt----->
      
        <v-btn ripple small  v-if="item.Status_id =='2'" :loading="loading" color="red accent-2" rounded dark   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn ripple small v-else-if="item.Status_id =='3'" :loading="loading" color="teal" rounded dark   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else color="cyan lighten-1" :loading="loading" rounded dark    @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple small v-else color="light-blue darken-1" :loading="loading" rounded dark    @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template>
   </v-data-table>
 </template>

@@ -124,7 +124,7 @@ export default {
                 this.$router.replace({path:'/login'})
                  toast.fire({
                     icon: "success",
-                    title: "You have logged out successfully"
+                    title: "Logout Success"
                 });
             })
         },

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import swal from 'sweetalert2';
+
 window.swal = swal
 const toast = swal.mixin({
   toast: true,

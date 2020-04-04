@@ -16,7 +16,7 @@
     <!----status----->
     <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
              <v-btn ripple small v-if="item.Status_id =='7'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else color="cyan lighten-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template>
     <!------multiselect-------->
       <template v-slot:item.sel="{ item }"> 

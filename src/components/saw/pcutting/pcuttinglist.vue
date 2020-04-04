@@ -3,17 +3,16 @@
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
 
    <template v-slot:top>
-        <v-toolbar flat color="white">
+        <v-toolbar color="light-blue darken-3" dark dense>
           <v-toolbar-title>PROFILECUTTING LIST</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
          
-          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
+          <v-toolbar-title>Order Number - {{selectedJob.Order_Number}}</v-toolbar-title>
         </v-toolbar>
     </template> 
  <template v-slot:item.action="{ item }">
-      <v-btn  ripple small v-if="item.Status_id =='7'" :loading="loading" color="danger" rounded dark   @click.prevent="onClickSChange(item)">{{item.Status}}</v-btn>
-       <v-btn  ripple small v-else-if="item.Status_id =='6'" :loading="loading" color="teal" rounded dark   @click.prevent="onClickSChange(item)">{{item.Status}}</v-btn>
-        <v-btn ripple small  v-else :loading="loading" color="blue lighten-3" rounded dark  @click.prevent="onClickSChange(item)">{{ item.Status }}</v-btn>
+     <v-btn ripple small v-if="item.Status_id =='7'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template>
 
   </v-data-table>

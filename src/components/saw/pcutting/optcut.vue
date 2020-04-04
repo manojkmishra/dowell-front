@@ -2,17 +2,17 @@
   <v-data-table :headers="headers" :items="stateNodes3"   class="elevation-1" 
        hide-default-footer>
      <template v-slot:top>
-        <v-toolbar flat color="white">
+        <v-toolbar color="light-blue darken-3" dark dense>
           <v-toolbar-title>OPTCUTBYBAR</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
          
-          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
+          <v-toolbar-title>QT ID - {{selectedJob.quote_ID}} | EXT_ID - {{selectedJobDetail.extn_id}}</v-toolbar-title>
         </v-toolbar>
     </template> 
  <template v-slot:item.action="{ item }">
-      <v-btn ripple small v-if="item.grp_status =='7'" :loading="loading" color="danger" rounded dark   @click.prevent="onClickSChange(item)">Completed</v-btn>
-       <v-btn ripple small v-else-if="item.grp_status =='5'" :loading="loading" color="blue lighten-3" rounded dark   @click.prevent="onClickSChange(item)">Queued</v-btn>
-        <v-btn ripple small v-else :loading="loading" color="blue lighten-3" rounded dark  @click.prevent="onClickSChange(item)">Queued</v-btn>
+      <v-btn ripple small v-if="item.grp_status =='7'" :loading="loading" color="teal" rounded dark   @click.prevent="onClickSChange(item)">Completed</v-btn>
+       <v-btn ripple small v-else-if="item.grp_status =='5'" :loading="loading" color="light-blue darken-1" rounded dark   @click.prevent="onClickSChange(item)">Queued</v-btn>
+        <v-btn ripple small v-else :loading="loading" color="light-blue darken-1" rounded dark  @click.prevent="onClickSChange(item)">Queued</v-btn>
     </template>
 
   </v-data-table>

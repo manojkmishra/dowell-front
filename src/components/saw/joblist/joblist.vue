@@ -9,7 +9,7 @@
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>&nbsp;
-                <v-btn id="btn-cutselected" small  color="blue" rounded dark :loading="loading"  @click.prevent="cutselcted">CutSelected</v-btn>
+                <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading"  @click.prevent="cutselcted">CutSelected</v-btn>
         </v-toolbar>
     </template>
     <!------flag---------->
@@ -23,7 +23,7 @@
        <v-btn ripple small v-else-if="item.Status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn ripple small v-else-if="item.Status =='Up Next'"  color="red accent-1" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn ripple small v-else-if="item.Status =='Flagged'"  color="red darken-4" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else color="cyan lighten-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template>
     <!----cutall---------->
     <template v-slot:item.cutall="{ item }" >
@@ -85,6 +85,25 @@ import { mapGetters, mapState, mapActions} from 'vuex';
         cutselcted()
           {  this.formSearchData.SawCode=this.selectedSaw; 
             console.log('cutselected- formserchdata=',this.formSearchData)
+            if(this.formSearchData.selected1.length>0){
+
+            }
+            else{ 
+              swal.fire({
+                position: 'top-right',
+                title:'<span style="color:white">Please select jobs to cut</span>',
+               // text:"anything",
+               // width:'22em',
+               // type: "info",
+                //  showConfirmButton: false,
+                  timer: 2000,
+                  toast: true,
+                  background: 'purple',
+                  color:'white'
+                // customClass: 'swal2-popup',
+                 });
+
+            }
             //this.$store.dispatch('updatecutselectjob', this.formSearchData)
             //this.resetformSearchData();                            
           },
@@ -115,7 +134,15 @@ import { mapGetters, mapState, mapActions} from 'vuex';
   }
 </script>
 <style scoped>
-
+.swal2-popup{
+    width:22em !important;
+}
+#swal2-title {
+  margin: 0px;
+  font-size: 1rem !important;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.21);
+  margin-bottom: 28px;
+}
 #btn-cutselected{margin-left:1%;}
 .theme--light.v-data-table tbody td {
     font-size: 20px !important;

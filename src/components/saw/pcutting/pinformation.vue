@@ -1,7 +1,7 @@
 <template> 
 <v-simple-table light class="elevation-1">
      <template v-slot:top>
-        <v-toolbar flat color="white">
+        <v-toolbar color="light-blue darken-3" dark dense>
           <v-toolbar-title>CUTS INFO</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
          

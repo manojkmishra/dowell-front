@@ -57,12 +57,13 @@ export default
               {
                 this.loading=false;
                 toast.fire({   icon: "success",
-                               title: "You have logged in successfully"
+                               title: "Login Success"
                             })
                 this.$router.replace({name:'dashboard'})
               }).catch(()=>{
                                swal.fire("Login Failed","There was an error logging in. Please try again!","warning");
-                               })
+                              this.loading=false;
+                              })
             }    
     }
 }

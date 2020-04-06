@@ -11,8 +11,8 @@
         </v-toolbar>
     </template> 
  <template v-slot:item.action="{ item }">
-     <v-btn ripple small v-if="item.Status_id =='7'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+     <v-btn ripple small v-if="item.Status_id =='7'"  color="teal" rounded dark :loading="loading"  @click.prevent="pcutchangestatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="pcutchangestatus(item)">{{item.Status}}</v-btn>
     </template>
 
   </v-data-table>
@@ -31,11 +31,12 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Status', value: 'action', sortable: false },
 
             ],
-            formSearchData: {  SawCode: '', QuoteID: '', extn_id: '', loc:'',  }, loading:false,
+            formSearchData: {  SawCode:'', QuoteID:'',}, loading:false,
+                           formData: {    ID:'', QuoteID:'',   title: '',  SawCode:'',status:'',location:'' },
         }),
 
     computed: 
-      {  ...mapState({  stateNodes2: state => state.saw.profilecutting[0],
+      {  ...mapState({   stateNodes2: state => state.saw.profilecutting[0],
                             selectedJob: state => state.saw.selectedJob,
                             selectedJobDetail: state => state.saw.selectedJobDetail,
                             selectedSaw: state => state.saw.selectedSaw,
@@ -51,23 +52,24 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               },
     methods: 
           {              
-              onClickSChange(action, data, index)
+              pcutchangestatus( data)
               {   console.log('pcuttinglist.vue--change status clicked');  // actin=edit  then follow below
-                  console.log('pcuttinglist.vue-itemAction: ' + action, data, index);
+                  console.log('pcuttinglist.data ',  data);
                   console.log('pcuttinglist.vue-cut profilecutting',this.stateNodes3);
                   console.log('pcuttinglist.vue-selectedjob',this.selectedJob);
                   console.log('pcuttinglist.vue-selectedJobDetail',this.selectedJobDetail);
-                  console.log('pcuttinglist.vue-jobdetails1',this.jobdetails1);
                   //---for cut status
                  // if( this.selectedJob.AllowEdit==0 && this.selectedJob.review ==0 )
                    if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
                      {  this.formData.ID= data.ID;
                        this.formData.SawCode=this.selectedSaw;
                        this.formData.status=data.Status_id;
+                       this.formData.QuoteID=this.selectedJob.quote_ID;
+                       this.formData.extn_id=this.selectedJobDetail.extn_id;
                       //--------------------------
                       console.log('pcuttinglist---this.formdata=',this.formData);
-                      this.$store.dispatch('updateCutList', this.formData)
-                             .then((response) =>  { console.log('pcuttinglist---response=',response);  })     
+                      this.$store.dispatch('updateprofilecut', this.formData)
+                             .then((response) =>  { console.log('updateprofilecut---response=',response);  })     
                              .catch((error) => {         });
                       this.resetFormData();
                     }
@@ -79,7 +81,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 
                         }
               },
-              resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:''  }; },
+              resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:'',QuoteID:'',  }; },
           },
 
   }

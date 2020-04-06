@@ -64,7 +64,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               this.$store.dispatch('selectedJobDetail', data);
               this.$store.dispatch('getprofilecutting', this.formSearchData)
                   .then((response) => { this.loading=false;
-                      console.log('profilecutting response',response.data);  
+                      console.log('jdlist.vue-getprofilecutting response',response.data);  
                       this.$router.push({
                           name: 'profilecutting'
                       });

@@ -65,7 +65,7 @@ export default
           return res;  
         },
      selectedSaw: ({commit}, data) => {commit({  type: types.SET_SELECTED_SAW ,selectedSaw: data   });  },
-     async updateJobList ({dispatch}, formData) 
+     async updateJobList ({dispatch}, formData) //to update cut_saw in the tables
         { 
             console.log('updateJobList-- formData=', formData);
             let res= await axios.post(api.updateJobList, formData)
@@ -104,5 +104,65 @@ export default
           commit({type: types.GET_SAW_CUTLIST, cutlist: res.data} );  
           return res;         
       },
-  }
+  //--------------------cutall on joblist page--------------------------
+  async jobcutall({dispatch}, formData)
+  {  let res= await axios.post(api.cutall, formData) 
+    .then((response) => {  console.log('cutall--- response',response.data);  
+                            var fdqt=formData.order_ID;
+                            swal.fire({
+                              color:'white', position: 'top-right',
+                              title:'<span style="color:white">Job Done </span>',
+                              html:'<span style="color:white">'+`OrderNo-${formData.order_ID}`+'</span>',
+                                timer: 3000, toast: true,background: 'purple',
+                              });
+                            dispatch('getJobs',formData);
+                          })
+    .catch((error) => {console.log('cutall-error',error)});
+    return res;
+  },
+  //-----------------------------------------------
+  async updatecutselectjob({dispatch}, formData)
+  {  let res= await axios.post(api.updatecutselectjob, formData)  
+    .then((response) => {  console.log('cutall--- response',response.data);  
+                            var fdqt=formData.order_ID;
+                            swal.fire({
+                              color:'white', position: 'top-right',
+                              title:'<span style="color:white">Selected Jobs have been cut</span>',
+                                timer: 2000, toast: true,background: 'purple',
+                              });
+                            dispatch('getJobs',formData);
+                          })
+    .catch((error) => {console.log('cutall-error',error)});
+    return res;
+  },
+  //------------------------------------------------
+  async updateprofilecut ({dispatch}, formData)
+  { let res= await axios.post(api.updateprofilecut, formData)   
+    .then((response) => {  console.log('updateprofilecut--- response',response);  
+          swal.fire({
+            color:'white', position: 'top-right',
+            title:'<span style="color:white">Profile Cut List updated</span>',
+              timer: 2000, toast: true,background: 'purple',
+            });
+            dispatch('getprofilecutting',formData);
+        })
+      .catch((error) => {console.log('updateprofilecut-error',error)});
+      return res;
+          
+      
+  },
+//------------------------------------
+async updateselectedcutlist({dispatch}, formData) 
+   {  console.log('updateScrapList-- formData=', formData);
+    let res= await axios.post(api.updateselectedcutlist, formData)   
+    .then((response) => {  console.log('updateselectedcutlist--- response',response);  
+          
+           // dispatch('cutlist',formData);
+            
+        })
+      .catch((error) => {console.log('updateprofilecut-error',error)});
+      return res;
+   }
+  //--------------------------------------------
+    }//actions finish
 }

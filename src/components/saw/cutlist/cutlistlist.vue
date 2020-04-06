@@ -87,7 +87,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                        this.formData.QuoteID = this.selectedJob.quote_ID;
                        this.formData.jid = this.selectedJob.id;
                     console.log('cutsel-formdata=',this.formData)
-                      this.$store.dispatch('updatecutselectscrap', this.formData)
+                      this.$store.dispatch('updateselectedcutlist', this.formData)
                              .then((response) =>  {   })     
                       this.resetFormData();
                      }

@@ -1,6 +1,6 @@
 <template> 
 
-  <v-data-table :headers="headers" :items="bb"   class="elevation-1" :search="search"
+  <v-data-table :headers="headers" :items="bb"   class="elevation-1" 
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
  <template v-slot:top >
         <v-toolbar flat color="light-blue lighten-5">
@@ -8,14 +8,11 @@
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SCHEDULED JOBS </v-toolbar-title>
           <v-spacer></v-spacer>
-                <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
+                
         </v-toolbar>
+    </template>
+    <template slot="no-data">
+      <div></div>
     </template>
  <!--
     <template v-slot:item.status_id="{ item }" >
@@ -52,7 +49,6 @@ export default
                { text: 'updated_at', align: 'left',  value: 'updated_at'},
               { text: 'created_by', align: 'left',  value: 'createdby.name'},
                { text: 'updated_by', align: 'left',  value: 'updatedby.name'},
-              { text: 'cut_date', align: 'left',  value: 'cut_date'},
               { text: 'schedule_saw', align: 'left',  value: 'schedule_saw'},
               { text: 'cut_saw', align: 'left',  value: 'cut_saw'},
               { text: 'quote_ID', value: 'quote_ID',sortable: false },

@@ -1,23 +1,23 @@
 <template>
     <div class="mt-3">
-              <v-progress-linear
+    <v-progress-linear
         :active="loading"
         :indeterminate="loading"
         absolute
         top
         color="deep-purple accent-4"
-      ></v-progress-linear>
-        <sawschedules v-bind:bb="aa" :loading="loading"></sawschedules> 
+    ></v-progress-linear>
+        <sawcutlist v-bind:bb="aa" :loading="loading"></sawcutlist> 
             
     </div>
 </template>
 <script>
  import Vue from 'vue';
     import { mapGetters, mapState, mapActions} from 'vuex'
-    import sawschedules from './sawcutslist.vue'
+    import sawcutlist from './sawcutslist.vue'
     export default 
     {   data(){return{aa:[], loading:false}},
-        components: { 'sawschedules': sawschedules, },
+        components: { 'sawcutlist': sawcutlist, },
         created(){ this.loading=true;
              this.$store.dispatch('getsawcuts')
                     .then((res) => { //this.loading=false;

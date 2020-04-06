@@ -32,7 +32,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 
             ],
             formSearchData: {  SawCode:'', QuoteID:'',}, loading:false,
-                           formData: {    ID:'', QuoteID:'',   title: '',  SawCode:'',status:'',location:'' },
+                           formData: {    ID:'', QuoteID:'',   title: '',  SawCode:'',status:'',location:'',jid:'' },
         }),
 
     computed: 
@@ -66,6 +66,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                        this.formData.status=data.Status_id;
                        this.formData.QuoteID=this.selectedJob.quote_ID;
                        this.formData.extn_id=this.selectedJobDetail.extn_id;
+                       this.formData.jid = this.selectedJob.id;
                       //--------------------------
                       console.log('pcuttinglist---this.formdata=',this.formData);
                       this.$store.dispatch('updateprofilecut', this.formData)
@@ -75,13 +76,16 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                     }
                   else 
                          {
-                            // this.$store.dispatch('showErrorNotification', 'Only Unflagged InProgress and UpNext Jobs can be Cut');
-                             this.$store.dispatch('showErrorNotification', 'This Job is not allowed to be cut');
+                            swal.fire({
+                              position: 'top-right',
+                              title:'<span style="color:white">This Job is not allowed to be cut</span>',
+                              timer: 2000, toast: true,background: 'purple',
+                              });
                              return;
 
                         }
               },
-              resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:'',QuoteID:'',  }; },
+              resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:'',QuoteID:'', jid:'' }; },
           },
 
   }

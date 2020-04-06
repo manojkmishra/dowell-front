@@ -110,7 +110,7 @@ export default
     .then((response) => {  console.log('cutall--- response',response.data);  
                             var fdqt=formData.order_ID;
                             swal.fire({
-                              color:'white', position: 'top-right',
+                              position: 'top-right',
                               title:'<span style="color:white">Job Done </span>',
                               html:'<span style="color:white">'+`OrderNo-${formData.order_ID}`+'</span>',
                                 timer: 3000, toast: true,background: 'purple',
@@ -126,7 +126,7 @@ export default
     .then((response) => {  console.log('cutall--- response',response.data);  
                             var fdqt=formData.order_ID;
                             swal.fire({
-                              color:'white', position: 'top-right',
+                              position: 'top-right',
                               title:'<span style="color:white">Selected Jobs have been cut</span>',
                                 timer: 2000, toast: true,background: 'purple',
                               });
@@ -140,7 +140,7 @@ export default
   { let res= await axios.post(api.updateprofilecut, formData)   
     .then((response) => {  console.log('updateprofilecut--- response',response);  
           swal.fire({
-            color:'white', position: 'top-right',
+            position: 'top-right',
             title:'<span style="color:white">Profile Cut List updated</span>',
               timer: 2000, toast: true,background: 'purple',
             });

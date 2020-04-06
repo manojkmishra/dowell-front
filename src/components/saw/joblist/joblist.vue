@@ -1,15 +1,16 @@
 <template>
-  <v-data-table :headers="headers" :items="joblist"   class="elevation-1" :search="search"
+  <v-data-table :headers="headers" :items="joblist"   class="elevation-1" :search="search" v-model="selected" show-select
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
     <template v-slot:top>
         <v-toolbar  color="light-blue darken-3" dark dense>
           <v-toolbar-title>JOBS</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
+          <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading"  @click.prevent="cutselcted">CutSelected</v-btn>
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>&nbsp;
-                <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading"  @click.prevent="cutselcted">CutSelected</v-btn>
+                
         </v-toolbar>
     </template>
     <!------flag---------->
@@ -32,11 +33,11 @@
     </template>
     <!------multiselect-------->
       <template v-slot:item.sel="{ item }"> 
-          <v-checkbox hide-details 
+           <v-checkbox hide-details 
             :checked="formSearchData.selected1.indexOf(item.id) !== -1"  @click.native="toggleSelect(item)"
           ></v-checkbox>
          
-      </template>
+      </template> 
 
   </v-data-table>
 </template>
@@ -75,46 +76,44 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 console.log('joblist.vue-this.joblist=',this.joblist)    
               },
     methods: 
-    { 
-      toggleSelect (cat) 
-        {     console.log('toggleselect-item=',cat)
-           
-              if (this.formSearchData.selected1.indexOf(cat.id) !== -1) 
-                  {   this.formSearchData.selected1.splice(this.formSearchData.selected1.findIndex(v => v === cat.id), 1)
-                  } 
-              else{ 
-                
-                this.formSearchData.selected1.push(cat.id);
-                console.log('toggleselect-selected=',this.formSearchData.selected1)  
-              }
-        } ,
-        cutselcted()
-          {  this.formSearchData.SawCode=this.selectedSaw; 
-            console.log('cutselected- formserchdata=',this.formSearchData)
-           /* if(this.resetformSearchData.selerr)
-            { swal.fire({ position: 'bottom-left',
-                title:'<span style="color:white">Only UnCut Jobs can be selected for cut</span>',
+    {  cutselcted()
+          {  //this.formSearchData.SawCode=this.selectedSaw; 
+            this.formSearchData.SawCode=this.selectedSaw; 
+            console.log('cutselected- this.selected=',this.selected)
+            console.log('cutselected- this.formSearchData.selected1=',this.formSearchData.selected1)
+            if(this.selected.length==0){
+              swal.fire({ position: 'top-right',
+                title:'<span style="color:white">Please select jobs to cut</span>',
                 timer: 2000, toast: true, background: 'purple',
                 });
-                return;
-
-            }*/
-            if(this.formSearchData.selected1.length>0){
-                    this.$store.dispatch('updatecutselectjob', this.formSearchData)
-                    .then((response) =>  { console.log('updatecutselectjob---response=',response);  })     
-                    .catch((error) => {         });
             }
-            else{ 
-              swal.fire({
-                position: 'top-right',
-                title:'<span style="color:white">Please select jobs to cut</span>',
-                timer: 2000,
-                toast: true,
-                background: 'purple',
-                });
-
-            }
-            this.resetformSearchData();                            
+            else{ this.formSearchData.selected1=[];
+            var i = 0;
+            while ( i < this.selected.length ) 
+                { var x = this.selected[i];
+                  if (x){ this.selected.splice(i,1);
+                            if(x.Status_id==12)
+                            { swal.fire({ position: 'top-right',
+                            title:'<span style="color:white">Only UnCut Jobs can be selected</span>',
+                            timer: 2000, toast: true, background: 'purple',
+                            });
+                            this.selected=[];this.formSearchData.selected1=[];
+                            return;
+                            }
+                            else this.formSearchData.selected1.push(x.id);
+                        }
+                      else i++;
+                }
+              console.log('cutselected- this.selected=',this.selected)
+              console.log('cutselected- this.formSearchData.selected1=',this.formSearchData.selected1)
+                if(this.formSearchData.selected1.length>0){
+                        this.$store.dispatch('updatecutselectjob', this.formSearchData)
+                        .then((response) =>  { console.log('updatecutselectjob---response=',response);  })     
+                        .catch((error) => {         });
+                }
+              this.selected=[];this.selected1=[];
+              this.resetformSearchData();     
+            }//length>0                       
           },
       selectjob(data)
           {    console.log('chstatus-',data);
@@ -172,10 +171,6 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 }
 tr > td > .text-left{
   padding-right:50px;
-}
-tr tbody
-{
-  
 }
 .serc{
   width:5% !important;

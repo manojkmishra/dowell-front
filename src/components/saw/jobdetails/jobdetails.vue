@@ -44,7 +44,14 @@ export default {
         }
     },
 components: {   'job-details-list': JobDetailsList,  },
-methods: {   backToJob() { this.$router.push({name: 'joblist'});  },
+methods: {   backToJob() { //this.$router.push({name: 'joblist'});  
+                this.formSearchData.SawCode = this.selectedSaw;
+                this.formSearchData.Location = "GBG";               
+                this.$store.dispatch('getJobs', this.formSearchData)
+                .then((response) => {  
+                                    this.$router.push({name: 'joblist'});
+                                    })
+},
          scrap() 
                 {   console.log('scrap clicked selectedjob-=',this.selectedJob);
             this.formSearchData.SawCode = this.selectedSaw;

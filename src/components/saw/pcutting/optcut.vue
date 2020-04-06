@@ -28,8 +28,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Status', value: 'action', sortable: false },
 
             ],
-            seen: true ,  formSearchData: {  SawCode:'', QuoteID:'',}, loading:false,
-            formData: {    ID:'', name: '',    title: '',   qt_id: '',SawCode:'',status:'',location:'', extn_id:'' },
+            seen: true , loading:false,
+            formData: {    ID:'', name: '',  QuoteID:'',  title: '',   qt_id: '',SawCode:'',status:'',location:'', extn_id:'' },
         }),
 
     computed: 
@@ -48,20 +48,21 @@ import { mapGetters, mapState, mapActions} from 'vuex';
     mounted() {    
               },
     methods: 
-          {   onClickSChange(action, data, index)
+          {   onClickSChange(data)
               {   console.log('optcut.vue--change status clicked');  // actin=edit  then follow below
-                  console.log('optcut.vue-itemAction: ' + action, data, index);
+                  console.log('optcut.vue-item: ',data);
                   console.log('optcut.vue-cut profilecutting',this.stateNodes3);
                   console.log('optcut.vue-selectedjob',this.selectedJob);
                   console.log('optcut.vue-selectedJobDetail',this.selectedJobDetail);
                   console.log('optcut.vue-jobdetails1',this.jobdetails1);
                  
                    if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     {  this.formData.ID= data.bar_guid;
-                       this.formData.SawCode=this.selectedSaw;
-                       this.formData.status=data.grp_status;
-                           this.formData.qt_id=this.selectedJob.quote_ID;
-                             this.formData.extn_id=this.selectedJobDetail.extn_id;
+                     {this.formData.ID= data.bar_guid;
+                      this.formData.SawCode=this.selectedSaw;
+                      this.formData.status=data.grp_status;
+                      this.formData.qt_id=this.selectedJob.quote_ID;
+                      this.formData.QuoteID=this.selectedJob.quote_ID;
+                      this.formData.extn_id=this.selectedJobDetail.extn_id;
                       //--------------------------
                       console.log('optcut---this.formdata=',this.formData);
                       this.$store.dispatch('updateOptCut', this.formData)

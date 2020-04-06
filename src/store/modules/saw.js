@@ -151,18 +151,32 @@ export default
           
       
   },
+//-------------------------------------
+async updateOptCut({dispatch}, formData) 
+    { let res= await axios.post(api.updateOptCut, formData)   
+      .then((response) => {  console.log('updateprofilecut--- response',response);  
+      swal.fire({
+        position: 'top-right',
+        title:'<span style="color:white">OptCut List updated</span>',
+          timer: 2000, toast: true,background: 'purple',
+        });
+       dispatch('getprofilecutting',formData);
+       //commit({type: types.GET_SAW_PROFILECUTTING, profilecutting: response.data} ); 
+    })
+    .catch((error) => {console.log('optcut-error',error)});
+    return res;  
+  },
 //------------------------------------
 async updateselectedcutlist({dispatch}, formData) 
-   {  console.log('updateScrapList-- formData=', formData);
+  {  console.log('updateScrapList-- formData=', formData);
     let res= await axios.post(api.updateselectedcutlist, formData)   
-    .then((response) => {  console.log('updateselectedcutlist--- response',response);  
-          
-           // dispatch('cutlist',formData);
-            
+    .then((response) => {  console.log('updateselectedcutlist--- response',response);            
+           // dispatch('cutlist',formData);            
         })
       .catch((error) => {console.log('updateprofilecut-error',error)});
       return res;
-   }
+   },
+
   //--------------------------------------------
     }//actions finish
 }

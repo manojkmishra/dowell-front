@@ -205,12 +205,13 @@ async updateOptCut({dispatch}, formData)
                           });
                   return res;   
       },
-//------------------------------------
+//====================scrap=cutlist page=========================
+//---------------------------------------------
 async updateselectedcutlist({dispatch}, formData) 
   {  console.log('updateScrapList-- formData=', formData);
     let res= await axios.post(api.updateselectedcutlist, formData)   
     .then((response) => {  console.log('updateselectedcutlist--- response',response);            
-           // dispatch('cutlist',formData);            
+            dispatch('getcutlist',formData);            
         })
       .catch((error) => {console.log('updateprofilecut-error',error)});
       return res;

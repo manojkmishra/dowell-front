@@ -32,12 +32,7 @@
        <v-btn v-else  small color="teal" outlined rounded dark :loading="loading"   @click.prevent="cutall(item)">CutJob</v-btn>
     </template>
     <!------multiselect-------->
-      <template v-slot:item.sel="{ item }"> 
-           <v-checkbox hide-details 
-            :checked="formSearchData.selected1.indexOf(item.id) !== -1"  @click.native="toggleSelect(item)"
-          ></v-checkbox>
-         
-      </template> 
+     
 
   </v-data-table>
 </template>
@@ -56,7 +51,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Flag', value: 'flag', sortable: false },
               { text: 'Status', value: 'action', sortable: false },
               { text: 'CutJob', value: 'cutall', sortable: false },
-              { text: "Select", value: "sel", sortable: false },
+
 
             ],
            formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[], cut_saw:'' ,'selerr':false }, 

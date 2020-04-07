@@ -78,7 +78,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                          {
                             swal.fire({
                               position: 'top-right',
-                              title:'<span style="color:white">This Job is not allowed to be cut</span>',
+                              title:'<span style="color:white">This Job is not allowed to cut</span>',
                               timer: 2000, toast: true,background: 'purple',
                               });
                              return;

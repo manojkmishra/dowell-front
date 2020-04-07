@@ -1,16 +1,18 @@
 <template>
-  <v-data-table :headers="headers" :items="cutlist"   class="elevation-1" :search="search"
-       :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
+  <v-data-table :headers="headers" :items="cutlist"   class="elevation-1" :search="search" v-model="selected" show-select
+       item-key="ID" :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
     <template v-slot:top>
         <v-toolbar  color="light-blue darken-3" dark dense>
           <v-toolbar-title>JOBS</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
-          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
+          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}
+          </v-toolbar-title>
+          <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading1"  @click.prevent="cutselected">CutSelected</v-btn>
+          <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading2"  @click.prevent="uncutselect">UnCutSelected</v-btn>
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>&nbsp;
-               <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading"  @click.prevent="uncutselect">UnCutSelected</v-btn>
-                <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading"  @click.prevent="cutselected">CutSelected</v-btn>
+            
         </v-toolbar>
     </template>
     <!----status----->
@@ -18,13 +20,6 @@
              <v-btn ripple small v-if="item.Status_id =='7'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template>
-    <!------multiselect-------->
-      <template v-slot:item.sel="{ item }"> 
-          <v-checkbox hide-details class="shrink mr-2"
-            :checked="formData.selected1.indexOf(item.ID) !== -1"  @click.native="toggleSelect(item)"
-          ></v-checkbox>
-      </template>
-
   </v-data-table>
 </template>
  
@@ -45,8 +40,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: "Select", value: "sel", sortable: false },
 
             ],
-           formData: {    ID:'', name: '',    title: '',   id: '',SawCode:'',status:'',location:'', selected1:[] ,QuoteID:'', jid:''  }, 
-           loading:false,
+           formSearchData: {    ID:'', name: '',    title: '',   id: '',SawCode:'',status:'',location:'', selected1:[] ,QuoteID:'', jid:''  }, 
+           loading:false,loading1:false,loading2:false
         }),
 
     computed: 
@@ -59,77 +54,119 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                    }),
            
        },
-    watch: {   },
-    created () {  },
-    mounted() { console.log('joblist.vue-this.sawlist=',this.sawlist)
-                console.log('joblist.vue-this.joblist=',this.joblist)    
-              },
     methods: 
     {  
-                toggleSelect (cat) 
-                  {      if (this.formData.selected1.indexOf(cat.ID) !== -1) 
-                               {   this.formData.selected.splice(this.formData.selected1.findIndex(v => v === cat.ID), 1)
-                               } 
-                               else  { this.formData.selected1.push(cat.ID)
-                                
-                                  }
-                   } ,
-                cutselected()
-                { //console.log('cutsel-selectedjob=',this.selectedJob)
-                    //  console.log('cutsel-formdata=',this.formData)
-                     if(this.formData.selected1.length>0)
-                  {
-                   if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     { console.log('cutsel-selectedjob=',this.selectedJob)
-                      console.log('cutsel-formdata=',this.formData)
-                       this.formData.SawCode=this.selectedSaw;
-                       this.formData.status=7;
-                       this.formData.QuoteID = this.selectedJob.quote_ID;
-                       this.formData.jid = this.selectedJob.id;
-                    console.log('cutsel-formdata=',this.formData)
-                      this.$store.dispatch('updateselectedcutlist', this.formData)
-                             .then((response) =>  {   })     
-                      this.resetFormData();
-                     }
-                 }
-                else{ swal.fire({ position: 'top-right',
-                                  title:'<span style="color:white">Please select jobs to cut</span>',
-                                timer: 2000, toast: true, background: 'purple', color:'white'
+        cutselected()//---==7=complt, 5=qued=====
+          { console.log('cutlist.vue-this.selected----1=',this.selected)
+            if(this.selected.length==0)
+              {  swal.fire({ position: 'top-right',
+                  title:'<span style="color:white">Please select rows to cut</span>',
+                  timer: 2000, toast: true, background: 'purple',
+                });
+              }
+            else
+            { this.formSearchData.selected1=[];
+            // console.log('cutlist.vue-this.selected=',this.selected)
+             //   console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
+              var i = 0;
+              while ( i < this.selected.length ) 
+                { var x = this.selected[i];
+                  if (x){ this.selected.splice(i,1);
+                            if(x.Status_id==7)
+                            { swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Only Queued cuts can be selected</span>',
+                                timer: 2000, toast: true, background: 'purple',
                                 });
-                   }
-                },
-              uncutselect()
-                { 
-                    
-                    if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     { this.formData.SawCode=this.selectedSaw;
-                       this.formData.status=5;
-                       this.formData.QuoteID = this.selectedJob.quote_ID;
-                        this.formData.jid = this.selectedJob.id;
-                     console.log('uncutsel-formdata=',this.formData)
-                       this.$store.dispatch('updatecutselectscrap', this.formData)
-                             .then((response) =>  {  })     
-                             .catch((error) => {         });
-                       this.resetFormData();
+                              this.selected=[];this.formSearchData.selected1=[];
+                              return;
+                            }
+                            else this.formSearchData.selected1.push(x.ID);
+                        }
+                      else i++;
+                }
+                console.log('cutlist.vue-this.selected=',this.selected)
+                console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
+                if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
+                     { 
+                       this.formSearchData.SawCode=this.selectedSaw;
+                       this.formSearchData.status=7;
+                       this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                       this.formSearchData.jid = this.selectedJob.id;
+                       this.loading1=true;
+                    console.log('cutsel-formdata=',this.formSearchData)
+                      this.$store.dispatch('updateselectedcutlist', this.formSearchData)
+                         .then((response) =>  { this.loading1=false;  })  
+                          .catch((error) => {   this.loading1=false;       });   
+                            
+                      this.resetformSearchData();
                      }
-                   },
-                extToSaw() 
-                    {
-                      this.formSearchData.QuoteID = this.selectedJob.quote_ID;
-                      this.formSearchData.SawCode = this.selectedSaw;
-                      this.formSearchData.loc = "GBG";
-                      this.formSearchData.extn_id = this.stateNodes3[0].extn_id;
-                                
-                      this.$store.dispatch('extToSawCut', this.formSearchData)
-                                .then((response) => {  
-                       
-                                           })
-                               .catch((error) => {});
-           
-                    },
-              
+                      else 
+                         {  swal.fire({
+                              position: 'top-right',
+                              title:'<span style="color:white">This Job is not allowed to cut</span>',
+                              timer: 2000, toast: true,background: 'purple',
+                              });
+                             return;
 
-              onClickSChange(action, data, index)
+                        }
+                  }
+                },//cutselected finish==========7=complt, 5=qued===========================================
+        uncutselect()
+          { console.log('cutlist.vue-this.selected----1=',this.selected)
+            if(this.selected.length==0)
+              {  swal.fire({ position: 'top-right',
+                  title:'<span style="color:white">Please select rows to uncut</span>',
+                  timer: 2000, toast: true, background: 'purple',
+                });
+              }
+            else
+            { this.formSearchData.selected1=[];
+            // console.log('cutlist.vue-this.selected=',this.selected)
+             //   console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
+              var i = 0;
+              while ( i < this.selected.length ) 
+                { var x = this.selected[i];
+                  if (x){ this.selected.splice(i,1);
+                            if(x.Status_id==5)
+                            { swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Only Completed cuts can be selected</span>',
+                                timer: 2000, toast: true, background: 'purple',
+                                });
+                              this.selected=[];this.formSearchData.selected1=[];
+                              return;
+                            }
+                            else this.formSearchData.selected1.push(x.ID);
+                        }
+                      else i++;
+                }
+                console.log('cutlist.vue-this.selected=',this.selected)
+                console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
+                if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
+                     { 
+                       this.formSearchData.SawCode=this.selectedSaw;
+                       this.formSearchData.status=5;
+                       this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                       this.formSearchData.jid = this.selectedJob.id;
+                       this.loading2=true;
+                    console.log('cutsel-formdata=',this.formSearchData)
+                      this.$store.dispatch('updateselectedcutlist', this.formSearchData)
+                             .then((response) =>  { this.loading2=false;  })  
+                          .catch((error) => {   this.loading2=false;       });   
+                      this.resetformSearchData();
+                     }
+                      else 
+                         {  swal.fire({
+                              position: 'top-right',
+                              title:'<span style="color:white">This Job is not allowed to cut</span>',
+                              timer: 2000, toast: true,background: 'purple',
+                              });
+                             return;
+
+                        }
+                  }
+                },//cutselected finish
+              
+              chstatus(data)
               {  
                     if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
                      {  this.formData.ID= data.ID;
@@ -137,18 +174,21 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         this.formData.status=data.Status_id;                    
                         this.formData.QuoteID = this.selectedJob.quote_ID;
                         this.formData.jid = this.selectedJob.id;
-                     
+                        this.loading=true;
                         this.$store.dispatch('updateScrapList', this.formData)
-                             .then((response) =>  {  })     
+                             .then((response) =>  { this.loading=false })     
                              .catch((error) => {         });
                         this.resetFormData();
-
                     }
-                  else {     this.$store.dispatch('showErrorNotification', 'This Job is not allowed to cut');
-                            return;
+                  else {      swal.fire({
+                              position: 'top-right',
+                              title:'<span style="color:white">This Job is not allowed to be cut</span>',
+                              timer: 2000, toast: true,background: 'purple',
+                              });
+                             return;
                        }
               },
-              resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:'' ,selected:[],QuoteID:'',jid:'' }; },
+              resetformSearchData() {  this.formSearchData = {  ID: '', status:'',SawCode:'', Location:'' ,selected1:[],QuoteID:'',jid:'' }; },
           },
 
   }

@@ -1,73 +1,159 @@
 <template>
     <div class="mt-3">
       <!--  <sawschedules v-bind:bb="aa" :loading="loading"></sawschedules> -->
-      <v-progress-linear
-        :active="loading"
-        :indeterminate="loading"
-        absolute
-        top
-        color="deep-purple accent-4"
+      <v-progress-linear :active="loading" :indeterminate="loading" absolute   top  color="deep-purple accent-4"
       ></v-progress-linear>
-    <v-simple-table light class="elevation-1" >
-             <template v-slot:top>
-        <v-toolbar flat color="light-blue lighten-5">
-          <v-toolbar-title>SAW</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical ></v-divider>
-          <v-toolbar-title>FLAGS</v-toolbar-title>
-        </v-toolbar>
-    </template> 
-    <template v-slot:default>        
-      <thead>
-        <tr><th class="text-left">ID</th>
-        <th class="text-left">R</th> <th class="text-left">G</th> <th class="text-left">B</th>
-          <th class="text-left">Flag</th>
-          <th class="text-left">Name</th>
-          <th class="text-left">Comment</th>
-          <th class="text-left">CREATEDBY</th>
-          <th class="text-left">UPDATEDBY</th>
-          <th class="text-left">UPDATEDAT</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in aa" :key="item.name">
-             <td>{{ item.id }}</td>
-              <td>{{ item.red }}</td>
-               <td>{{ item.green }}</td>
-                <td>{{ item.blue }}</td>
-                 <td>
-                    <v-icon v-bind:style="{ color: 'rgb('+item.red+','+item.green+','+item.blue+')' }" >
-                        mdi-flag</v-icon>
-                   
-                </td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.comment }}</td>
-                    <td>{{ item.createdby.name }}</td>
-          <td>{{ item.updatedby.name }}</td>
-          <td>{{ item.updated_at }}</td>
-        </tr>
-      </tbody>
+   <v-data-table  :headers="headers" :items="categories"  class="elevation-1" >
+    <template v-slot:top>
+      <v-toolbar flat color="white">
+        <v-toolbar-title>SAW Status</v-toolbar-title>
+        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-spacer></v-spacer>
+        <!--------------modal------------------->
+        <v-dialog v-model="dialog" max-width="500px">
+          <template v-slot:activator="{ on }">
+            <v-btn color="primary" dark rounded class="mb-2" v-on="on">New Item</v-btn>
+          </template>
+          <!----popup---------------->
+          <v-card>
+            <v-card-title><span class="headline" >{{ formTitle }}</span></v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-text-field v-model="editedItem.comment" label="Comments"></v-text-field>
+                  </v-col>
+                  <v-col cols="4" sm="12" md="4">
+                    <v-text-field v-model="editedItem.red" label="red"></v-text-field>
+                  </v-col>
+                  <v-col cols="4" sm="12" md="4">
+                    <v-text-field v-model="editedItem.green" label="green"></v-text-field>
+                  </v-col>
+                  <v-col cols="4" sm="12" md="4">
+                    <v-text-field v-model="editedItem.blue" label="blue"></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+                <div v-if="dialogDelete === true">
+                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                  <v-btn color="blue darken-1" text @click="remove">Delete</v-btn>
+                </div>
+                <div v-else-if="dialogDelete === false">
+                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                  <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                </div>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <!--------------modal--------------->
+      </v-toolbar>
     </template>
-  </v-simple-table>
+    <template v-slot:item.icn="{ item }">
+      <v-icon v-bind:style="{ color: 'rgb('+item.red+','+item.green+','+item.blue+')' }" >
+                        mdi-flag</v-icon>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-icon medium color="blue darken-2" class="mr-2" @click="editItem(item)" >mdi-pencil</v-icon>
+      <v-icon medium color="red" @click="deleteItem(item)" >mdi-delete</v-icon>
+    </template>
+    <template v-slot:no-data>
+      <div></div> <!----show nothing when no data -->
+    </template>
+  </v-data-table>
   </div>
 </template>
 <script>
  import Vue from 'vue';
     import { mapGetters, mapState, mapActions} from 'vuex'
-    import sawschedules from './sawbarlist.vue'
     export default 
-    {   data(){return{aa:[], loading:false}},
-        components: { 'sawschedules': sawschedules, },
+    {  data: () => ({
+      dialog: false,dialogDelete: false, loading:false,
+      headers: [
+                        { text: "ID", value: "id", width: "6%" },
+                        { text: "NAME", align: "left", sortable: true, value: "name" },
+                        { text: "FLAG", align: "left", sortable: true, value: "icn" },
+                        { text: "RED", value: "red", sortable: true,  },
+                        { text: "GREEN", value: "green", sortable: true,  },
+                        { text: "BLUE", value: "blue", sortable: true,  },
+                        { text: "COMMENTS", align: "left", sortable: false, value: "comment" },
+                        { text: "CREATEDBY", align: "left", sortable: true, value: "createdby.name" },
+                        { text: "UPDATEDBY", align: "left", sortable: true, value: "updatedby.name" },
+                        { text: "UPDATEDAT", align: "left", sortable: true, value: "updated_at" },
+                       // { text: "Actions", value: "action", sortable: false, width: "8%" },
+                        { text: 'Actions', value: 'actions', sortable: false,width: "10%" },
+      ],
+      categories: [],
+      editedItem: { name: '', calories: 0, fat: 0, carbs: 0, protein: 0, },
+      editedIndex: -1,
+      typeOptions: [ "saw_schedules",  "optimised_bars", "optimised_cuts", "Flag" ],
+      formData: {     id: '',    STATUS: '', TYPE:'',   comment: '', }
+    }),
         created(){ this.loading=true;
              this.$store.dispatch('getsawflags')
                     .then((res) => { //this.loading=false;
                                 console.log('getsawflags response',res.data)  
-                                this.aa=res.data;
+                                this.categories=res.data;
                                 this.loading=false;
                         })
-        }
-    }
+        },
+     computed: {
+      formTitle() {  if (this.dialogDelete) { return "Delete Category";} 
+                    else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
+                                        return "New Category"; }
+                    else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
+                                return "Edit Category";  }  
+                              }
 
+     },
+    watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
+                          val || this.close()  },    
+            },
+    methods: { 
+      editItem (item) { console.log('edit-item',item)
+        this.editedIndex = this.categories.indexOf(item); console.log('editedIndex',this.editedIndex)
+        this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
+      //  this.editedItem=item;
+        this.dialog = true
+        },
+      save () 
+      {  //console.log('save-item=',item);
+        if (this.editedIndex > -1) //save clicked when editing
+                  {  console.log('edit',this.editedItem)
+                    //edit api here
+                    } 
+           //--------save clicked when adding new
+        else {  console.log('add-item',this.editedItem)
+                    //add new api here
+            }
+                this.close()
+        },
+        //--------------delete start----------------------------------------------------------
+      deleteItem (item) {console.log('delete-pressed-item',item)
+                       // const index = this.desserts.indexOf(item)
+                        this.dialogDelete = true;
+                        this.editedIndex = this.categories.indexOf(item);
+                        this.editedItem = Object.assign({}, item);
+                        this.dialog = true;
+               //after this now press delete on dialogue box to execure below fn
+              },
+      remove() { console.log('remove---function- editedIndex', this.editedIndex)
+                  // delete api here
+                  this.close();
+                },
+      //-------------------------------delete finish-----------------
+      //------------------close modal---------------------------
+      close () {  
+                  this.dialog = false
+                  setTimeout(() => {  this.editedItem = Object.assign({}, this.defaultItem)
+                          this.editedIndex = -1 }, 300)
+              },
+    
+    },
+  }
 </script>
-<style>
-
-</style>

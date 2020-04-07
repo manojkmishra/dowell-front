@@ -1,10 +1,5 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="categories"
-    sort-by="calories"
-    class="elevation-1"
-  >
+  <v-data-table  :headers="headers" :items="categories"  class="elevation-1" >
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>SAW Status</v-toolbar-title>

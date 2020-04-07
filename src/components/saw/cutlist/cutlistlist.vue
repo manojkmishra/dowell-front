@@ -169,16 +169,16 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               chstatus(data)
               {  
                     if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     {  this.formData.ID= data.ID;
-                        this.formData.SawCode=this.selectedSaw;
-                        this.formData.status=data.Status_id;                    
-                        this.formData.QuoteID = this.selectedJob.quote_ID;
-                        this.formData.jid = this.selectedJob.id;
+                     {  this.formSearchData.ID= data.ID;
+                        this.formSearchData.SawCode=this.selectedSaw;
+                        this.formSearchData.status=data.Status_id;                    
+                        this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                        this.formSearchData.jid = this.selectedJob.id;
                         this.loading=true;
-                        this.$store.dispatch('updateScrapList', this.formData)
+                        this.$store.dispatch('updateScrapList', this.formSearchData)
                              .then((response) =>  { this.loading=false })     
-                             .catch((error) => {         });
-                        this.resetFormData();
+                             .catch((error) => {  this.loading=false        });
+                        this.resetformSearchData();
                     }
                   else {      swal.fire({
                               position: 'top-right',

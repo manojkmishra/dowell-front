@@ -206,6 +206,19 @@ async updateOptCut({dispatch}, formData)
                   return res;   
       },
 //====================scrap=cutlist page=========================
+async updateScrapList ({dispatch}, formData)
+{ let res= await axios.post(api.updateprofilecut, formData)   
+  .then((response) => {  console.log('updateprofilecut--- response',response);  
+        swal.fire({
+          position: 'top-right',
+          title:'<span style="color:white">Cut List updated</span>',
+            timer: 2000, toast: true,background: 'purple',
+          });
+          dispatch('getcutlist',formData);  
+      })
+    .catch((error) => {console.log('updateprofilecut-error',error)});
+    return res;
+},
 //---------------------------------------------
 async updateselectedcutlist({dispatch}, formData) 
   {  console.log('updateScrapList-- formData=', formData);

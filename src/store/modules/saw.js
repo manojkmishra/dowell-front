@@ -135,7 +135,7 @@ export default
     .catch((error) => {console.log('cutall-error',error)});
     return res;
   },
-  //------------------------------------------------
+  //=========================profilecut page=============================
   async updateprofilecut ({dispatch}, formData)
   { let res= await axios.post(api.updateprofilecut, formData)   
     .then((response) => {  console.log('updateprofilecut--- response',response);  
@@ -148,8 +148,6 @@ export default
         })
       .catch((error) => {console.log('updateprofilecut-error',error)});
       return res;
-          
-      
   },
 //-------------------------------------
 async updateOptCut({dispatch}, formData) 
@@ -166,6 +164,47 @@ async updateOptCut({dispatch}, formData)
     .catch((error) => {console.log('optcut-error',error)});
     return res;  
   },
+     //----------------------------
+     async extToSawCut ({dispatch}, formData)
+     {   console.log('extToSawCut-- formData=', formData);
+          let res= await axios.post(api.exttosawcut, formData)  
+          .then((response) => {  
+                            var aa=`${response.data[0].flag}:${response.data[0].message}`
+                                if(response.data[0].flag=="Success")
+                                { swal.fire({ position: 'top-right',
+                                 html:'<span style="color:white">'+`${aa}`+'</span>',
+                                 timer: 2000, toast: true,background: 'green',});
+                              }else{
+                                swal.fire({ position: 'top-right',
+                                 html:'<span style="color:white">'+`OrderNo-${aa}`+'</span>',
+                                 timer: 2000, toast: true,background: 'red',});
+                              }
+                            })
+              .catch((error) => {console.log('extToSawCut-error',error)
+            
+            });
+                              return res;  
+
+     },
+   async  reOptimiseCut({dispatch}, formData)  
+      {  console.log('reOptimiseCut-- formData=', formData);
+        let res= await axios.post(api.reoptimisecut, formData) 
+                  .then((response) => 
+                      {  var aa=`${response.data[0].flag}:${response.data[0].message}`
+                        console.log('reOptimiseCut--- response',response);  
+                          swal.fire({
+                          position: 'top-right',
+                          html:'<span style="color:white">'+`${aa}`+'</span>',
+                          timer: 2000, toast: true,background: 'green',
+                              });
+                      })
+                  .catch((error) => {
+                    swal.fire({ position: 'top-right', html:'<span style="color:white">'+`${error}`+'</span>',
+                                timer: 2000, toast: true,background: 'red',
+                              });
+                          });
+                  return res;   
+      },
 //------------------------------------
 async updateselectedcutlist({dispatch}, formData) 
   {  console.log('updateScrapList-- formData=', formData);
@@ -176,6 +215,8 @@ async updateselectedcutlist({dispatch}, formData)
       .catch((error) => {console.log('updateprofilecut-error',error)});
       return res;
    },
+
+   //-----------------------------------
 
   //--------------------------------------------
     }//actions finish

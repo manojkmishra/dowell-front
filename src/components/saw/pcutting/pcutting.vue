@@ -6,10 +6,10 @@
             <v-icon id="return-btn">mdi-keyboard-backspace</v-icon>RETURN TO JOBDETAILS
          </v-btn>
 
-        <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   
-                  @click.prevent=""><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
-        <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
-                  @click.prevent=""><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn>
+        <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   :loading="loading1"
+                  @click.prevent="extToSaw"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
+        <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark  :loading="loading2" 
+                  @click.prevent="reOptimise"><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn>
        </v-flex>
    <v-flex md6 pt-0>
          <profile-information ></profile-information> <br/>
@@ -36,27 +36,50 @@ export default {
          },
          computed: 
         { ...mapGetters({    }),
-          ...mapState({
-                       
-                         stateNode: state => state.saw.profilecutting[0],
-                          selectedJob: state => state.saw.selectedJob,
-                         selectedSaw: state => state.saw.selectedSaw,
-                           
-          }),
-        },
-       data () {  return { seen: true ,   formSearchData: { SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',       }}} ,
-       methods: {   backToJobdetails() { 
-         this.formSearchData.SawCode = this.selectedSaw;
-                       this.formSearchData.QuoteID = this.selectedJob.quote_ID;
-                       this.$store.dispatch('getjobdetails', this.formSearchData)
+          ...mapState({ stateNode: state => state.saw.profilecutting[0],
+                        selectedJob: state => state.saw.selectedJob,
+                        selectedSaw: state => state.saw.selectedSaw,
+                        stateNodes3: state => state.saw.jobdetails,
+                        selectedJobDetail: state => state.saw.selectedJobDetail,
+                  }),
+         },
+       data () {  return { loading1: false , loading2: false ,  formSearchData: { SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',       }}} ,
+       methods: {   backToJobdetails() 
+                     {     this.formSearchData.SawCode = this.selectedSaw;
+                           this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                           this.$store.dispatch('getjobdetails', this.formSearchData)
                            .then((response) => 
-                              {   console.log('sawlist--- getJobs success response',response.data);  
-                                  this.$router.push({   name: 'jobdetails' });
+                              {  console.log('sawlist--- getJobs success response',response.data);  
+                                 this.$router.push({   name: 'jobdetails' });
                               })
                            .catch((error) => {console.log('getJobs error',response);});
          
          //this.$router.push({name: 'jobdetails'});  
          },
+         extToSaw() {
+                  this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                  this.formSearchData.SawCode = this.selectedSaw;
+                  this.formSearchData.loc = "GBG";
+                 //  console.log('extToSawCut formSearchData',this.formSearchData);
+                  this.formSearchData.extn_id=this.selectedJobDetail.extn_id;
+                  console.log('extToSawCut formSearchData',this.formSearchData);
+                  this.loading1=true;
+                  this.$store.dispatch('extToSawCut', this.formSearchData)
+                  .then((response) =>  {  this.loading1=false; })     
+                  .catch((error) => {    this.loading1=false;      });
+               },
+         reOptimise() { this.loading2=true;
+               this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+               this.formSearchData.SawCode = this.selectedSaw;
+               this.formSearchData.loc = "GBG";
+               this.formSearchData.extn_id=this.selectedJobDetail.extn_id;
+                this.loading2=true;
+               this.$store.dispatch('reOptimiseCut', this.formSearchData)
+               .then((response) =>  {  this.loading2=false; })     
+                  .catch((error) => {    this.loading2=false;      });
+            },
+            
+           //------------------------------ 
             },
     
 }

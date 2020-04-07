@@ -7,7 +7,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>SAW Status</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <!--------------modal------------------->
@@ -36,10 +36,21 @@
               </v-container>
             </v-card-text>
 
-            <v-card-actions>
+           <!-- <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
               <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+            </v-card-actions> -->
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+                <div v-if="dialogDelete === true">
+                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                  <v-btn color="blue darken-1" text @click="remove">Delete</v-btn>
+                </div>
+                <div v-else-if="dialogDelete === false">
+                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                  <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                </div>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -58,7 +69,7 @@
 <script>
   export default {
     data: () => ({
-      dialog: false,
+      dialog: false,dialogDelete: false,
       headers: [
        { text: "ID", value: "id", width: "6%" },
                         { text: "STATUS", align: "left", sortable: true, value: "STATUS" },
@@ -84,37 +95,57 @@ created(){ this.loading=true;
                                 this.loading=false;
                         })
         },
-    computed: {formTitle () { return this.editedIndex === -1 ? 'New Status' : 'Edit Status'  }, },
-    watch: { dialog (val) { val || this.close()  }, 
-    
-    },
+    computed: {
+      formTitle() {  if (this.dialogDelete) { return "Delete Category";} 
+                    else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
+                                        return "New Category"; }
+                    else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
+                                return "Edit Category";  }  
+                              }
+
+     },
+    watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
+      val || this.close()  },    },
     methods: { 
       editItem (item) { console.log('edit-item',item)
-        this.editedIndex = this.categories.indexOf(item)
-        this.editedItem = Object.assign({}, item)
+        this.editedIndex = this.categories.indexOf(item); console.log('editedIndex',this.editedIndex)
+        this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
       //  this.editedItem=item;
         this.dialog = true
-      },
-
-      deleteItem (item) {console.log('delete-item',item)
-        const index = this.desserts.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
-      },
-      close () {  this.dialog = false
+        },
+      save () 
+      {  //console.log('save-item=',item);
+        if (this.editedIndex > -1) //save clicked when editing
+                  {  console.log('edit',this.editedItem)
+                    //edit api here
+                    } 
+           //--------save clicked when adding new
+        else {  console.log('add-item',this.editedItem)
+                    //add new api here
+            }
+                this.close()
+        },
+        //--------------delete start----------------------------------------------------------
+      deleteItem (item) {console.log('delete-pressed-item',item)
+                        const index = this.desserts.indexOf(item)
+                        this.dialogDelete = true;
+                        this.editedIndex = this.categories.indexOf(item);
+                        this.editedItem = Object.assign({}, item);
+                        this.dialog = true;
+               //after this now press delete on dialogue box to execure below fn
+              },
+      remove() { console.log('remove---function- editedIndex', this.editedIndex)
+                  // delete api here
+                  this.close();
+                },
+      //-------------------------------delete finish-----------------
+      //------------------close modal---------------------------
+      close () {  
+                  this.dialog = false
                   setTimeout(() => {  this.editedItem = Object.assign({}, this.defaultItem)
                           this.editedIndex = -1 }, 300)
               },
-      save () {  //console.log('save-item=',item);
-        if (this.editedIndex > -1) 
-                  {  console.log('edit',this.editedItem)
-                    Object.assign(this.categories[this.editedIndex], this.editedItem) } 
-                  else {
-                    console.log('add-editeditem',this.editedItem)
-                    this.desserts.push(this.editedItem)  
-                  
-                  }
-                this.close()
-              },
+    
     },
   }
 </script>

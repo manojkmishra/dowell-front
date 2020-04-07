@@ -229,8 +229,16 @@ async updateselectedcutlist({dispatch}, formData)
       .catch((error) => {console.log('updateprofilecut-error',error)});
       return res;
    },
+   //jdetails buttons--------------------
+   async cutall ({dispatch}, formData) 
+   {  let res= await axios.post(api.cutallself, formData)  
+            .then(response => { 
+                                dispatch('getjobdetails',formData);
+                                dispatch('getJobs',formData);
+            })
+          .catch(response => { console.log('cutall-error',error); reject();   });
+   },
 
-   //-----------------------------------
 
   //--------------------------------------------
     }//actions finish

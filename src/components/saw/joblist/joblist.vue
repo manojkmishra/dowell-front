@@ -51,8 +51,6 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Flag', value: 'flag', sortable: false },
               { text: 'Status', value: 'action', sortable: false },
               { text: 'CutJob', value: 'cutall', sortable: false },
-
-
             ],
            formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[], cut_saw:'' ,'selerr':false }, 
            loading:false,
@@ -62,6 +60,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
        {  ...mapState({ sawlist: state => state.saw.sawlist, 
                         joblist:state =>state.saw.joblist,
                         selectedSaw: state => state.saw.selectedSaw,
+
                    }),
            
        },

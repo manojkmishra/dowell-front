@@ -5,19 +5,19 @@
          <v-btn  text  color="grey" @click="backToJob">
             <v-icon  mr-3>mdi-keyboard-backspace</v-icon>RETURN TO JOB</v-btn>
         <v-btn id="flag-btn" ripple small color="red"  rounded dark   
-                  @click.prevent="scrap"><v-icon  >mdi-flag-outline</v-icon>Flag</v-btn>
+                  @click.prevent="flagit"><v-icon  >mdi-flag-outline</v-icon>Flag</v-btn>
         <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   
-                  @click.prevent="scrap"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
+                  @click.prevent="exttosaw"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
         <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
-                  @click.prevent="scrap"><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn>
+                  @click.prevent="reoptimise" ><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn> 
         <v-btn id="flag-btn" ripple medium color="blue"  rounded dark   
                   @click.prevent="scrap"><v-icon  >mdi-clipboard-list</v-icon>CUTLIST</v-btn>
         <v-btn id="flag-btn" ripple small color="purple lighten-3"  rounded dark   
-                  @click.prevent="scrap"><v-icon  >mdi-printer</v-icon>Print</v-btn>
+                  @click.prevent="sawprint"><v-icon  >mdi-printer</v-icon>Print</v-btn>
         <v-btn id="flag-btn" ripple small color="cyan"  rounded dark   
                   @click.prevent="scrap"><v-icon  >mdi-circular-saw</v-icon>ChangeSaw</v-btn>
         <v-btn id="flag-btn" ripple small color="orange"  rounded dark   
-                  @click.prevent="scrap"><v-icon  >mdi-check-all</v-icon>CUTALL</v-btn>
+                  @click.prevent="cutall"><v-icon  >mdi-check-all</v-icon>CUTALL</v-btn>
             
             
        </v-flex>
@@ -64,6 +64,59 @@ methods: {   backToJob() { //this.$router.push({name: 'joblist'});
                 .catch((error) => {});
 
                   },
+            //-----------scrap finish---------------------
+    extToSaw() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                this.formSearchData.SawCode = this.selectedSaw;
+                this.formSearchData.loc = "GBG";
+                this.$store.dispatch('extToSaw', this.formSearchData)
+                .then((response) => {        })
+                .catch((error) => {});
+            },
+    //------------------------------------------------
+        reoptimise() 
+            {  swal.fire({
+                            position: 'top-right',
+            title:'<span style="color:white">This function will work in version 2</span>',
+                            timer: 2000, toast: true,background: 'purple',
+                            });
+                        return;
+               
+            },
+    //----------------------------------------------
+        cutall() {
+            this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+            this.formSearchData.SawCode = this.selectedSaw;
+            this.formSearchData.loc = "GBG";
+            this.$store.dispatch('cutall', this.formSearchData)
+                .then((response) => {           })
+                .catch((error) => {});
+        },
+    //-----------------------------------------------
+        onClickFlag() {
+            if (this.selectedJob.Status_id != 12) {
+                let formData = {  id: '', name: '', title: 'Add Flag', };
+                let payload = { isShow: true, data: { action: 'Add', data: formData,
+                        index: 0            }
+                };
+                this.$store.dispatch('flagModal', payload);
+            } else {
+                this.$store.dispatch('showErrorNotification', 'Completed Jobs can not be flagged');
+                return;
+            }
+        },
+        sawprint() 
+         {     swal.fire({
+                            position: 'top-right',
+            title:'<span style="color:white">This function will work in version 2</span>',
+                            timer: 2000, toast: true,background: 'purple',
+                            });
+                        return;
+        },
+    changesaw() 
+                {   let formData = { id: '',  name: '', title: 'Change SAW',   };
+                    let payload = {  isShow: true,  data: { action: 'Add', data: formData, index: 0  }    };
+                    this.$store.dispatch('chsawModal', payload);
+                },
             },
 }
 </script>

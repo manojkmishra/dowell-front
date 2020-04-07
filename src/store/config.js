@@ -21,6 +21,8 @@ export const exttosawcut = apiDomain + '/saw/exttosawcut';
 export const reoptimisecut = apiDomain + '/saw/reoptimisecut';
 export const updateScrapList = apiDomain + '/saw/updateScrapList';
 export const cutallself = apiDomain + '/saw/cutallself';
+export const updateFlag = apiDomain + '/saw/updateFlag';
+
 
 
 

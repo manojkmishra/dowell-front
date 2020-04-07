@@ -79,16 +79,29 @@ export default {
 console.log('jd--sawflags',this.sawflags)
     },
    data() {  return { seen: true,dialog: false,
-            formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',  },
+            formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:''  },
                   editedItem: { name: '', calories: 0, fat: 0, carbs: 0, protein: 0, },
       editedIndex: -1,
         }
     },
 components: {   'job-details-list': JobDetailsList,  },
-methods: {   close(){ this.dialog=false;}, save(){ },
-OnSave(x){console.log('flag selected',x);
-  this.dialog=false;
-},
+methods: {   close(){ this.dialog=false;}, 
+    OnSave(x){  console.log('flag selected',x);
+            this.formSearchData.SawCode = this.selectedSaw;
+            this.formSearchData.flag = x;
+            this.formSearchData.id = this.selectedJob.id;
+            console.log('formSearchData=',this.formSearchData);
+            this.$store.dispatch('updateFlag', this.formSearchData)
+                .then((response) => {   
+                    swal.fire({ position: 'top-right',
+            title:'<span style="color:white">Flag change successful</span>',
+                            timer: 2000, toast: true,background: 'purple',
+                            });
+                        return;
+                  })
+                .catch((error) => {       });
+                this.dialog=false;
+        },
         backToJob() { //this.$router.push({name: 'joblist'});  
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.formSearchData.Location = "GBG";               

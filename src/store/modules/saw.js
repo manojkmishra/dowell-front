@@ -250,7 +250,14 @@ async updateselectedcutlist({dispatch}, formData)
             })
           .catch(response => { console.log('cutall-error',error); reject();   });
    },
-
+//------------------------------flag-------------------
+  async updateFlag ({dispatch}, formData) 
+  { console.log('updateflag--- formData',formData); 
+    let res= await axios.post(api.updateFlag, formData)  
+    .then(response => { dispatch('getJobs',formData);})
+    .catch(response => { console.log('cutall-error',error); reject();   });
+    return res;
+  },
 
   //--------------------------------------------
     }//actions finish

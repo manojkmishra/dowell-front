@@ -29,8 +29,9 @@
             <v-navigation-drawer v-model="drwr" app dark  id="sidebar">
                <v-layout column align-center>
                     <v-flex class="mt-5" >
-                         <v-avatar size="100" class=""><img src="@/assets/user.png"></v-avatar>
-                         <p class="subheading mt-1" style="text-align: center; color:#90CAF9;">{{user.name}}</p>
+                         <v-avatar size="120" class=""><img src="@/assets/user.png"></v-avatar>
+                         <p class="subheading mt-1" style="text-align: center; color:rgb(6, 231, 125);"
+                         color="green accent-4">{{user.name}}</p>
                     </v-flex> <!--popup to add projects below -->
                </v-layout>            
       <!---multi leve finish ---------->

@@ -85,13 +85,22 @@ import { mapGetters, mapState, mapActions} from 'vuex';
             var i = 0;
             while ( i < this.selected.length ) 
                 { var x = this.selected[i];
+                  console.log('hehe',x);
+                   
                   if (x){ this.selected.splice(i,1);
+                            if(x.review>0 && x.review !=9){
+                            swal.fire({ position: 'top-right',
+                              title:'<span style="color:white">Flagged Jobs can not be selected, please UnFlag it</span>',
+                              timer: 2000, toast: true,background: 'purple',
+                                });
+                              return;
+                            }
                             if(x.Status_id==12)
                             { swal.fire({ position: 'top-right',
                             title:'<span style="color:white">Only UnCut Jobs can be selected</span>',
                             timer: 2000, toast: true, background: 'purple',
                             });
-                            this.selected=[];this.formSearchData.selected1=[];
+                                                        this.selected=[];this.formSearchData.selected1=[];
                             return;
                             }
                             else this.formSearchData.selected1.push(x.id);
@@ -130,6 +139,14 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                       .catch((error) => {console.log('jobdetails--- error',error); });
            },
            cutall(data){
+             if(data.review>0 && data.review != 9 ){
+               swal.fire({ position: 'top-right',
+                        title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                            timer: 2000, toast: true,background: 'purple',
+                            });
+                        return;
+                  }
+             else{
                 console.log('joblist-cutall-item',data);
                 this.formSearchData.QuoteID = data.quote_ID;
                 this.formSearchData.order_ID = data.Order_Number;
@@ -139,6 +156,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 console.log('cutall formSearchData=',this.formSearchData);               
                 this.$store.dispatch('jobcutall', this.formSearchData)
                 this.resetformSearchData();
+             }
            },
             resetformSearchData(){
                            this.formSearchData= {  SawCode: '',QuoteID: '',order_ID:'',selected1:[], cut_saw:''}

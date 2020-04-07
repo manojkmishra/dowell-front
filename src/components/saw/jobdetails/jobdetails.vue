@@ -39,8 +39,8 @@
           </v-card>
         </v-dialog>
 <!--------------------------------------------------->
-        <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   
-                  @click.prevent="exttosaw"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
+        <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   :loading="loadingexttosaw"
+                  @click.prevent="exttosawjd"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
         <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
                   @click.prevent="reoptimise" ><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn> 
         <v-btn id="flag-btn" ripple medium color="blue"  rounded dark   
@@ -48,8 +48,8 @@
         <v-btn id="flag-btn" ripple small color="purple lighten-3"  rounded dark   
                   @click.prevent="sawprint"><v-icon  >mdi-printer</v-icon>Print</v-btn>
         <v-btn id="flag-btn" ripple small color="cyan"  rounded dark   
-                  @click.prevent="scrap"><v-icon  >mdi-circular-saw</v-icon>ChangeSaw</v-btn>
-        <v-btn id="flag-btn" ripple small color="orange"  rounded dark   
+                  @click.prevent="changesaw"><v-icon  >mdi-circular-saw</v-icon>ChangeSaw</v-btn>
+        <v-btn id="flag-btn" ripple small color="orange"  rounded dark :loading="loadingcutall"
                   @click.prevent="cutall"><v-icon  >mdi-check-all</v-icon>CUTALL</v-btn>
             
             
@@ -78,7 +78,7 @@ export default {
     created(){
 console.log('jd--sawflags',this.sawflags)
     },
-   data() {  return { seen: true,dialog: false,
+   data() {  return { seen: true,dialog: false,loadingexttosaw:false, loadingcutall:false,
             formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:''  },
                   editedItem: { name: '', calories: 0, fat: 0, carbs: 0, protein: 0, },
       editedIndex: -1,
@@ -121,17 +121,18 @@ methods: {   close(){ this.dialog=false;},
                 .catch((error) => {});
                 },
             //-----------scrap finish---------------------
-    extToSaw() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+    exttosawjd() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.formSearchData.loc = "GBG";
-                this.$store.dispatch('extToSaw', this.formSearchData)
-                .then((response) => {        })
-                .catch((error) => {});
+                this.loadingexttosaw=true;
+                this.$store.dispatch('exttosawjd', this.formSearchData)
+                .then((response) => {  this.loadingexttosaw=false;      })
+                .catch((error) => {this.loadingexttosaw=false;});
             },
     //------------------------------------------------
         reoptimise() 
             {  swal.fire({ position: 'top-right',
-            title:'<span style="color:white">This function will work in version 2</span>',
+            title:'<span style="color:white">This function will work in phase 2</span>',
                             timer: 2000, toast: true,background: 'purple',
                             });
                         return;
@@ -142,9 +143,10 @@ methods: {   close(){ this.dialog=false;},
             this.formSearchData.QuoteID = this.selectedJob.quote_ID;
             this.formSearchData.SawCode = this.selectedSaw;
             this.formSearchData.loc = "GBG";
+            this.loadingcutall=true;
             this.$store.dispatch('cutall', this.formSearchData)
-                .then((response) => {           })
-                .catch((error) => {});
+                .then((response) => {   this.loadingcutall=false;        })
+                .catch((error) => {this.loadingcutall=false;});
         },
     //-----------------------------------------------
         onClickFlag() {
@@ -167,9 +169,11 @@ methods: {   close(){ this.dialog=false;},
                         return;
         },
     changesaw() 
-                {   let formData = { id: '',  name: '', title: 'Change SAW',   };
-                    let payload = {  isShow: true,  data: { action: 'Add', data: formData, index: 0  }    };
-                    this.$store.dispatch('chsawModal', payload);
+                {   swal.fire({ position: 'top-right',
+                        title:'<span style="color:white">This function will work in version 2</span>',
+                            timer: 2000, toast: true,background: 'purple',
+                            });
+                        return;
                 },
             },
 }

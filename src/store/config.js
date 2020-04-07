@@ -18,6 +18,7 @@ export const updateprofilecut = apiDomain+ '/saw/updateprofilecut';
 export const updateselectedcutlist = apiDomain+ '/saw/updateselectedcutlist';
 export const updateOptCut = apiDomain + '/saw/updateoptcut';
 export const exttosawcut = apiDomain + '/saw/exttosawcut';
+export const exttosawjd = apiDomain + '/saw/exttosawjd';
 export const reoptimisecut = apiDomain + '/saw/reoptimisecut';
 export const updateScrapList = apiDomain + '/saw/updateScrapList';
 export const cutallself = apiDomain + '/saw/cutallself';

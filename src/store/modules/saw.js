@@ -101,10 +101,7 @@ export default
       { let res= await axios.get(api.getsawbars) ;  return res;    },
       async getsawcuts ({commit,dispatch}) 
       { let res= await axios.get(api.getsawcuts);      return res;   },
-      async getsawflags ({commit,dispatch}) 
-      { let res= await axios.get(api.getsawflags);  
-        commit({type:types.GET_SAW_FLAGS ,  sawflags: res.data} ); 
-        return res;    },
+
       async getsawstatus ({commit,dispatch}) 
       { let res= await axios.get(api.getsawstatus);   
         commit({type:types.GET_SAW_STATUS ,  sawstatus: res.data} );
@@ -280,6 +277,32 @@ async updateselectedcutlist({dispatch}, formData)
     return res;
   },
 
-  //--------------------------------------------
+  //=========================Flag Table========================
+  async getsawflags ({commit,dispatch}) 
+  { let res= await axios.get(api.getsawflags);  
+    commit({type:types.GET_SAW_FLAGS ,  sawflags: res.data} ); 
+    return res;    },
+  async addflag ({dispatch}, formData)
+  {   console.log('addflag-- formData=', formData);
+        let res= await axios.post(api.addflag, formData)  
+              .then(response => { dispatch('getsawflags');  })
+              .catch(response => {    });
+          return res;
+  },
+  async editflag ({dispatch}, formData)
+  {   console.log('addflag-- formData=', formData);
+        let res= await axios.post(api.editflag, formData)  
+              .then(response => { dispatch('getsawflags');  })
+              .catch(response => {    });
+          return res;
+  },
+  async deleteflag ({dispatch}, formData)
+  {   console.log('addflag-- formData=', formData);
+        let res= await axios.post(api.deleteflag, formData)  
+              .then(response => { dispatch('getsawflags');  })
+              .catch(response => {    });
+          return res;
+  },
+  //---------------------------------------
     }//actions finish
 }

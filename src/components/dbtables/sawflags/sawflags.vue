@@ -3,7 +3,7 @@
       <!--  <sawschedules v-bind:bb="aa" :loading="loading"></sawschedules> -->
       <v-progress-linear :active="loading" :indeterminate="loading" absolute   top  color="deep-purple accent-4"
       ></v-progress-linear>
-   <v-data-table  :headers="headers" :items="categories"  class="elevation-1" >
+   <v-data-table  :headers="headers" :items="sawflags"  class="elevation-1" >
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>SAW Status</v-toolbar-title>
@@ -12,7 +12,7 @@
         <!--------------modal------------------->
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark rounded class="mb-2" v-on="on">New Item</v-btn>
+            <v-btn color="primary" dark rounded class="mb-2" v-on="on">New Flag</v-btn>
           </template>
           <!----popup---------------->
           <v-card>
@@ -88,35 +88,41 @@
                        // { text: "Actions", value: "action", sortable: false, width: "8%" },
                         { text: 'Actions', value: 'actions', sortable: false,width: "10%" },
       ],
-      categories: [],
-      editedItem: { name: '', calories: 0, fat: 0, carbs: 0, protein: 0, },
+    //  categories: [],
+      //sawflags:[],
+      editedItem: { name: '', red: '', green:'', blue:'',  comment: '',   },
       editedIndex: -1,
       typeOptions: [ "saw_schedules",  "optimised_bars", "optimised_cuts", "Flag" ],
-      formData: {     id: '',    STATUS: '', TYPE:'',   comment: '', }
+     // formData: {     id: '',    STATUS: '', TYPE:'',   comment: '', }
     }),
-        created(){ this.loading=true;
+        created(){ /* this.loading=true;
              this.$store.dispatch('getsawflags')
                     .then((res) => { //this.loading=false;
                                 console.log('getsawflags response',res.data)  
                                 this.categories=res.data;
                                 this.loading=false;
-                        })
+                        }) */
         },
-     computed: {
-      formTitle() {  if (this.dialogDelete) { return "Delete Category";} 
-                    else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
-                                        return "New Category"; }
-                    else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
-                                return "Edit Category";  }  
-                              }
+     computed: { 
+      formTitle() {  if (this.dialogDelete) { return "Delete Flag";} 
+                     else if (this.editedIndex === -1) { console.log('formtitle()-this.editindx(-1=new)',this.editedIndex);
+                                        return "New Flag"; }
+                    else if (this.editedIndex > -1) { console.log('formtitle()--this.editindx(>1=edit)',this.editedIndex);
+                                return "Edit Flag";  }  
+                   },
+      ...mapState({
 
-     },
+            sawflags:state => state.saw.sawflags
+        }),
+             },
+    
     watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
                           val || this.close()  },    
             },
     methods: { 
-      editItem (item) { console.log('edit-item',item)
-        this.editedIndex = this.categories.indexOf(item); console.log('editedIndex',this.editedIndex)
+      editItem (item) {  this.dialogDelete = false;
+        console.log('edit-item',item)
+        this.editedIndex = this.sawflags.indexOf(item); console.log('editedIndex',this.editedIndex)
         this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
       //  this.editedItem=item;
         this.dialog = true
@@ -126,10 +132,14 @@
         if (this.editedIndex > -1) //save clicked when editing
                   {  console.log('edit',this.editedItem)
                     //edit api here
+                    this.$store.dispatch('editflag', this.editedItem) 
+                        .then((response) => {})     .catch((error) => {});
                     } 
            //--------save clicked when adding new
         else {  console.log('add-item',this.editedItem)
                     //add new api here
+                    this.$store.dispatch('addflag', this.editedItem) 
+                      .then((response) => {})     .catch((error) => {});
             }
                 this.close()
         },
@@ -137,21 +147,28 @@
       deleteItem (item) {console.log('delete-pressed-item',item)
                        // const index = this.desserts.indexOf(item)
                         this.dialogDelete = true;
-                        this.editedIndex = this.categories.indexOf(item);
+                        this.editedIndex = this.sawflags.indexOf(item);
                         this.editedItem = Object.assign({}, item);
                         this.dialog = true;
                //after this now press delete on dialogue box to execure below fn
               },
-      remove() { console.log('remove---function- editedIndex', this.editedIndex)
+      remove() { console.log('remove()- editedIndex', this.editedIndex)
                   // delete api here
-                  this.close();
+                  this.$store.dispatch('deleteflag', this.editedItem)  
+                                .then((response) => {})
+                                .catch((error) => {});
+                             
+                 // this.dialogDelete = false;
+                  this.close(); 
                 },
       //-------------------------------delete finish-----------------
       //------------------close modal---------------------------
       close () {  
-                  this.dialog = false
-                  setTimeout(() => {  this.editedItem = Object.assign({}, this.defaultItem)
-                          this.editedIndex = -1 }, 300)
+                  this.dialog = false; 
+                  setTimeout(() => {  
+                    this.editedItem = Object.assign({}, this.defaultItem)
+                          this.editedIndex = -1 
+                          this.dialogDelete = false;}, 100)
               },
     
     },

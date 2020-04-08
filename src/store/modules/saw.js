@@ -304,5 +304,32 @@ async updateselectedcutlist({dispatch}, formData)
           return res;
   },
   //---------------------------------------
+  async getsawstatus ({commit,dispatch}) 
+  { let res= await axios.get(api.getsawstatus);   
+    commit({type:types.GET_SAW_STATUS ,  sawstatus: res.data} );
+     return res;    },
+  async addstatus ({dispatch}, formData)
+  {   console.log('addstatus-- formData=', formData);
+        let res= await axios.post(api.addstatus, formData)  
+              .then(response => { dispatch('getsawstatus');  })
+              .catch(response => {    });
+          return res;
+  },
+  async editstatus ({dispatch}, formData)
+  {   console.log('editstatus-- formData=', formData);
+        let res= await axios.post(api.editstatus, formData)  
+              .then(response => { dispatch('getsawstatus');  })
+              .catch(response => {    });
+          return res;
+  },
+  async deletestatus ({dispatch}, formData)
+  {   console.log('delete-- formData=', formData);
+        let res= await axios.post(api.deletestatus, formData)  
+              .then(response => { dispatch('getsawstatus');  })
+              .catch(response => {    });
+          return res;
+  },
+
+  //=============================
     }//actions finish
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-data-table  :headers="headers" :items="categories"  class="elevation-1" >
+  <v-data-table  :headers="headers" :items="sawstatus"  class="elevation-1" >
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>SAW Status</v-toolbar-title>
@@ -8,7 +8,7 @@
         <!--------------modal------------------->
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark rounded class="mb-2" v-on="on">New Item</v-btn>
+            <v-btn color="primary" dark rounded class="mb-2" v-on="on">New Status</v-btn>
           </template>
           <!----popup---------------->
           <v-card>
@@ -62,6 +62,7 @@
   </v-data-table>
 </template>
 <script>
+    import { mapGetters, mapState, mapActions} from 'vuex'
   export default {
     data: () => ({
       dialog: false,dialogDelete: false,
@@ -77,33 +78,36 @@
                         { text: 'Actions', value: 'actions', sortable: false },
       ],
       desserts: [],categories: [],
-      editedItem: { name: '', calories: 0, fat: 0, carbs: 0, protein: 0, },
+      editedItem: { name: '', STATUS: '', TYPE:'',   comment: '', },
       editedIndex: -1,
       typeOptions: [ "saw_schedules",  "optimised_bars", "optimised_cuts", "Flag" ],
-      formData: {     id: '',    STATUS: '', TYPE:'',   comment: '', }
+     // formData: {     id: '',     }
     }),
-created(){ this.loading=true;
+created(){ /*this.loading=true;
             this.$store.dispatch('getsawstatus')
                     .then((res) => { //this.loading=false;
                                 console.log('getstatus response',res.data)  
                                 this.categories=res.data;
                                 this.loading=false;
-                        })
+                        }) */
         },
     computed: {
-      formTitle() {  if (this.dialogDelete) { return "Delete Category";} 
+      formTitle() {  if (this.dialogDelete) { return "Delete Status";} 
                     else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
-                                        return "New Category"; }
+                                        return "New Status"; }
                     else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
-                                return "Edit Category";  }  
-                              }
+                                return "Edit Status";  }  
+                              },
+         ...mapState({  sawstatus:state => state.saw.sawstatus
+        }),
 
      },
     watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
       val || this.close()  },    },
     methods: { 
       editItem (item) { console.log('edit-item',item)
-        this.editedIndex = this.categories.indexOf(item); console.log('editedIndex',this.editedIndex)
+        this.dialogDelete = false;
+        this.editedIndex = this.sawstatus.indexOf(item); console.log('editedIndex',this.editedIndex)
         this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
       //  this.editedItem=item;
         this.dialog = true
@@ -113,10 +117,14 @@ created(){ this.loading=true;
         if (this.editedIndex > -1) //save clicked when editing
                   {  console.log('edit',this.editedItem)
                     //edit api here
+                     this.$store.dispatch('editstatus', this.editedItem) 
+                      .then((response) => {})     .catch((error) => {});
                     } 
            //--------save clicked when adding new
         else {  console.log('add-item',this.editedItem)
                     //add new api here
+                     this.$store.dispatch('addstatus', this.editedItem) 
+                      .then((response) => {})     .catch((error) => {});
             }
                 this.close()
         },
@@ -124,13 +132,15 @@ created(){ this.loading=true;
       deleteItem (item) {console.log('delete-pressed-item',item)
                         const index = this.desserts.indexOf(item)
                         this.dialogDelete = true;
-                        this.editedIndex = this.categories.indexOf(item);
+                        this.editedIndex = this.sawstatus.indexOf(item);
                         this.editedItem = Object.assign({}, item);
                         this.dialog = true;
                //after this now press delete on dialogue box to execure below fn
               },
       remove() { console.log('remove---function- editedIndex', this.editedIndex)
                   // delete api here
+                   this.$store.dispatch('deletestatus', this.editedItem) 
+                      .then((response) => {})     .catch((error) => {});
                   this.close();
                 },
       //-------------------------------delete finish-----------------
@@ -138,7 +148,7 @@ created(){ this.loading=true;
       close () {  
                   this.dialog = false
                   setTimeout(() => {  this.editedItem = Object.assign({}, this.defaultItem)
-                          this.editedIndex = -1 }, 300)
+                          this.editedIndex = -1, this.dialogDelete = false; }, 100)
               },
     
     },

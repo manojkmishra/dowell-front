@@ -1,8 +1,9 @@
 <template> 
 
   <v-data-table :headers="headers" :items="aa.data"   class="elevation-1" :search="search"
-       :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40] }" 
-       @pagination="paginate"
+       :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40] ,
+       'show-current-page':true,}" 
+       @pagination="paginate" 
        :server-items-length="aa.total"
        :items-per-page=20 >
  <template v-slot:top >
@@ -12,7 +13,7 @@
           <v-toolbar-title>SCHEDULED JOBS </v-toolbar-title>
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" append-icon="mdi-magnify" label="Search"
-                              single-line hide-details></v-text-field>
+                              @input="searchit" single-line hide-details></v-text-field>
         </v-toolbar>
     </template>
         <template slot="no-data">
@@ -59,6 +60,22 @@ export default
                     .then((res) => { console.log('getschedules response',res.data.response.data)  
                                       this.aa=res.data.response;   })
                     .catch(err=>{ console.log('paginate-err=', err)  })
+            },
+            searchit(e){
+              console.log('search=',e)
+              if(e.length>3){
+                 axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${e}`)
+                    .then((res) => { console.log('sawsc search res=',res.data.response.data)  
+                                      this.aa=res.data.response;   })
+                    .catch(err=>{ console.log('sawsc search err=', err)  })
+                }
+              if(e.length<=0){
+                 axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules`)
+                    .then((res) => { console.log('sawsc search res=',res.data.response.data)  
+                                      this.aa=res.data.response;   })
+                    .catch(err=>{ console.log('sawsc search err=', err)  })
+
+              }
             }
         }
 }

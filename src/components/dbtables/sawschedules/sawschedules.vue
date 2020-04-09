@@ -1,8 +1,15 @@
 <template> 
-
-  <v-data-table :headers="headers" :items="aa.data"   class="elevation-1" :search="search"
+    <div class="mt-3">
+    <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        top
+        color="deep-purple accent-4"
+    ></v-progress-linear>
+  <v-data-table :headers="headers" :items="aa.data"   class="elevation-1" :search="search" dense
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40] ,
-       'show-current-page':true,}" 
+       'show-current-page':true,}"   
        @pagination="paginate" 
        :server-items-length="aa.total"
        :items-per-page=20 >
@@ -20,6 +27,7 @@
       <div></div>
     </template>
   </v-data-table>
+  </div>
 </template>
 <script>
 import Vue from 'vue'
@@ -31,9 +39,9 @@ export default
 
             },
              props:{bb:Array},
-  data() { return {dialog: false,search: '',aa:[],
+  data() { return {dialog: false,search: '',aa:[],loading:false,
           headers: [
-              { text: 'created_at', align: 'left', value: 'created_at'},
+              { text: 'created_at', align: 'left', value: 'created_at', },
               { text: 'created_by', align: 'left',  value: 'created_by.name'},
               { text: 'updated_at', align: 'left',  value: 'updated_at'},
               { text: 'updatedby', align: 'left',  value: 'updated_by.name'},
@@ -51,29 +59,29 @@ export default
           },
       created(){  //this.paginate();
         },
-        methods:{
-            paginate(e){ console.log('paginate-$event',e);
+        methods:{ 
+            paginate(e){ console.log('paginate-$event',e); this.loading=true;
             //axios.get(`http://127.0.0.1:8000/api/saw/getsawschedules?page='+${e.page}`,{})
              axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=${e.page}`,
              {params:{'per_page':e.per_page}})
                // this.$store.dispatch(`getsawschedules?page='+${e.page}`,{})
                     .then((res) => { console.log('getschedules response',res.data.response.data)  
-                                      this.aa=res.data.response;   })
-                    .catch(err=>{ console.log('paginate-err=', err)  })
+                                      this.aa=res.data.response; this.loading=false;  })
+                    .catch(err=>{ console.log('paginate-err=', err) ; this.loading=false; })
             },
             searchit(e){
               console.log('search=',e)
-              if(e.length>3){
+              if(e.length>3){ this.loading=true;
                  axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${e}`)
                     .then((res) => { console.log('sawsc search res=',res.data.response.data)  
-                                      this.aa=res.data.response;   })
-                    .catch(err=>{ console.log('sawsc search err=', err)  })
+                                      this.aa=res.data.response; this.loading=false;  })
+                    .catch(err=>{ console.log('sawsc search err=', err); this.loading=false;  })
                 }
-              if(e.length<=0){
+              if(e.length<=0){ this.loading=true;
                  axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules`)
                     .then((res) => { console.log('sawsc search res=',res.data.response.data)  
-                                      this.aa=res.data.response;   })
-                    .catch(err=>{ console.log('sawsc search err=', err)  })
+                                      this.aa=res.data.response; this.loading=false;  })
+                    .catch(err=>{ console.log('sawsc search err=', err) ; this.loading=false; })
 
               }
             }

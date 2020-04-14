@@ -4,7 +4,7 @@
          <v-layout wrap >
            <v-flex lg6 md6  class="d-none d-md-flex svg1"  >  
            <!--  <v-flex lg6 md6  class="hidden-sm-and-down svg1">     -->    
-                   <v-img   src="../assets/graphic.svg" alt="" style="width: 20rem; height: 30rem;"> </v-img>
+                   <v-img  src="../assets/graphic.svg" alt="" style="width: 20rem; height: 30rem;"> </v-img>
             </v-flex>
            <v-flex class="zz1 lg6 md6 sm12 " >
               <v-hover v-slot:default="{ hover }">
@@ -54,16 +54,12 @@ export default
          submit()
             { this.loading=true;
               this.signIn(this.form).then(()=>
-              {
-                this.loading=false;
+              { this.loading=false;
                // toast.fire({   icon: "success", title: "Login Success" })
                 swal.fire({
                 position: 'top-right',
                 title:'<span style="color:white">Login Success!!</span>',
-                  timer: 2000,
-                  toast: true,
-                  background: 'purple',
-                  color:'white'
+                  timer: 2000,toast: true, background: 'purple', color:'white'
                 // customClass: 'swal2-popup',
                  });
 
@@ -73,15 +69,7 @@ export default
                                swal.fire({
                 position: 'top-right',
                 title:'<span style="color:white">Login Failed!!</span>',
-               // text:"anything",
-               // width:'22em',
-               // type: "info",
-                //  showConfirmButton: false,
-                  timer: 3000,
-                  toast: true,
-                  background: 'purple',
-                  color:'white'
-                // customClass: 'swal2-popup',
+                  timer: 3000, toast: true, background: 'purple', color:'white'
                  });
                               this.loading=false;
                               })
@@ -95,14 +83,33 @@ export default
 <style scoped>
 .zz1{
 
+    padding-top: 4rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
+
+}
+.svg1:hover{  transform: scale(1.1)}
+.svg1{width:100%; height:auto; transition:all 1s ease}
+@media(min-width:600px) and (max-width:874px){
+.zz1{
+
     padding-top: 5rem;
     padding-right: 4rem;
     padding-left: 4rem;
 
 }
-.svg1:hover{  transform: scale(1.1)
+}
+
+/* potrait mode */
+@media(max-width:600px){
+.zz1{
+
+    padding-top: 1rem;
+    padding-right: 0rem;
+    padding-left: 0rem;
 
 }
-.svg1{width:100%; height:auto; transition:all 1s ease}
+
+}
 
 </style>

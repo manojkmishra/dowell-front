@@ -7,12 +7,12 @@
             </div>
 
             <!--  <router-link class="logoimg" to="/"> -->
-                <img src="../assets/dowell.png" class="logoimg" alt="Dowell Windows and Doors">
+            <img src="../assets/dowell.png" class="logoimg" alt="Dowell Windows and Doors">
             <!--  </router-link> -->
             <v-toolbar-title class="transparent"> 
                 <span class="font-weight-light">Saw</span><span>Screens</span>
             </v-toolbar-title>
-            
+  
             <v-spacer></v-spacer>
             <div v-if="authenticated">
                 <v-btn text color="grey" @click.prevent="signOut"> Sign Out
@@ -26,7 +26,8 @@
         </v-app-bar><!-- toolbar finish --drawer start-->
         <div v-if="authenticated">
             <div snackbar="true" > </div>
-            <v-navigation-drawer v-model="drwr" app dark  id="sidebar">
+            <v-navigation-drawer v-model="drwr" app dark  
+             id="sidebar">
                <v-layout column align-center>
                     <v-flex class="mt-5" >
                          <v-avatar size="120" class=""><img src="@/assets/user.png"></v-avatar>
@@ -78,7 +79,7 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   
-     data(){return{ drwr:true, 
+     data(){return{ drwr:false, 
      
       items: [
           { action: 'mdi-view-dashboard', title: 'Dashboard', route:'/',hasMulSub: false },

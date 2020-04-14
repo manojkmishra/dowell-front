@@ -10,7 +10,7 @@
             <img src="../assets/dowell.png" class="logoimg" alt="Dowell Windows and Doors">
             <!--  </router-link> -->
             <v-toolbar-title class="transparent"> 
-                <span class="font-weight-light">Saw</span><span>Screens</span>
+                <span class="font-weight-light">Sawyer</span><span>Screens</span>
             </v-toolbar-title>
   
             <v-spacer></v-spacer>

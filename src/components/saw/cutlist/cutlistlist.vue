@@ -29,16 +29,16 @@ import { mapGetters, mapState, mapActions} from 'vuex';
   {   data: () => (
         { dialog: false,search: '',selected: [],
           headers: [
-              { text: 'SNO', align: 'left', sortable: false, value: 'SNO', width:"5%"},
-              { text: 'Extrusion', value: 'Extrusion',sortable: false },
+              { text: 'SNO', align: 'left', sortable: true, value: 'SNO', width:"5%"},
+              { text: 'Extrusion', value: 'Extrusion',sortable: true },
               { text: 'Description', value: 'Description', sortable: false},
-              { text: 'Item', value: 'Item', sortable: false },
+              { text: 'Stock_Length', value: 'Stock_Length', sortable: true},
+              { text: 'Item', value: 'Item', sortable: true },
               { text: 'Color', value: 'Color', sortable: false },
-              { text: 'Length', value: 'Length', sortable: false },
+              { text: 'Length', value: 'Length', sortable: true },
               { text: 'Qty', value: 'Cuts', sortable: false },
               { text: 'Status', value: 'action', sortable: false },
-              { text: "Select", value: "sel", sortable: false },
-
+  
             ],
            formSearchData: {    ID:'', name: '',    title: '',   id: '',SawCode:'',status:'',location:'', selected1:[] ,QuoteID:'', jid:''  }, 
            loading:false,loading1:false,loading2:false

@@ -35,7 +35,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Stock_Length', value: 'Stock_Length', sortable: true},
               { text: 'Item', value: 'Item', sortable: true },
               { text: 'Color', value: 'Color', sortable: false },
-              { text: 'Length', value: 'Length', sortable: true },
+              { text: 'Piece_Length', value: 'Length', sortable: true },
               { text: 'Qty', value: 'Cuts', sortable: false },
               { text: 'Status', value: 'action', sortable: false },
   

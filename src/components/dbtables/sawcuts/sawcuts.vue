@@ -14,7 +14,7 @@
        :server-items-length="aa.total"
        :items-per-page=20 >
  <template v-slot:top >
-        <v-toolbar flat color="light-blue lighten-5">
+        <v-toolbar flat color="blue darken-4" dense dark>
           <v-toolbar-title>SAW</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>BARS </v-toolbar-title>
@@ -60,7 +60,7 @@ export default
             //axios.get(`http://127.0.0.1:8000/api/saw/getsawschedules?page='+${e.page}`,{})
             this.loading=true;
              axios.get(`${axios.defaults.baseURL}/saw/getsawcuts?page=${e.page}`,
-             {params:{'per_page':e.per_page}})
+             {params:{'per_page':e.itemsPerPage}})
                // this.$store.dispatch(`getsawschedules?page='+${e.page}`,{})
                     .then((res) => { console.log('getsawbars response',res.data.response.data)  
                                       this.aa=res.data.response; this.loading=false;   })

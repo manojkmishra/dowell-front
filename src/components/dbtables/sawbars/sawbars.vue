@@ -8,13 +8,14 @@
         color="deep-purple accent-4"
     ></v-progress-linear>
   <v-data-table :headers="headers" :items="aa.data"  class="elevation-1" :search="search" dense
-       :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40] ,
+       :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [20,40,100] ,
        'show-current-page':true,}" 
        @pagination="paginate" 
        :server-items-length="aa.total"
-       :items-per-page=20 >
+
+       >
  <template v-slot:top >
-        <v-toolbar flat color="light-blue lighten-5">
+        <v-toolbar flat color="blue darken-4" dense dark>
           <v-toolbar-title>SAW</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>BARS </v-toolbar-title>
@@ -41,6 +42,7 @@ export default
 {  
   data() { return {dialog: false,search: '',aa:[],loading:false,
           headers: [
+            { text: 'ID', align: 'left', value: 'id'},
               { text: 'created_at', align: 'left', value: 'created_at'},
                { text: 'updated_at', align: 'left',  value: 'updated_at'},
               { text: 'created_by', align: 'left',  value: 'created_by.name'},
@@ -61,7 +63,7 @@ export default
             this.loading=true;
             //axios.get(`http://127.0.0.1:8000/api/saw/getsawschedules?page='+${e.page}`,{})
              axios.get(`${axios.defaults.baseURL}/saw/getsawbars?page=${e.page}`,
-             {params:{'per_page':e.per_page}})
+             {params:{'per_page':e.itemsPerPage}})
                // this.$store.dispatch(`getsawschedules?page='+${e.page}`,{})
                     .then((res) => { console.log('getsawbars response',res.data.response.data)  
                                       this.aa=res.data.response; this.loading=false;  })

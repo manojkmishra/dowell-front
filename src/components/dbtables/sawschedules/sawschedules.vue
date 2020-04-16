@@ -14,7 +14,7 @@
        :server-items-length="aa.total"
        :items-per-page=20 >
  <template v-slot:top >
-        <v-toolbar flat color="light-blue lighten-5">
+        <v-toolbar flat color="blue darken-4" dense dark>
           <v-toolbar-title>SAW</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SCHEDULED JOBS </v-toolbar-title>
@@ -63,7 +63,7 @@ export default
             paginate(e){ console.log('paginate-$event',e); this.loading=true;
             //axios.get(`http://127.0.0.1:8000/api/saw/getsawschedules?page='+${e.page}`,{})
              axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=${e.page}`,
-             {params:{'per_page':e.per_page}})
+             {params:{'per_page':e.itemsPerPage}})
                // this.$store.dispatch(`getsawschedules?page='+${e.page}`,{})
                     .then((res) => { console.log('getschedules response',res.data.response.data)  
                                       this.aa=res.data.response; this.loading=false;  })

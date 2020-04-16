@@ -13,6 +13,9 @@
                 
         </v-toolbar>
     </template>
+         <template v-slot:item.tim="{ item }">
+      {{ ~~(item.Time / 60) + ":" + (item.Time % 60 < 10 ? "0" : "") + item.Time % 60 }}
+    </template>
     <!------flag---------->
      <template v-slot:item.flag="{ item }">
       <v-icon  v-if="item.review>0" v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" >
@@ -46,7 +49,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Cut Date', align: 'left', sortable: false, value: 'cut_date', width:"12%"},
               { text: 'Order No', value: 'Order_Number',sortable: false },
               { text: 'Customer', value: 'Customer' ,sortable: false},
-              { text: 'Time (Min)', value: 'Time',sortable: false },
+             // { text: 'Time (Min)', value: 'Time',sortable: false },
+              { text: 'Time (Min)', value: 'tim',sortable: false },
               { text: 'Color', value: 'Color', sortable: false},
               { text: 'Flag', value: 'flag', sortable: false },
               { text: 'Status', value: 'action', sortable: false },

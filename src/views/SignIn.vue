@@ -14,9 +14,9 @@
                 <v-spacer />
               </v-toolbar>
               <v-card-text >
-                <v-form color="grey lighten-2" @submit.prevent="submit" >
-                  <v-text-field label="E-mail" name="login" prepend-icon="mdi-email" type="text" v-model="form.email"/>
-                  <v-text-field :type="showPassword ? 'text':'password'" id="password" label="Password" name="password" v-model="form.password"
+                <v-form color="grey lighten-2" @submit.prevent="submit" ref="loginForm" :value="formValid" >
+                  <v-text-field label="E-mail" :rules="emailRules" name="login" prepend-icon="mdi-email" type="text" v-model="form.email"/>
+                  <v-text-field :type="showPassword ? 'text':'password'" id="password" :rules="passwordRules" label="Password" name="password" v-model="form.password"
                      prepend-icon="mdi-lock"  :append-icon="showPassword ? 'mdi-eye':'mdi-eye-off'" @click:append="showPassword=!showPassword" />
                   <v-spacer />
                    <v-layout column wrap justify-end align-end >
@@ -48,11 +48,19 @@ export default
 
   name: 'signin',
   components: { navi1 },
-  data(){return {form:{email:'',password:''}, showPassword:false,aalert:true, loading:false }},
+  data(){return {form:{email:'',password:''}, showPassword:false,aalert:true, loading:false,
+                    emailRules: [ v => !!v || 'The Email is required',
+                                v => /.+@.+\..+/.test(v) || 'E-mail must be valid',],
+                  passwordRules: [ v => !!v || 'The Password is required' ],
+                  formValid:false,
+              }},
   methods: { 
         ...mapActions({signIn:'auth/signIn'}),
          submit()
-            { this.loading=true;
+            { 
+              if(this.$refs.loginForm.validate())
+              {
+              this.loading=true;
               this.signIn(this.form).then(()=>
               { this.loading=false;
                // toast.fire({   icon: "success", title: "Login Success" })
@@ -73,6 +81,7 @@ export default
                  });
                               this.loading=false;
                               })
+              }
                               
             }    
     }

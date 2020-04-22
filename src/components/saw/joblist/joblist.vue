@@ -145,7 +145,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                       .catch((error) => {console.log('jobdetails--- error',error); });
            },
            cutall(data){
-             if(data.review>0 && data.review != 9 && x.review !=6 ){
+             if(data.review>0 && data.review != 9 && data.review !=6 ){
                swal.fire({ position: 'top-right',
                         title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
                             timer: 2000, toast: true,background: 'purple',

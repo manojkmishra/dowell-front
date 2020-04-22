@@ -85,8 +85,9 @@ export default {
           { action: 'mdi-view-dashboard', title: 'Dashboard', route:'/',hasMulSub: false },
           // { action: 'mdi-account', title: 'User Profile',route:'/user', hasMulSub: false },
            { action: 'mdi-account', title: 'User Settings',hasMulSub: true,items: [
+            { title: 'Profile', route:'/profile' },
               { title: 'Users List', route:'/userlist' },
-               { title: 'User Rights', route:'/userrights' },
+             //  { title: 'User Rights', route:'/userrights' },
 
              ],
           },

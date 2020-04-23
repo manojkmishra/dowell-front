@@ -6,7 +6,8 @@
           <v-toolbar-title>CutList</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}
-          </v-toolbar-title>
+            <v-divider class="mx-4" inset vertical ></v-divider>
+          Order No - {{selectedJob.Order_Number}}</v-toolbar-title>
           <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading1"  @click.prevent="cutselected">CutSelected</v-btn>
           <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading2"  @click.prevent="uncutselect">UnCutSelected</v-btn>
           <v-spacer></v-spacer>

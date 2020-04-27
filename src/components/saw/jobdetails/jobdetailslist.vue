@@ -12,7 +12,7 @@
             Order Number - {{selectedJob.Order_Number}}
             <v-divider class="mx-4" inset vertical ></v-divider>
 
-            <v-btn v-if="showflag1" flat disabled small  rounded dark color="error"
+            <v-btn v-if="showflag1" flat small  rounded dark color="pink" class="disable-events"
                  ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
             </v-toolbar-title>
         </v-toolbar>
@@ -112,5 +112,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 }
 .v-data-table td{
    font-size: 10px;
+}
+.disable-events {
+  pointer-events: none
 }
 </style>

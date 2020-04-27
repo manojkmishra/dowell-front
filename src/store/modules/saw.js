@@ -6,7 +6,7 @@ export default
 {
   state: {sawflags:null,sawstatus:null,sawlist:null,joblist:null, selectedSaw:null,
           jobdetailslist:null,selectedJob:null,selectedJobDetail:null,profilecutting:null,
-          cutlist:null,
+          cutlist:null,flaggedjob:null,
         },
   getters:{
       
@@ -57,6 +57,11 @@ export default
             console.log('/store/saw.js----GET_SAW_CUTLIST state=', state);
             state.cutlist = payload.cutlist; 
         },
+        [types.GET_FLAGGED_JOB] (state, payload) 
+        {   console.log('/store/saw.js-types.GET_FLAGGED_JOB payload=', payload);
+            console.log('/store/saw.js----GET_FLAGGED_JOB state=', state);
+            state.flaggedjob = payload.flaggedjob; 
+        },
  
   },
   actions: 
@@ -101,11 +106,6 @@ export default
       { let res= await axios.get(api.getsawbars) ;  return res;    },
       async getsawcuts ({commit,dispatch}) 
       { let res= await axios.get(api.getsawcuts);      return res;   },
-
-      async getsawstatus ({commit,dispatch}) 
-      { let res= await axios.get(api.getsawstatus);   
-        commit({type:types.GET_SAW_STATUS ,  sawstatus: res.data} );
-         return res;    },
 //-------------------------------------------------------------
   async getcutlist({commit,dispatch}, formData)
       {   let res= await axios.post(api.getcutlist, formData)
@@ -269,11 +269,14 @@ async updateselectedcutlist({dispatch}, formData)
           .catch(response => { console.log('cutall-error',error); reject();   });
    },
 //------------------------------flag-------------------
-  async updateFlag ({dispatch}, formData) 
+  async updateFlag ({commit,dispatch}, formData) 
   { console.log('updateflag--- formData',formData); 
     let res= await axios.post(api.updateFlag, formData)  
-    .then(response => { dispatch('getJobs',formData);})
-    .catch(response => { console.log('cutall-error',error); reject();   });
+    .then(res => { commit({type:types.GET_FLAGGED_JOB ,  flaggedjob: res.data} ); 
+                        dispatch('getJobs',formData);
+                    })
+    .catch(error => { console.log('updateFlag-error',error); reject();   });
+    
     return res;
   },
 
@@ -307,7 +310,8 @@ async updateselectedcutlist({dispatch}, formData)
   async getsawstatus ({commit,dispatch}) 
   { let res= await axios.get(api.getsawstatus);   
     commit({type:types.GET_SAW_STATUS ,  sawstatus: res.data} );
-     return res;    },
+     return res;    
+  },
   async addstatus ({dispatch}, formData)
   {   console.log('addstatus-- formData=', formData);
         let res= await axios.post(api.addstatus, formData)  

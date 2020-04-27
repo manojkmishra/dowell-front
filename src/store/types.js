@@ -22,6 +22,7 @@ export const GET_SAW_BARS = 'GET_SAW_BARS'
 export const GET_SAW_CUTS = 'GET_SAW_CUTS'
 export const GET_SAW_STATUS = 'GET_SAW_STATUS'
 export const GET_SAW_FLAGS = 'GET_SAW_FLAGS'
+export const GET_FLAGGED_JOB = 'GET_FLAGGED_JOB'
 //------------------------------------------------
 
 

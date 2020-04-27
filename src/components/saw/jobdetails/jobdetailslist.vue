@@ -9,7 +9,12 @@
          
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}  
                <v-divider class="mx-4" inset vertical ></v-divider>
-            Order Number - {{selectedJob.Order_Number}}</v-toolbar-title>
+            Order Number - {{selectedJob.Order_Number}}
+            <v-divider class="mx-4" inset vertical ></v-divider>
+
+            <v-btn v-if="showflag1" ripple small  rounded dark  v-bind:style="{ 'background-color': 'rgb('+selectedJob.flagRed+','+selectedJob.flagGreen+','+selectedJob.flagBlue+')' }"
+                 ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
+            </v-toolbar-title>
         </v-toolbar>
     </template> 
  <template v-slot:item.action="{ item }"><!--1=qd,2-inpr,3-complt----->
@@ -37,6 +42,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Status', value: 'action', sortable: false },
             ],
             formSearchData: {  SawCode: '', QuoteID: '', extn_id: '', loc:'',  }, loading:false,
+            showflag:false,
         }),
 
     computed: 
@@ -44,7 +50,28 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         jobdetailslist:state =>state.saw.jobdetailslist,
                         selectedSaw: state => state.saw.selectedSaw,
                         selectedJob: state => state.saw.selectedJob,
+                        flaggedjob:state => state.saw.flaggedjob
                     }),
+          showflag1(){
+           
+            if(this.flaggedjob)
+            {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                && this.flaggedjob.review !=6)
+                {   this.showflag=true;
+                    console.log('showflag-',this.showflag);
+                    return this.showflag;
+                    }
+            }
+                else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                {  this.showflag=true;
+                    console.log('showflag-',this.showflag);
+                  return this.showflag;
+
+                }
+                else return;
+          }
       },
     watch: {   },
     created () {  },

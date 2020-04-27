@@ -72,7 +72,8 @@ export default {
             selectedJob: state => state.saw.selectedJob,
             selectedSaw: state => state.saw.selectedSaw,
             joblist1: state => state.saw.joblist,
-            sawflags:state => state.saw.sawflags
+            sawflags:state => state.saw.sawflags,
+            flaggedjob:state => state.saw.flaggedjob
         }),
         },
     created(){
@@ -139,7 +140,34 @@ methods: {   close(){ this.dialog=false;},
                
             },
     //----------------------------------------------
-        cutall() {
+        cutall() 
+        {   
+            if(this.flaggedjob)
+            {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                && this.flaggedjob.review !=6)
+                {
+                    swal.fire({ position: 'top-right',
+                        title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                            timer: 2000, toast: true,background: 'purple',
+                            });
+                        return;
+                    }
+            }
+                else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                {  
+                    swal.fire({ position: 'top-right',
+                        title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                            timer: 2000, toast: true,background: 'purple',
+                            });
+                        return;
+
+                }
+
+
+           
+
             this.formSearchData.QuoteID = this.selectedJob.quote_ID;
             this.formSearchData.SawCode = this.selectedSaw;
             this.formSearchData.loc = "GBG";

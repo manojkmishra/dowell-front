@@ -12,7 +12,7 @@
             Order Number - {{selectedJob.Order_Number}}
             <v-divider class="mx-4" inset vertical ></v-divider>
 
-            <v-btn v-if="showflag1" ripple small  rounded dark  v-bind:style="{ 'background-color': 'rgb('+selectedJob.flagRed+','+selectedJob.flagGreen+','+selectedJob.flagBlue+')' }"
+            <v-btn v-if="showflag1" flat disabled small  rounded dark color="error"
                  ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
             </v-toolbar-title>
         </v-toolbar>

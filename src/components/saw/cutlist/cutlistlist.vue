@@ -7,9 +7,12 @@
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}
             <v-divider class="mx-4" inset vertical ></v-divider>
-          Order No - {{selectedJob.Order_Number}}</v-toolbar-title>
-          <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading1"  @click.prevent="cutselected">CutSelected</v-btn>
-          <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading2"  @click.prevent="uncutselect">UnCutSelected</v-btn>
+          Order No - {{selectedJob.Order_Number}}
+                      <v-btn v-if="showflag1" small  rounded dark color="pink" class="disable-events"
+                 ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
+          </v-toolbar-title>
+          <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading1"  @click.prevent="cutselected">CutSelect</v-btn>
+          <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading2"  @click.prevent="uncutselect">UnCutSelect</v-btn>
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>&nbsp;
@@ -52,7 +55,28 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         selectedJob: state => state.saw.selectedJob,
                         selectedJobDetail: state => state.saw.selectedJobDetail,
                         selectedSaw: state => state.saw.selectedSaw,
+                        flaggedjob:state => state.saw.flaggedjob
                    }),
+                   showflag1(){
+           
+            if(this.flaggedjob)
+            {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                && this.flaggedjob.review !=6)
+                {   this.showflag=true;
+                    console.log('showflag-',this.showflag);
+                    return this.showflag;
+                    }
+            }
+                else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                {  this.showflag=true;
+                    console.log('showflag-',this.showflag);
+                  return this.showflag;
+
+                }
+                else return;
+          }
            
        },
     methods: 
@@ -87,29 +111,39 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 }
                 console.log('cutlist.vue-this.selected=',this.selected)
                 console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
-                if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     { 
+                if(this.flaggedjob)
+                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                        && this.flaggedjob.review !=6)
+                        {
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+                            }
+                    }
+                        else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                        {  
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+                        }
                        this.formSearchData.SawCode=this.selectedSaw;
                        this.formSearchData.status=7;
                        this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                        this.formSearchData.jid = this.selectedJob.id;
                        this.loading1=true;
-                    console.log('cutsel-formdata=',this.formSearchData)
+                      console.log('cutsel-formdata=',this.formSearchData)
                       this.$store.dispatch('updateselectedcutlist', this.formSearchData)
                          .then((response) =>  { this.loading1=false;  })  
                           .catch((error) => {   this.loading1=false;       });   
                             
                       this.resetformSearchData();
-                     }
-                      else 
-                         {  swal.fire({
-                              position: 'top-right',
-                              title:'<span style="color:white">This Job is not allowed to cut</span>',
-                              timer: 2000, toast: true,background: 'purple',
-                              });
-                             return;
-
-                        }
+                     
                   }
                 },//cutselected finish==========7=complt, 5=qued===========================================
         uncutselect()
@@ -142,8 +176,27 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 }
                 console.log('cutlist.vue-this.selected=',this.selected)
                 console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
-                if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     { 
+                if(this.flaggedjob)
+                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                        && this.flaggedjob.review !=6)
+                        {
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be uncut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+                            }
+                    }
+                        else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                        {  
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be uncut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+                        }
                        this.formSearchData.SawCode=this.selectedSaw;
                        this.formSearchData.status=5;
                        this.formSearchData.QuoteID = this.selectedJob.quote_ID;
@@ -154,23 +207,33 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                              .then((response) =>  { this.loading2=false;  })  
                           .catch((error) => {   this.loading2=false;       });   
                       this.resetformSearchData();
-                     }
-                      else 
-                         {  swal.fire({
-                              position: 'top-right',
-                              title:'<span style="color:white">This Job is not allowed to cut</span>',
-                              timer: 2000, toast: true,background: 'purple',
-                              });
-                             return;
-
-                        }
                   }
                 },//cutselected finish
               
               chstatus(data)
-              {  
-                    if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     {  this.formSearchData.ID= data.ID;
+              {  if(this.flaggedjob)
+                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                        && this.flaggedjob.review !=6)
+                        {
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+                            }
+                    }
+                        else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                        {  
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+
+                        }
+                    this.formSearchData.ID= data.ID;
                         this.formSearchData.SawCode=this.selectedSaw;
                         this.formSearchData.status=data.Status_id;                    
                         this.formSearchData.QuoteID = this.selectedJob.quote_ID;
@@ -180,14 +243,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                              .then((response) =>  { this.loading=false })     
                              .catch((error) => {  this.loading=false        });
                         this.resetformSearchData();
-                    }
-                  else {      swal.fire({
-                              position: 'top-right',
-                              title:'<span style="color:white">This Job is not allowed to be cut</span>',
-                              timer: 2000, toast: true,background: 'purple',
-                              });
-                             return;
-                       }
+                   
               },
               resetformSearchData() {  this.formSearchData = {  ID: '', status:'',SawCode:'', Location:'' ,selected1:[],QuoteID:'',jid:'' }; },
           },
@@ -212,5 +268,8 @@ tr tbody
 }
 .serc{
   width:5% !important;
+}
+.disable-events {
+  pointer-events: none
 }
 </style>

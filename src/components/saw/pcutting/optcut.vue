@@ -40,6 +40,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             jobdetails1: state => state.saw.jobdetails,
                             joblist: state => state.saw.joblist,
                             optcutlist: state => state.saw.optcutlist,
+                            flaggedjob:state => state.saw.flaggedjob
                     }),
                    
       },
@@ -55,9 +56,28 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                   console.log('optcut.vue-selectedjob',this.selectedJob);
                   console.log('optcut.vue-selectedJobDetail',this.selectedJobDetail);
                   console.log('optcut.vue-jobdetails1',this.jobdetails1);
-                 
-                   if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     {this.formData.ID= data.bar_guid;
+                  if(this.flaggedjob)
+                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                        && this.flaggedjob.review !=6)
+                        {
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+                            }
+                    }
+                    else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                      {  
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+                      }
+                      this.formData.ID= data.bar_guid;
                       this.formData.SawCode=this.selectedSaw;
                       this.formData.status=data.grp_status;
                       this.formData.qt_id=this.selectedJob.quote_ID;
@@ -66,17 +86,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                       //--------------------------
                       console.log('optcut---this.formdata=',this.formData);
                       this.$store.dispatch('updateOptCut', this.formData)
-                             .then((response) =>  { console.log('optcut---response=',response);  })     
-                             .catch((error) => {         });
+                            .then((response) =>  { console.log('optcut---response=',response);  })     
+                            .catch((error) => {         });
                       this.resetFormData();
-                    }
-                  else 
-                         {
-                            // this.$store.dispatch('showErrorNotification', 'Only Unflagged InProgress and UpNext Jobs can be Cut');
-                             this.$store.dispatch('showErrorNotification', 'This Job is not allowed to be cut');
-                             return;
-
-                        }
               },
               resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:'', qt_id:'',extn_id:''  }; },
           },

@@ -42,8 +42,10 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             selectedSaw: state => state.saw.selectedSaw,
                             jobdetails1: state => state.saw.jobdetails,
                             joblist: state => state.saw.joblist,
+                            flaggedjob:state => state.saw.flaggedjob
                     }),
-                    stateNodes3() {   return this.stateNodes2.slice().sort(function(a, b) {    return a.Length - b.Length;  });
+                    stateNodes3() 
+                    {   return this.stateNodes2.slice().sort(function(a, b) {    return a.Length - b.Length;  });
                             }
       },
     watch: {   },
@@ -59,31 +61,39 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                   console.log('pcuttinglist.vue-selectedjob',this.selectedJob);
                   console.log('pcuttinglist.vue-selectedJobDetail',this.selectedJobDetail);
                   //---for cut status
-                 // if( this.selectedJob.AllowEdit==0 && this.selectedJob.review ==0 )
-                   if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     {  this.formData.ID= data.ID;
-                       this.formData.SawCode=this.selectedSaw;
-                       this.formData.status=data.Status_id;
-                       this.formData.QuoteID=this.selectedJob.quote_ID;
-                       this.formData.extn_id=this.selectedJobDetail.extn_id;
-                       this.formData.jid = this.selectedJob.id;
+                  if(this.flaggedjob)
+                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                        && this.flaggedjob.review !=6)
+                        {
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+                            }
+                    }
+                    else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                      {  
+                            swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
+                                    timer: 2000, toast: true,background: 'purple',
+                                    });
+                                return;
+                      }
+                      this.formData.ID= data.ID;
+                      this.formData.SawCode=this.selectedSaw;
+                      this.formData.status=data.Status_id;
+                      this.formData.QuoteID=this.selectedJob.quote_ID;
+                      this.formData.extn_id=this.selectedJobDetail.extn_id;
+                      this.formData.jid = this.selectedJob.id;
                       //--------------------------
                       console.log('pcuttinglist---this.formdata=',this.formData);
                       this.$store.dispatch('updateprofilecut', this.formData)
-                             .then((response) =>  { console.log('updateprofilecut---response=',response);  })     
-                             .catch((error) => {         });
+                            .then((response) =>  { console.log('updateprofilecut---response=',response);  })     
+                            .catch((error) => {         });
                       this.resetFormData();
-                    }
-                  else 
-                         {
-                            swal.fire({
-                              position: 'top-right',
-                              title:'<span style="color:white">This Job is not allowed to cut</span>',
-                              timer: 2000, toast: true,background: 'purple',
-                              });
-                             return;
-
-                        }
               },
               resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:'',QuoteID:'', jid:'' }; },
           },

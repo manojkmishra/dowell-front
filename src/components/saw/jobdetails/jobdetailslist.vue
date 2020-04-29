@@ -12,8 +12,8 @@
             Order Number - {{selectedJob.Order_Number}}
             <v-divider class="mx-4" inset vertical ></v-divider>
 
-            <v-btn v-if="showflag1" flat small  rounded dark color="pink" class="disable-events"
-                 ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
+            <v-btn v-if="showflag1" small  rounded dark color="pink" class="disable-events"
+                 ><v-icon  >mdi-flag-outline</v-icon>Flagged Job</v-btn>
             </v-toolbar-title>
         </v-toolbar>
     </template> 

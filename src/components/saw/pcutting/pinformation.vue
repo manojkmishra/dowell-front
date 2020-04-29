@@ -4,8 +4,9 @@
         <v-toolbar color="light-blue darken-3" dark dense>
           <v-toolbar-title>CUTS INFO</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
-         
-          <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
+          <v-toolbar-title class="mx-4">SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
+          <v-btn v-if="showflag1" small  rounded dark color="pink" class="disable-events"
+          ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
         </v-toolbar>
     </template> 
     <template v-slot:default>
@@ -55,10 +56,31 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                           selectedJob: state => state.saw.selectedJob,
                          selectedSaw: state => state.saw.selectedSaw,
                            stateNodes3: state => state.saw.jobdetails,
-
-                            selectedJobDetail: state => state.saw.selectedJobDetail,
+                          selectedJobDetail: state => state.saw.selectedJobDetail,
+                          flaggedjob:state => state.saw.flaggedjob
           }),
           order() {    return stateNode[0].Profile_Section;
+          }
+          ,
+                   showflag1(){
+           
+            if(this.flaggedjob)
+            {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                && this.flaggedjob.review !=6)
+                {   this.showflag=true;
+                    console.log('showflag-',this.showflag);
+                    return this.showflag;
+                    }
+            }
+                else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                {  this.showflag=true;
+                    console.log('showflag-',this.showflag);
+                  return this.showflag;
+
+                }
+                else return;
           }
       },
     watch: {   },
@@ -101,11 +123,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
   }
 </script>
 <style scoped>
-
-.theme--light.v-data-table tbody td {
-   
-}
-td{
-  
+.disable-events {
+  pointer-events: none
 }
 </style>

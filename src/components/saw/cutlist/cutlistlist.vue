@@ -44,7 +44,7 @@
        <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template> -->
 <template v-slot:item.action="{ item }" >
-<v-progress-linear rounded :value="item.perc" height="20" background-color="pink lighten-3" color="teal lighten-3" >
+<v-progress-linear rounded :value="item.perc" height="20" background-color="pink lighten-4" color="teal lighten-3" >
           <div class="text-center">{{item.complt}}/</div><div class="text-center">{{ item.queud}}</div>
         </v-progress-linear>
 </template>
@@ -59,13 +59,13 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           headers: [
               { text: 'SNO', align: 'left', sortable: true, value: 'SNO', width:"5%"},
               { text: 'Extrusion', value: 'Extrusion',sortable: true },
-              { text: 'Description', value: 'Description', sortable: false, width:"12%"},
+              { text: 'Description', value: 'Description', sortable: false},
               { text: 'Stock_Length', value: 'Stock_Length', sortable: true},
               { text: 'Item', value: 'itm', sortable: true },
               { text: 'Color', value: 'Color', sortable: false },
               { text: 'Piece_Length', value: 'Length', sortable: true },
               { text: 'Qty', value: 'quanti', sortable: false },
-              { text: 'Status', value: 'action', sortable: false },
+              { text: 'Status', value: 'action', sortable: false, width:"8%"},
               ],
            headers1: [
               { text: 'SNO', align: 'left', sortable: true, value: 'SNO', width:"5%"},

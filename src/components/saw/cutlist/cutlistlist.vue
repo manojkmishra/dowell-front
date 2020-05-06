@@ -1,6 +1,9 @@
 <template>
-  <v-data-table :headers="headers" :items="cutlist"   class="elevation-1" :search="search" v-model="selected" show-select
-       item-key="ID" :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
+  <v-data-table :headers="headers" :items="cutlist"   class="elevation-1" :search="search" v-model="selected"
+       item-key="ID" :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }"
+      :expanded.sync="expanded"
+      show-expand
+       >
     <template v-slot:top>
         <v-toolbar  color="light-blue darken-3" dark dense>
           <v-toolbar-title>CutList</v-toolbar-title>
@@ -9,7 +12,7 @@
             <v-divider class="mx-4" inset vertical ></v-divider>
           Order No - {{selectedJob.Order_Number}}
                       <v-btn v-if="showflag1" small  rounded dark color="pink" class="disable-events"
-                 ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
+                  ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
           </v-toolbar-title>
           <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading1"  @click.prevent="cutselected">CutSelect</v-btn>
           <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading2"  @click.prevent="uncutselect">UnCutSelect</v-btn>
@@ -19,11 +22,32 @@
             
         </v-toolbar>
     </template>
-    <!----status----->
-    <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+<!-----------expand------------------------->
+<template v-slot:expanded-item="{item, headers}">
+        <td :colspan="headers.length">
+          <v-data-table  :headers="headers1" :items="item.key1"   class="elevation-1" :search="search" v-model="selected" show-select
+            item-key="ID" :hide-default-header="true"  :hide-default-footer="true" style="backgroundColor:#F1F1F5"  
+            :footer-props="{itemsPerPageOptions: [-1], }">
+            <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+             <v-btn ripple x-small v-if="item.Status_id =='7'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+       <v-btn ripple x-small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
+         </template>
+        </v-data-table>
+
+          </td>
+      </template>
+
+<!----status---------------------------->
+<!--8,0=qd,9-inpr,12-complt----->
+ <!--   <template v-slot:item.action="{ item }" >
              <v-btn ripple small v-if="item.Status_id =='7'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
-    </template>
+    </template> -->
+<template v-slot:item.action="{ item }" >
+<v-progress-linear rounded :value="item.perc" height="20" background-color="pink lighten-3" color="teal lighten-3" >
+          <div class="text-center">{{item.complt}}/</div><div class="text-center">{{ item.queud}}</div>
+        </v-progress-linear>
+</template>
   </v-data-table>
 </template>
  
@@ -31,8 +55,19 @@
 import { mapGetters, mapState, mapActions} from 'vuex';
   export default 
   {   data: () => (
-        { dialog: false,search: '',selected: [],
+        { dialog: false,search: '',selected: [],expanded: [],
           headers: [
+              { text: 'SNO', align: 'left', sortable: true, value: 'SNO', width:"5%"},
+              { text: 'Extrusion', value: 'Extrusion',sortable: true },
+              { text: 'Description', value: 'Description', sortable: false, width:"12%"},
+              { text: 'Stock_Length', value: 'Stock_Length', sortable: true},
+              { text: 'Item', value: 'itm', sortable: true },
+              { text: 'Color', value: 'Color', sortable: false },
+              { text: 'Piece_Length', value: 'Length', sortable: true },
+              { text: 'Qty', value: 'quanti', sortable: false },
+              { text: 'Status', value: 'action', sortable: false },
+              ],
+           headers1: [
               { text: 'SNO', align: 'left', sortable: true, value: 'SNO', width:"5%"},
               { text: 'Extrusion', value: 'Extrusion',sortable: true },
               { text: 'Description', value: 'Description', sortable: false},
@@ -42,8 +77,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Piece_Length', value: 'Length', sortable: true },
               { text: 'Qty', value: 'Cuts', sortable: false },
               { text: 'Status', value: 'action', sortable: false },
-  
-            ],
+              ],
            formSearchData: {    ID:'', name: '',    title: '',   id: '',SawCode:'',status:'',location:'', selected1:[] ,QuoteID:'', jid:''  }, 
            loading:false,loading1:false,loading2:false
         }),
@@ -51,12 +85,16 @@ import { mapGetters, mapState, mapActions} from 'vuex';
     computed: 
        {  ...mapState({ sawlist: state => state.saw.sawlist, 
                         cutlist:state =>state.saw.cutlist,
+                        cutlist1:state =>state.saw.cutlist.key1,
                         selectedSaw: state => state.saw.selectedSaw,
                         selectedJob: state => state.saw.selectedJob,
                         selectedJobDetail: state => state.saw.selectedJobDetail,
                         selectedSaw: state => state.saw.selectedSaw,
                         flaggedjob:state => state.saw.flaggedjob
                    }),
+              cutlist111(){
+                return this.cutlist.key1;
+              },
                    showflag1(){
            
             if(this.flaggedjob)

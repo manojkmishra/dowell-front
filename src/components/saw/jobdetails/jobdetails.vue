@@ -43,7 +43,7 @@
                   @click.prevent="exttosawjd"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
         <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
                   @click.prevent="reoptimise" ><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn> 
-        <v-btn id="flag-btn" ripple medium color="blue"  rounded dark   
+        <v-btn id="flag-btn" ripple medium color="blue"  rounded dark  :loading="loadingcutlist" 
                   @click.prevent="scrap"><v-icon  >mdi-clipboard-list</v-icon>CUTLIST</v-btn>
         <v-btn id="flag-btn" ripple small color="purple lighten-3"  rounded dark   
                   @click.prevent="sawprint"><v-icon  >mdi-printer</v-icon>Print</v-btn>
@@ -79,7 +79,7 @@ export default {
     created(){
 console.log('jd--sawflags',this.sawflags)
     },
-   data() {  return { seen: true,dialog: false,loadingexttosaw:false, loadingcutall:false,
+   data() {  return { seen: true,dialog: false,loadingexttosaw:false, loadingcutall:false,loadingcutlist:false,
             formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:''  },
                   editedItem: { name: '', calories: 0, fat: 0, carbs: 0, protein: 0, },
       editedIndex: -1,
@@ -115,11 +115,13 @@ methods: {   close(){ this.dialog=false;},
             this.formSearchData.SawCode = this.selectedSaw;
             this.formSearchData.QuoteID = this.selectedJob.quote_ID;
             console.log('formSearchData=',this.formSearchData);
+            this.loadingcutlist=true;
             this.$store.dispatch('getcutlist', this.formSearchData)
-                .then((response) => { console.log('jobdetails--- cutlist',response.data);  
+                .then((response) => { console.log('jobdetails--- cutlist',response.data); 
+                this.loadingcutlist=true; 
                     this.$router.push({  name: 'cutlist'   });
                 })
-                .catch((error) => {});
+                .catch((error) => {this.loadingcutlist=true;});
                 },
             //-----------scrap finish---------------------
     exttosawjd() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
@@ -137,7 +139,6 @@ methods: {   close(){ this.dialog=false;},
                             timer: 2000, toast: true,background: 'purple',
                             });
                         return;
-               
             },
     //----------------------------------------------
         cutall() 

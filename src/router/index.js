@@ -16,7 +16,7 @@ import sawflags from '@/components/dbtables/sawflags/sawflags.vue'
 import cutlist from '@/components/saw/cutlist/cutlist.vue'
 import user from '@/components/users/user.vue'
 import profile from '@/components/users/profile/profile.vue'
-//import userlist from '@/components/admin/users/userlist.vue'
+import UserList from '@/components/users/userlist/UserList.vue'
 
 
 Vue.use(VueRouter)
@@ -26,6 +26,7 @@ const routes = [
   { path: '/login',   name: 'login',   component: Login  } ,
 //  { path: '/dashboard',   name: 'dashboard',   component: Dashboard,meta: { requiresAuth: true  }, } ,
   { path: '/user',name:'user', component: user,meta: { requiresAuth: true }},
+  { path: '/userlist',name:'user', component: UserList,meta: { requiresAuth: true }},
   { path: '/profile',name:'profile', component: profile,meta: { requiresAuth: true }},
   //{ path: '/userlist',name:'userlist', component: userlist,meta: { requiresAuth: true }},
   { path: '/sawschedules',name:'sawschedules', component: sawschedules,meta: { requiresAuth: true }},
@@ -39,6 +40,7 @@ const routes = [
   { path: '/saw/profilecutting',name:'profilecutting', component: profilecutting,meta: { requiresAuth: true }},
   { path: '/saw/cutlist',name:'cutlist', component: cutlist,meta: { requiresAuth: true }},
   { path: '/404', component: () => import('@/views/App404.vue'),meta: { requiresAuth: true  }, },
+  
   { path: '*', redirect: '/404' },
 ]
 const router = new VueRouter({

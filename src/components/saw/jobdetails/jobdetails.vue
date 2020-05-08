@@ -118,10 +118,10 @@ methods: {   close(){ this.dialog=false;},
             this.loadingcutlist=true;
             this.$store.dispatch('getcutlist', this.formSearchData)
                 .then((response) => { console.log('jobdetails--- cutlist',response.data); 
-                this.loadingcutlist=true; 
+                this.loadingcutlist=false; 
                     this.$router.push({  name: 'cutlist'   });
                 })
-                .catch((error) => {this.loadingcutlist=true;});
+                .catch((error) => {this.loadingcutlist=false;});
                 },
             //-----------scrap finish---------------------
     exttosawjd() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;

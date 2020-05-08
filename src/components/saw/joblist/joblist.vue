@@ -1,12 +1,12 @@
 <template>
-  <v-data-table :headers="headers" :items="joblist"  class="elevation-1" :search="search" v-model="selected" show-select
+  <v-data-table :headers="computedHeaders" :items="joblist"  class="elevation-1" :search="search" v-model="selected" show-select
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
     <template v-slot:top>
         <v-toolbar  color="light-blue darken-3" dark dense>
           <v-toolbar-title>JobList</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
-          <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading"  @click.prevent="cutselcted">CutSelected</v-btn>
+          <v-btn v-if="user.admin =='1'" id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="cutselectloading"  @click.prevent="cutselcted">CutSelected</v-btn>
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>&nbsp;
@@ -30,7 +30,7 @@
        <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="selectjob(item)">{{item.Status}}</v-btn>
     </template>
     <!----cutall---------->
-    <template v-slot:item.cutall="{ item }" >
+    <template v-if="user.admin =='1'" v-slot:item.cutall="{ item }" >
        <v-btn v-if="item.Status_id =='12'" small outlined color="red accent-2" rounded dark :loading="loading"  @click.prevent="cutall(item)">UnCutJob</v-btn>
        <v-btn v-else  small color="teal" outlined rounded dark :loading="loading"   @click.prevent="cutall(item)">CutJob</v-btn>
     </template>
@@ -44,7 +44,7 @@
 import { mapGetters, mapState, mapActions} from 'vuex';
   export default 
   {   data: () => (
-        { dialog: false,search: '',selected: [],
+        { dialog: false,search: '',selected: [],cutselectloading:false,
           headers: [
               { text: 'Cut Date', align: 'left', sortable: false, value: 'cut_date', width:"12%"},
               { text: 'Order No', value: 'Order_Number',sortable: false },
@@ -64,9 +64,15 @@ import { mapGetters, mapState, mapActions} from 'vuex';
        {  ...mapState({ sawlist: state => state.saw.sawlist, 
                         joblist:state =>state.saw.joblist,
                         selectedSaw: state => state.saw.selectedSaw,
-
+                        user: state => state.auth.user,
                    }),
-           
+              computedHeaders () 
+              { if(this.user.admin !='1'){
+                    return this.headers.filter(header => header.text !== "CutJob")
+                  }
+                  return this.headers;
+              }
+          
        },
     watch: {   },
     created () {  },
@@ -115,17 +121,22 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 }
               console.log('cutselected- this.selected=',this.selected)
               console.log('cutselected- this.formSearchData.selected1=',this.formSearchData.selected1)
-                if(this.formSearchData.selected1.length>0){
+                if(this.formSearchData.selected1.length>0){ this.cutselectloading=true; 
                         this.$store.dispatch('updatecutselectjob', this.formSearchData)
-                        .then((response) =>  { console.log('updatecutselectjob---response=',response);  })     
-                        .catch((error) => {         });
+                        .then((response) =>  { console.log('updatecutselectjob---response=',response);  
+                                this.cutselectloading=false;   })     
+                        .catch((error) => {   this.cutselectloading=false;      });
                 }
               this.selected=[];this.selected1=[];
               this.resetformSearchData();     
             }//length>0                       
           },
+          //------------------------------------
       selectjob(data)
-          {    console.log('chstatus-',data);
+          {    console.log('chstatus-',data.Status);
+              console.log('this.user.admin-',this.user.admin);
+              //if(data.Status =="Queued" && this.user.admin !=null)
+              // {
                this.formSearchData.SawCode = this.selectedSaw;
                this.formSearchData.QuoteID = data.quote_ID;
                this.loading=true;
@@ -143,7 +154,17 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             this.$router.push({  name: 'jobdetails'      });
                           })
                       .catch((error) => {console.log('jobdetails--- error',error); });
+               /*  }
+             else{
+                 swal.fire({ position: 'top-right',
+                        title:'<span style="color:white">Queued Jobs can not be selected</span>',
+                            timer: 2000, toast: true,background: 'purple',
+                            });
+                        return;
+                  } */
+               
            },
+           //---------------------------------------
            cutall(data){
              if(data.review>0 && data.review != 9 && data.review !=6 ){
                swal.fire({ position: 'top-right',

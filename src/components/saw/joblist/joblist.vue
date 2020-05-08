@@ -135,8 +135,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
       selectjob(data)
           {    console.log('chstatus-',data.Status);
               console.log('this.user.admin-',this.user.admin);
-              //if(data.Status =="Queued" && this.user.admin !=null)
-              // {
+              
+              if(data.Status !="Queued" || this.user.admin =='1')
+               {
                this.formSearchData.SawCode = this.selectedSaw;
                this.formSearchData.QuoteID = data.quote_ID;
                this.loading=true;
@@ -154,14 +155,14 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             this.$router.push({  name: 'jobdetails'      });
                           })
                       .catch((error) => {console.log('jobdetails--- error',error); });
-               /*  }
+                 }
              else{
                  swal.fire({ position: 'top-right',
                         title:'<span style="color:white">Queued Jobs can not be selected</span>',
                             timer: 2000, toast: true,background: 'purple',
                             });
                         return;
-                  } */
+                  } 
                
            },
            //---------------------------------------

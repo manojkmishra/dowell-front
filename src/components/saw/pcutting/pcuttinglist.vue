@@ -4,10 +4,10 @@
 
    <template v-slot:top>
         <v-toolbar color="light-blue darken-3" dark dense>
-          <v-toolbar-title>PROFILECUTTING LIST</v-toolbar-title>
+          <v-toolbar-title>PIECE LIST</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
          
-          <v-toolbar-title>Order Number - {{selectedJob.Order_Number}}</v-toolbar-title>
+          <v-toolbar-title>JOB - {{selectedJob.Order_Number}}</v-toolbar-title>
         </v-toolbar>
     </template> 
  <template v-slot:item.action="{ item }">
@@ -24,9 +24,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
   {   data: () => (
         { dialog: false,
           headers: [
-              { text: 'S.No', align: 'left', sortable: false, value: 'SNO',},
+             // { text: 'S.No', align: 'left', sortable: false, value: 'SNO',},
               { text: 'Extrusion', value: 'Length',sortable: false },
-              { text: 'Description', value: 'Cuts' ,sortable: false},
+              { text: 'Item', value: 'Item' ,sortable: false},
               { text: 'Machine', value: 'Machine' ,sortable: false},
               { text: 'Status', value: 'action', sortable: false },
 
@@ -64,6 +64,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                   if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                         && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                         && this.flaggedjob.review !=6)
                         {

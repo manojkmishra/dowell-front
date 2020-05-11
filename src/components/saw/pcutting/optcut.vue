@@ -3,10 +3,11 @@
        hide-default-footer>
      <template v-slot:top>
         <v-toolbar color="light-blue darken-3" dark dense>
-          <v-toolbar-title>OPTCUTBYBAR</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical ></v-divider>
+          <v-toolbar-title>OPTIMISER CUTS</v-toolbar-title>
+        <!--  <v-divider class="mx-4" inset vertical ></v-divider>
          
           <v-toolbar-title>QT ID - {{selectedJob.quote_ID}} | EXT_ID - {{selectedJobDetail.extn_id}}</v-toolbar-title>
+        -->
         </v-toolbar>
     </template> 
  <template v-slot:item.action="{ item }">
@@ -59,6 +60,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                   if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                         && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                         && this.flaggedjob.review !=6)
                         {

@@ -146,6 +146,7 @@ methods: {   close(){ this.dialog=false;},
             if(this.flaggedjob)
             {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                 && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                 && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                 && this.flaggedjob.review !=6)
                 {

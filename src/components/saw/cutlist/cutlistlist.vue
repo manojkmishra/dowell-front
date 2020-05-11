@@ -45,7 +45,7 @@
     </template> -->
 <template v-slot:item.action="{ item }" >
 <v-progress-linear rounded :value="item.perc" height="20" background-color="pink lighten-4" color="teal lighten-3" >
-          <div class="text-center">{{item.complt}}/</div><div class="text-center">{{ item.queud}}</div>
+          <div class="text-center">{{item.complt}}/</div><div class="text-center">{{ item.queud + item.complt}}</div>
         </v-progress-linear>
 </template>
   </v-data-table>
@@ -59,12 +59,12 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           headers: [
               { text: 'SNO', align: 'left', sortable: true, value: 'SNO', width:"5%"},
               { text: 'Extrusion', value: 'Extrusion',sortable: true },
-              { text: 'Description', value: 'Description', sortable: false},
+              { text: 'Description', value: 'Description', sortable: true},
               { text: 'Stock_Length', value: 'Stock_Length', sortable: true},
               { text: 'Item', value: 'itm', sortable: true },
-              { text: 'Color', value: 'Color', sortable: false },
+              { text: 'Color', value: 'Color', sortable: true },
               { text: 'Piece_Length', value: 'Length', sortable: true },
-              { text: 'Qty', value: 'quanti', sortable: false },
+              { text: 'Qty', value: 'quanti', sortable: true },
               { text: 'Status', value: 'action', sortable: false, width:"8%"},
               ],
            headers1: [
@@ -100,6 +100,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
             if(this.flaggedjob)
             {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                 && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                 && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                 && this.flaggedjob.review !=6)
                 {   this.showflag=true;
@@ -152,6 +153,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                         && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                         && this.flaggedjob.review !=6)
                         {
@@ -217,6 +219,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                         && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                         && this.flaggedjob.review !=6)
                         {
@@ -252,6 +255,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               {  if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                         && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                         && this.flaggedjob.review !=6)
                         {

@@ -48,7 +48,7 @@
        <v-btn ripple dark x-small v-else color="teal" rounded  :loading="loading"   @click.prevent="uncutgroup(item)">UnCutgrp</v-btn>
 </template> 
 <template v-slot:item.action="{ item }" >
-        <v-progress-linear rounded :value="item.perc" height="20" dark background-color="light-blue darken-1" color="teal" >
+        <v-progress-linear rounded :value="item.perc" height="20" background-color="pink lighten-4" color="teal lighten-3" >
           <div class="text-center">{{item.complt}}/</div><div class="text-center">{{ item.queud + item.complt}}</div>
         </v-progress-linear>
 </template>

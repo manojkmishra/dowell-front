@@ -44,11 +44,11 @@
        <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template> -->
 <template v-slot:item.act1="{ item }" >
-             <v-btn ripple x-small v-if="item.queud >0"  color="teal lighten-3" rounded  :loading="loading"  @click.prevent="cutgroup(item)">Cutgrp</v-btn>
-       <v-btn ripple x-small v-else color="pink lighten-4" rounded  :loading="loading"   @click.prevent="uncutgroup(item)">UnCutgrp</v-btn>
+             <v-btn ripple x-small dark v-if="item.queud >0"  color="light-blue darken-1" rounded  :loading="loading"  @click.prevent="cutgroup(item)">Cutgrp</v-btn>
+       <v-btn ripple dark x-small v-else color="teal" rounded  :loading="loading"   @click.prevent="uncutgroup(item)">UnCutgrp</v-btn>
 </template> 
 <template v-slot:item.action="{ item }" >
-        <v-progress-linear rounded :value="item.perc" height="20" background-color="pink lighten-4" color="teal lighten-3" >
+        <v-progress-linear rounded :value="item.perc" height="20" dark background-color="light-blue darken-1" color="teal" >
           <div class="text-center">{{item.complt}}/</div><div class="text-center">{{ item.queud + item.complt}}</div>
         </v-progress-linear>
 </template>

@@ -44,8 +44,8 @@
        <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template> -->
 <template v-slot:item.act1="{ item }" >
-             <v-btn ripple small v-if="item.queud >0"  color="teal lighten-3" rounded  :loading="loading"  @click.prevent="chgroup(item)">CutGrp</v-btn>
-       <v-btn ripple small v-else color="pink lighten-4" rounded  :loading="loading"   @click.prevent="chgroup(item)">UnCutGrp</v-btn>
+             <v-btn ripple x-small v-if="item.queud >0"  color="teal lighten-3" rounded  :loading="loading"  @click.prevent="cutgroup(item)">Cutgrp</v-btn>
+       <v-btn ripple x-small v-else color="pink lighten-4" rounded  :loading="loading"   @click.prevent="uncutgroup(item)">UnCutgrp</v-btn>
 </template> 
 <template v-slot:item.action="{ item }" >
         <v-progress-linear rounded :value="item.perc" height="20" background-color="pink lighten-4" color="teal lighten-3" >
@@ -124,10 +124,50 @@ import { mapGetters, mapState, mapActions} from 'vuex';
            
        },
     methods: 
-    {  chgroup(item){
-      console.log('chgroup-item',item)
-
-    },
+    {  cutgroup(item)
+            {  console.log('chgroup-item',item)
+              var i = 0;
+              while ( i < item.key1.length ) 
+                { var x = item.key1[i];
+                  if(x.Status_id==7)
+                            { //do nothing if job is already complete
+                            }
+                    else this.formSearchData.selected1.push(x.ID);
+                         i++;
+                  }
+                this.formSearchData.SawCode=this.selectedSaw;
+                this.formSearchData.status=7;
+                this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                this.formSearchData.jid = this.selectedJob.id;
+                this.loading=true;
+                console.log('cutgroup-formdata=',this.formSearchData)
+                 this.$store.dispatch('updateselectedcutlist', this.formSearchData)
+                        .then((response) =>  { this.loading=false;  })  
+                        .catch((error) => {   this.loading=false;       });   
+                this.resetformSearchData();
+            },
+        uncutgroup(item)
+            {  console.log('chgroup-item',item)
+              var i = 0;
+              while ( i < item.key1.length ) 
+                { var x = item.key1[i];
+                  if(x.Status_id==5)
+                            { //do nothing if job is already queued
+                            }
+                    else this.formSearchData.selected1.push(x.ID);
+                         i++;
+                  }
+                this.formSearchData.SawCode=this.selectedSaw;
+                this.formSearchData.status=5;
+                this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                this.formSearchData.jid = this.selectedJob.id;
+                this.loading=true;
+                console.log('cutgroup-formdata=',this.formSearchData)
+                 this.$store.dispatch('updateselectedcutlist', this.formSearchData)
+                        .then((response) =>  { this.loading=false;  })  
+                        .catch((error) => {   this.loading=false;       });   
+                this.resetformSearchData();
+            },
         cutselected()//---==7=complt, 5=qued=====
           { console.log('cutlist.vue-this.selected----1=',this.selected)
             if(this.selected.length==0)

@@ -43,8 +43,12 @@
              <v-btn ripple small v-if="item.Status_id =='7'"  color="teal" rounded dark :loading="loading"  @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
        <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="chstatus(item)">{{item.Status}}</v-btn>
     </template> -->
+<template v-slot:item.act1="{ item }" >
+             <v-btn ripple small v-if="item.queud >0"  color="teal lighten-3" rounded  :loading="loading"  @click.prevent="chgroup(item)">CutGrp</v-btn>
+       <v-btn ripple small v-else color="pink lighten-4" rounded  :loading="loading"   @click.prevent="chgroup(item)">UnCutGrp</v-btn>
+</template> 
 <template v-slot:item.action="{ item }" >
-<v-progress-linear rounded :value="item.perc" height="20" background-color="pink lighten-4" color="teal lighten-3" >
+        <v-progress-linear rounded :value="item.perc" height="20" background-color="pink lighten-4" color="teal lighten-3" >
           <div class="text-center">{{item.complt}}/</div><div class="text-center">{{ item.queud + item.complt}}</div>
         </v-progress-linear>
 </template>
@@ -65,6 +69,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Color', value: 'Color', sortable: true },
               { text: 'Piece_Length', value: 'Length', sortable: true },
               { text: 'Qty', value: 'quanti', sortable: true },
+              { text: 'CutGrp', value: 'act1', sortable: false },
               { text: 'Status', value: 'action', sortable: false, width:"8%"},
               ],
            headers1: [
@@ -119,7 +124,10 @@ import { mapGetters, mapState, mapActions} from 'vuex';
            
        },
     methods: 
-    {  
+    {  chgroup(item){
+      console.log('chgroup-item',item)
+
+    },
         cutselected()//---==7=complt, 5=qued=====
           { console.log('cutlist.vue-this.selected----1=',this.selected)
             if(this.selected.length==0)

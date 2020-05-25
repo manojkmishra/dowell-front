@@ -11,18 +11,15 @@ require ('@/plugins/Sweetalert');
 
 require('@/store/subscriber')  
 //axios.defaults.baseURL='http://127.0.0.1:8000/api'
-axios.defaults.baseURL='//uat.oms.dowell.com.au/api'
+axios.defaults.baseURL=process.env.VUE_APP_API_URL
+//axios.defaults.baseURL='//uat.oms.dowell.com.au/api'
 
 Vue.config.productionTip = false
 initialize(store, router);
 
 store.dispatch('auth/attempt',localStorage.getItem('token'))
 .then(()=>{
-      new Vue({
-        router,
-        store,
-        vuetify,
-        render: h => h(App)
+      new Vue({ router,store,vuetify, render: h => h(App)
       }).$mount('#app')
 })
 

@@ -1,4 +1,9 @@
-# The following redirect is intended for use with most SPA's that handles routing internally.
+# api redirect.
+[[redirects]]
+  from = "/api/*"
+  to = "http://54.79.50.225/api/:splat"
+  status = 200
+# SPA router support.
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -12,8 +12,8 @@
     {   components: { 'SawList': SawList, },
         created(){  this.$store.dispatch('getsaws')
             this.$store.dispatch('getsawflags')
-   // this.$store.dispatch('getsawstatus')
-   // this.$store.dispatch('getusers')
+            this.$store.dispatch('getsawstatus')
+            this.$store.dispatch('getusers')
    }
     }
 

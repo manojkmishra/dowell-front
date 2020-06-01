@@ -192,11 +192,22 @@ methods: {   close(){ this.dialog=false;},
             }
         },
         sawprint() 
-        {     swal.fire({ position: 'top-right',
+        {     /*swal.fire({ position: 'top-right',
                         title:'<span style="color:white">This function will work in version 2</span>',
                             timer: 2000, toast: true,background: 'purple',
                             });
                         return;
+             */
+            this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+            this.formSearchData.SawCode = this.selectedSaw;
+            this.formSearchData.loc = "GBG";
+            this.loadingexttosaw=true;
+            this.$store.dispatch('sawprint', this.formSearchData)
+                 .then((response) => {  console.log('sawprintresponse',response.data);  
+                    })
+                    .catch((error) => {});
+
+
         },
     changesaw() 
                 {   swal.fire({ position: 'top-right',

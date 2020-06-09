@@ -13,11 +13,30 @@
  </v-container>
 </template>
 <script>
+import {  mapState} from 'vuex'
  import TestListView from './cutlistlist.vue'
 export default {
         components: { 
         'test-list-view': TestListView,  },
-       methods: {   backToSaw() { this.$router.push({name: 'jobdetails'});  },
+        computed: 
+        { 
+          ...mapState({ 
+                        selectedJob: state => state.saw.selectedJob,
+                        selectedSaw: state => state.saw.selectedSaw,
+                        
+                  }),
+         },
+       data () {  return { loading1: false , loading2: false ,  formSearchData: { SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',       }}} ,
+       methods: {   backToSaw() { //this.$router.push({name: 'jobdetails'});  
+                            this.formSearchData.SawCode = this.selectedSaw;
+                           this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                           this.$store.dispatch('getjobdetails', this.formSearchData)
+                           .then((response) => 
+                              {  console.log('sawlist--- getJobs success response',response.data);  
+                                 this.$router.push({   name: 'jobdetails' });
+                              })
+                           .catch((error) => {console.log('getJobs error',response);});
+                           },
             },
     
 }

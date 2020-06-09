@@ -65,7 +65,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Extrusion', value: 'Extrusion',sortable: true },
               { text: 'Description', value: 'Description', sortable: true},
               { text: 'Stock_Length', value: 'Stock_Length', sortable: true},
-              { text: 'Item', value: 'itm', sortable: true },
+              { text: 'Item', value: 'itm', sortable: true, width:"5%" },
               { text: 'Color', value: 'Color', sortable: true },
               { text: 'Piece_Length', value: 'Length', sortable: true },
               { text: 'Qty', value: 'quanti', sortable: true },
@@ -198,7 +198,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 }
                 console.log('cutlist.vue-this.selected=',this.selected)
                 console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
-                if(this.flaggedjob)
+               /* if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                         && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
@@ -219,7 +219,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                     timer: 2000, toast: true,background: 'purple',
                                     });
                                 return;
-                        }
+                        } */
                        this.formSearchData.SawCode=this.selectedSaw;
                        this.formSearchData.status=7;
                        this.formSearchData.QuoteID = this.selectedJob.quote_ID;
@@ -264,7 +264,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 }
                 console.log('cutlist.vue-this.selected=',this.selected)
                 console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
-                if(this.flaggedjob)
+               /* if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                         && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
@@ -285,7 +285,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                     timer: 2000, toast: true,background: 'purple',
                                     });
                                 return;
-                        }
+                        } */
                        this.formSearchData.SawCode=this.selectedSaw;
                        this.formSearchData.status=5;
                        this.formSearchData.QuoteID = this.selectedJob.quote_ID;
@@ -300,7 +300,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 },//cutselected finish
               
               chstatus(data)
-              {  if(this.flaggedjob)
+              { /*  if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                         && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
@@ -322,7 +322,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                     });
                                 return;
 
-                        }
+                        } */
                     this.formSearchData.ID= data.ID;
                         this.formSearchData.SawCode=this.selectedSaw;
                         this.formSearchData.status=data.Status_id;                    

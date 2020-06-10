@@ -143,7 +143,7 @@ methods: {   close(){ this.dialog=false;},
     //----------------------------------------------
         cutall() 
         {   
-            if(this.flaggedjob)
+          /*  if(this.flaggedjob)
             {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                 && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                 && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
@@ -166,7 +166,7 @@ methods: {   close(){ this.dialog=false;},
                         return;
 
                 }
-
+*/
 
            
 

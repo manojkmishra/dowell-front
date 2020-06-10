@@ -57,7 +57,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                   console.log('optcut.vue-selectedjob',this.selectedJob);
                   console.log('optcut.vue-selectedJobDetail',this.selectedJobDetail);
                   console.log('optcut.vue-jobdetails1',this.jobdetails1);
-                  if(this.flaggedjob)
+                 /* if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                         && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
@@ -78,7 +78,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                     timer: 2000, toast: true,background: 'purple',
                                     });
                                 return;
-                      }
+                      }*/
                       this.formData.ID= data.bar_guid;
                       this.formData.SawCode=this.selectedSaw;
                       this.formData.status=data.grp_status;
@@ -87,9 +87,10 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                       this.formData.extn_id=this.selectedJobDetail.extn_id;
                       //--------------------------
                       console.log('optcut---this.formdata=',this.formData);
+                      this.loading=true;
                       this.$store.dispatch('updateOptCut', this.formData)
-                            .then((response) =>  { console.log('optcut---response=',response);  })     
-                            .catch((error) => {         });
+                            .then((response) =>  { console.log('optcut---response=',response);this.loading=false;  })     
+                            .catch((error) => {     this.loading=false;    });
                       this.resetFormData();
               },
               resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:'', qt_id:'',extn_id:''  }; },

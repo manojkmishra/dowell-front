@@ -31,8 +31,8 @@
     </template>
     <!----cutall---------->
     <template v-if="user.admin =='1'" v-slot:item.cutall="{ item }" >
-       <v-btn v-if="item.Status_id =='12'" small outlined color="red accent-2" rounded dark :loading="loading"  @click.prevent="cutall(item)">UnCutJob</v-btn>
-       <v-btn v-else  small color="teal" outlined rounded dark :loading="loading"   @click.prevent="cutall(item)">CutJob</v-btn>
+       <v-btn v-if="item.Status_id =='12'" small outlined color="red accent-2" rounded dark :loading="loadingcut"  @click.prevent="cutall(item)">UnCutJob</v-btn>
+       <v-btn v-else  small color="teal" outlined rounded dark :loading="loadingcut"   @click.prevent="cutall(item)">CutJob</v-btn>
     </template>
     <!------multiselect-------->
      
@@ -57,7 +57,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'CutJob', value: 'cutall', sortable: false },
             ],
            formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[], cut_saw:'' ,'selerr':false }, 
-           loading:false,
+           loading:false,loadingcut:false,
         }),
 
     computed: 
@@ -99,14 +99,14 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                    
                   if (x){ this.selected.splice(i,1);
                             console.log('hehe1',x);
-                            if(x.review>0 && x.review !=9 && x.review !=6){
+                           /* if(x.review>0 && x.review !=9 && x.review !=6){
                               console.log('hehe2',x);
                             swal.fire({ position: 'top-right',
                               title:'<span style="color:white">Flagged Jobs can not be selected, please UnFlag it</span>',
                               timer: 2000, toast: true,background: 'purple',
                                 });
                               return;
-                            }
+                            }  */
                             if(x.Status_id==12)
                             { swal.fire({ position: 'top-right',
                             title:'<span style="color:white">Only UnCut Jobs can be selected</span>',
@@ -147,6 +147,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         this.formSearchData.id = data.id;
                         this.formSearchData.order_ID = data.Order_Number;
                         this.$store.dispatch('updateJobList', this.formSearchData)
+                        //this.loading=false;
                       }
                       
                     this.$store.dispatch('getjobdetails', this.formSearchData)
@@ -167,24 +168,27 @@ import { mapGetters, mapState, mapActions} from 'vuex';
            },
            //---------------------------------------
            cutall(data){
-             if(data.review>0 && data.review != 9 && data.review !=6 ){
+            /* if(data.review>0 && data.review != 9 && data.review !=6 ){
                swal.fire({ position: 'top-right',
                         title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
                             timer: 2000, toast: true,background: 'purple',
                             });
                         return;
                   }
-             else{
+             else{ */
                 console.log('joblist-cutall-item',data);
                 this.formSearchData.QuoteID = data.quote_ID;
                 this.formSearchData.order_ID = data.Order_Number;
                 this.formSearchData.cut_saw = data.cut_saw;
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.formSearchData.loc = "GBG";
-                console.log('cutall formSearchData=',this.formSearchData);               
+                console.log('cutall formSearchData=',this.formSearchData); 
+                this.loadingcut=true;              
                 this.$store.dispatch('jobcutall', this.formSearchData)
+                 .then((res) => 
+                          { this.loadingcut=false;})
                 this.resetformSearchData();
-             }
+            // }
            },
             resetformSearchData(){
                            this.formSearchData= {  SawCode: '',QuoteID: '',order_ID:'',selected1:[], cut_saw:''}

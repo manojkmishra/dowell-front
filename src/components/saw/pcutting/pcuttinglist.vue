@@ -22,7 +22,7 @@
 import { mapGetters, mapState, mapActions} from 'vuex';
   export default 
   {   data: () => (
-        { dialog: false,
+        { dialog: false,loading:false,
           headers: [
              // { text: 'S.No', align: 'left', sortable: false, value: 'SNO',},
               { text: 'Extrusion', value: 'Length',sortable: false },
@@ -31,7 +31,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Status', value: 'action', sortable: false },
 
             ],
-            formSearchData: {  SawCode:'', QuoteID:'',}, loading:false,
+            formSearchData: {  SawCode:'', QuoteID:'',}, 
                            formData: {    ID:'', QuoteID:'',   title: '',  SawCode:'',status:'',location:'',jid:'' },
         }),
 
@@ -48,10 +48,6 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                     {   return this.stateNodes2.slice().sort(function(a, b) {    return a.Length - b.Length;  });
                             }
       },
-    watch: {   },
-    created () {  },
-    mounted() {    
-              },
     methods: 
           {              
               pcutchangestatus( data)
@@ -61,7 +57,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                   console.log('pcuttinglist.vue-selectedjob',this.selectedJob);
                   console.log('pcuttinglist.vue-selectedJobDetail',this.selectedJobDetail);
                   //---for cut status
-                  if(this.flaggedjob)
+                 /* if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                         && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
@@ -82,7 +78,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                     timer: 2000, toast: true,background: 'purple',
                                     });
                                 return;
-                      }
+                      }  */
                       this.formData.ID= data.ID;
                       this.formData.SawCode=this.selectedSaw;
                       this.formData.status=data.Status_id;
@@ -90,10 +86,12 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                       this.formData.extn_id=this.selectedJobDetail.extn_id;
                       this.formData.jid = this.selectedJob.id;
                       //--------------------------
+                      this.loading=true;
                       console.log('pcuttinglist---this.formdata=',this.formData);
                       this.$store.dispatch('updateprofilecut', this.formData)
-                            .then((response) =>  { console.log('updateprofilecut---response=',response);  })     
-                            .catch((error) => {         });
+                            .then((response) =>  { this.loading=false;
+                              console.log('updateprofilecut---response=',response);  })     
+                            .catch((error) => {    this.loading=false;     });
                       this.resetFormData();
               },
               resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:'',QuoteID:'', jid:'' }; },

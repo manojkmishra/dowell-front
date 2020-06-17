@@ -26,7 +26,7 @@ const routes = [
   { path: '/login',   name: 'login',   component: Login  } ,
 //  { path: '/dashboard',   name: 'dashboard',   component: Dashboard,meta: { requiresAuth: true  }, } ,
   { path: '/user',name:'user', component: user,meta: { requiresAuth: true }},
-  { path: '/userlist',name:'user', component: UserList,meta: { requiresAuth: true }},
+  { path: '/userlist',name:'userlist', component: UserList,meta: { requiresAuth: true }},
   { path: '/profile',name:'profile', component: profile,meta: { requiresAuth: true }},
   //{ path: '/userlist',name:'userlist', component: userlist,meta: { requiresAuth: true }},
   { path: '/sawschedules',name:'sawschedules', component: sawschedules,meta: { requiresAuth: true }},

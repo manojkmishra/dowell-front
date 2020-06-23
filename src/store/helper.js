@@ -16,5 +16,13 @@ export function initialize(store, router)
    axios.interceptors.response.use(function (response) {
     console.log('res=',response)
         return response;
-      }, function (error) { return Promise.reject(error); });
+        
+      }, function (error) { 
+        if(error.response.status === 401) {
+          // redirect to login page
+          //console.log('401 rcvd')
+          window.location.href = "/login";
+      }
+        return Promise.reject(error); 
+      });
   }

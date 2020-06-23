@@ -39,10 +39,10 @@ export default{
                     }
          },
        signOut({commit}){
-               return axios.post('auth/signout').then(()=>{
+              // return axios.post('auth/signout').then(()=>{
                 commit('SET_TOKEN',null) 
                 commit('SET_USER',null)
-               })
+              // })
        }
 
   }

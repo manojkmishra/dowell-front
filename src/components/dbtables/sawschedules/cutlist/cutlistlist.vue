@@ -11,8 +11,6 @@
           <v-toolbar-title>SAW - {{data.cut_saw ? data.cut_saw.replace(/_/g, " "):data.schedule_saw.replace(/_/g, " ") }}
             <v-divider class="mx-4" inset vertical ></v-divider>
           Order No - {{data.order_ID}}
-                      <v-btn v-if="showflag1" small  rounded dark color="pink" class="disable-events"
-                  ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
           </v-toolbar-title>
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
@@ -89,37 +87,11 @@ import { mapGetters, mapState, mapActions} from 'vuex';
        {  ...mapState({ sawlist: state => state.saw.sawlist, 
                         cutlist:state =>state.saw.cutlist,
                         cutlist1:state =>state.saw.cutlist.key1,
-                        selectedSaw: state => state.saw.selectedSaw,
-                        selectedJob: state => state.saw.selectedJob,
-                        selectedJobDetail: state => state.saw.selectedJobDetail,
-                        selectedSaw: state => state.saw.selectedSaw,
-                        flaggedjob:state => state.saw.flaggedjob
                    }),
               cutlist111(){
                 return this.cutlist.key1;
               },
-                   showflag1(){
-           
-            if(this.flaggedjob)
-            {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                && this.flaggedjob.review !=6)
-                {   this.showflag=true;
-                    console.log('showflag-',this.showflag);
-                    return this.showflag;
-                    }
-            }
-                else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
-                {  this.showflag=true;
-                    console.log('showflag-',this.showflag);
-                  return this.showflag;
-
-                }
-                else return;
-          }
-           
+         
        },
     methods: 
     {  cutgroup(item)

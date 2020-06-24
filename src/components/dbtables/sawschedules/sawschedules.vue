@@ -97,7 +97,7 @@ export default
                                       this.aa=res.data.response; this.loading=false;  })
                     .catch(err=>{ console.log('paginate-err=', err) ; this.loading=false; })
             },
-            searchit(e){
+            searchit(e){ this.search=e;
               console.log('search=',e)
               if(e.length>3){ this.loading=true;
                  axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${e}`,{params:{'per_page':20}} )

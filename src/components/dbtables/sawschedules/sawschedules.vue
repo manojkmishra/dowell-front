@@ -10,7 +10,7 @@
   <v-data-table :headers="headers" :items="aa.data"   class="elevation-1" :search="search" dense
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40] ,
        'show-current-page':true,}"   
-       @pagination="paginate" 
+       @pagination="paginate1" 
        :server-items-length="aa.total"
        :items-per-page=20 >
  <template v-slot:top >
@@ -88,7 +88,7 @@ export default
         },
         methods:{ 
 
-            paginate(e){ console.log('paginate-$event',e); this.loading=true;
+            paginate1(e){ console.log('paginate-$event',e); this.loading=true;
             //axios.get(`http://127.0.0.1:8000/api/saw/getsawschedules?page='+${e.page}`,{})
              axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=${e.page}`,
              {params:{'per_page':e.itemsPerPage}})

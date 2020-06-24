@@ -7,12 +7,13 @@
         top
         color="deep-purple accent-4"
     ></v-progress-linear>
-  <v-data-table :headers="headers" :items="aa.data"   class="elevation-1" :search="search" dense
+  <v-data-table :headers="headers" :items="aa.data"   class="elevation-1"  dense
        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40] ,
        'show-current-page':true,}"   
        @pagination="paginate1" 
        :server-items-length="aa.total"
-       :items-per-page=20 >
+       :items-per-page=20 
+       :search="search">
  <template v-slot:top >
         <v-toolbar flat color="blue darken-4" dense dark>
           <v-toolbar-title>SAW</v-toolbar-title>

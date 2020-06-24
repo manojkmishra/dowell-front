@@ -28,6 +28,13 @@
       ></v-text-field>
         </v-toolbar>
     </template>
+    <template v-slot:item.updatedat="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+      <span>{{moment(item.updated_at).format('DD-MM-YY, h:mm:ss')}}</span>
+    </template>
+      <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+      <v-btn class="disable-events" ripple x-small v-if="item.status_id =='7'"  color="teal" rounded dark :loading="loading"  @click.prevent="selectjob(item)" >Cmplt</v-btn>
+      <v-btn class="disable-events" ripple x-small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="selectjob(item)" >Queud</v-btn>
+    </template>
     <template slot="no-data">
       <div></div>
     </template>
@@ -41,17 +48,19 @@ export default
 {  
   data() { return {dialog: false,search: '',aa:[],loading:false,
           headers: [
-              { text: 'created_at', align: 'left', value: 'created_at'},
-               { text: 'updated_at', align: 'left',  value: 'updated_at'},
-              { text: 'created_by', align: 'left',  value: 'created_by.name'},
+            //  { text: 'created_at', align: 'left', value: 'created_at'},
+              // { text: 'updated_at', align: 'left',  value: 'updated_at'},
+                { text: 'updated_at', align: 'left',  value: 'updatedat',width:"10%"},
+             // { text: 'created_by', align: 'left',  value: 'created_by.name'},
                { text: 'updated_by', align: 'left',  value: 'updated_by.name'},
               { text: 'schedule_saw', align: 'left',  value: 'schedule_saw'},
               { text: 'cut_saw', align: 'left',  value: 'cut_saw'},
               { text: 'quote_ID', value: 'quote_ID',sortable: false },
               { text: 'qt_vrs', value: 'quote_vers' ,sortable: false},
               { text: 'Time (Min)', value: 'cut_time',sortable: false },
-              { text: 'Status', value: 'status_id', sortable: false },
-              { text: 'Flag', value: 'review', sortable: false },
+              //{ text: 'Status', value: 'status_id', sortable: false },
+              { text: 'Status', value: 'action', sortable: false,width:"1%" },
+             // { text: 'Flag', value: 'review', sortable: false },
             ],
              }
           },
@@ -88,5 +97,7 @@ export default
 </script>
 
 <style scoped>
-
+.disable-events {
+  pointer-events: none
+}
 </style>

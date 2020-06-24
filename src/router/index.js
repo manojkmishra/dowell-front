@@ -14,6 +14,7 @@ import sawcuts from '@/components/dbtables/sawcuts/sawcuts.vue'
 import sawstatus from '@/components/dbtables/sawstatus/sawstatus.vue'
 import sawflags from '@/components/dbtables/sawflags/sawflags.vue'
 import cutlist from '@/components/saw/cutlist/cutlist.vue'
+import sscutlist from '@/components//dbtables/sawschedules/cutlist/cutlist.vue'
 import user from '@/components/users/user.vue'
 import profile from '@/components/users/profile/profile.vue'
 import UserList from '@/components/users/userlist/UserList.vue'
@@ -39,6 +40,7 @@ const routes = [
   { path: '/saw/jobdetails',name:'jobdetails', component: jobdetails,meta: { requiresAuth: true }},
   { path: '/saw/profilecutting',name:'profilecutting', component: profilecutting,meta: { requiresAuth: true }},
   { path: '/saw/cutlist',name:'cutlist', component: cutlist,meta: { requiresAuth: true }},
+  { path: '/saw/sscutlist',name:'sscutlist', component: sscutlist, props: true,meta: { requiresAuth: true }},
   { path: '/404', component: () => import('@/views/App404.vue'),meta: { requiresAuth: true  }, },
   
   { path: '*', redirect: '/404' },

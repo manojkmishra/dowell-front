@@ -101,13 +101,15 @@ export default
               console.log('search=',e)
               if(e.length>3){ this.loading=true;
                  axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${e}`)
-                    .then((res) => { console.log('sawsc search res=',res.data.response.data)  
+                    .then((res) => { console.log('sawsc search res>3 =',res.data.response)  
                                       this.aa=res.data.response; this.loading=false;  })
                     .catch(err=>{ console.log('sawsc search err=', err); this.loading=false;  })
                 }
               if(e.length<=0){ this.loading=true;
-                 axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules`)
-                    .then((res) => { console.log('sawsc search res=',res.data.response.data)  
+              console.log('searchlen=0, e=',e)
+                 axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=1`,
+             {params:{'per_page':20}} )
+                    .then((res) => { console.log('sawsc search res less<=0 =',res.data.response)  
                                       this.aa=res.data.response; this.loading=false;  })
                     .catch(err=>{ console.log('sawsc search err=', err) ; this.loading=false; })
 

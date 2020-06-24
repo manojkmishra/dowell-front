@@ -100,7 +100,7 @@ export default
             searchit(e){
               console.log('search=',e)
               if(e.length>3){ this.loading=true;
-                 axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${e}`)
+                 axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${e}`,{params:{'per_page':20}} )
                     .then((res) => { console.log('sawsc search res>3 =',res.data.response)  
                                       this.aa=res.data.response; this.loading=false;  })
                     .catch(err=>{ console.log('sawsc search err=', err); this.loading=false;  })
@@ -166,7 +166,18 @@ export default
                         return;
                   } 
            },
-        }
+        },
+        watch: {
+  pagination: { 
+    handler () {console.log('watch tirgger')
+      paginate1()
+        .then((res) => { console.log('watch response',res.data.response.data)  
+                                      this.aa=res.data.response; this.loading=false;  })
+                    .catch(err=>{ console.log('watch paginate-err=', err) ; this.loading=false; })
+    },
+    deep: true
+  }
+},
 }
 </script>
 

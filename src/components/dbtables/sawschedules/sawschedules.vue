@@ -24,10 +24,10 @@
         </v-toolbar>
     </template>
     <template v-slot:item.updatedat="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-       <span>{{moment(item.updated_at).format('DD-MM-YY, h:mm:ss')}}</span>
+       <span>{{moment(item.updated_at).format('DD-MM-YYYY, h:mm:ss')}}</span>
     </template>
     <template v-slot:item.cutday="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-       <span>{{moment(item.cut_date).format('DD-MM-YY')}}</span>
+       <span>{{moment(item.cut_date).format('DD-MM-YYYY')}}</span>
     </template>
     <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item)" >InPrg</v-btn>

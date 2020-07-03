@@ -18,7 +18,7 @@ import sscutlist from '@/components//dbtables/sawschedules/cutlist/cutlist.vue'
 import user from '@/components/users/user.vue'
 import profile from '@/components/users/profile/profile.vue'
 import UserList from '@/components/users/userlist/UserList.vue'
-
+import cutdata from '@/components/charts/cutdate.vue'
 
 Vue.use(VueRouter)
 const routes = [
@@ -41,6 +41,7 @@ const routes = [
   { path: '/saw/profilecutting',name:'profilecutting', component: profilecutting,meta: { requiresAuth: true }},
   { path: '/saw/cutlist',name:'cutlist', component: cutlist,meta: { requiresAuth: true }},
   { path: '/saw/sscutlist',name:'sscutlist', component: sscutlist, props: true,meta: { requiresAuth: true }},
+  { path: '/cutdata',name:'cutdata', component: cutdata,meta: { requiresAuth: true }},
   { path: '/404', component: () => import('@/views/App404.vue'),meta: { requiresAuth: true  }, },
   
   { path: '*', redirect: '/404' },

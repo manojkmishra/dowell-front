@@ -32,6 +32,7 @@ export const addstatus = apiDomain + '/saw/addstatus';
 export const editstatus = apiDomain + '/saw/editstatus';
 export const deletestatus = apiDomain + '/saw/deletestatus';
 //------------------------------------------------------
+export const csticketTypeBarchartUser = apiDomain + '/csticketTypeBarchartUser';
 
 
 

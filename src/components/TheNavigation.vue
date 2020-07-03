@@ -99,7 +99,8 @@ export default {
                { title: 'Saw Flags', route:'/sawflags' },
              ],
           },
-           { action: 'mdi-chart-bar', title: 'Charts',hasMulSub: true, items: [ { title: 'Geebung', route:'test' }, ], },
+           { action: 'mdi-chart-bar', title: 'Charts',hasMulSub: true, items: [ 
+           { title: 'cutdata', route:'/cutdata' }, ], },
        /*   { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [
               { title: 'Smithfield' },
               { title: 'Nowra' },

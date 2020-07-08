@@ -100,7 +100,8 @@ export default {
              ],
           },
            { action: 'mdi-chart-bar', title: 'Charts',hasMulSub: true, items: [ 
-           { title: 'cutdata', route:'/cutdata' }, ], },
+           { title: 'cutdata', route:'/cutdata' },
+           { title: 'dailycuts', route:'/dailycuts' }, ], },
        /*   { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [
               { title: 'Smithfield' },
               { title: 'Nowra' },

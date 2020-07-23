@@ -58,7 +58,7 @@
           
           </v-list-group>
           </template>
-		     <template v-else>
+		    <template v-else>
           <v-list-item  router-link :to="item.route" :key="index" no-action color="white">
             <v-list-item-action><v-icon>{{ item.action }}</v-icon></v-list-item-action>
             <v-list-item-content> <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -68,7 +68,7 @@
 	    </template>
        <!---- -->          
     </v-list>
-           </v-navigation-drawer>
+          </v-navigation-drawer>
       </div>
     </nav>
  </template>
@@ -97,6 +97,7 @@ export default {
                { title: 'Saw Cuts', route:'/sawcuts' },
                { title: 'Saw Status', route:'/sawstatus' },
                { title: 'Saw Flags', route:'/sawflags' },
+               { title: 'Saw Prints', route:'/sawprints' },
              ],
           },
            { action: 'mdi-chart-bar', title: 'Charts',hasMulSub: true, items: [ 
@@ -113,12 +114,11 @@ export default {
           */
           
         ],
-     
-         } //return complete
+      } //return complete
     },
     computed:{
         ...mapGetters({authenticated:'auth/authenticated',
-                       user:'auth/user'
+                      user:'auth/user'
                       }),
           
     },
@@ -127,7 +127,7 @@ export default {
         signOut(){
             this.signOut1().then(()=>{
                 this.$router.replace({path:'/login'})
-                 toast.fire({ icon: "success", title: "Logout Success" });
+                toast.fire({ icon: "success", title: "Logout Success" });
                   swal.fire({
                 position: 'top-right',
                 title:'<span style="color:white">Logout Success!!</span>',
@@ -135,10 +135,9 @@ export default {
                   toast: true,
                   background: 'purple',
                   color:'white'
-                 });
+                });
             })
         },
-                   
     },
     
 }

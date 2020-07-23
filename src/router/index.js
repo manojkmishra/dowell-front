@@ -20,6 +20,7 @@ import profile from '@/components/users/profile/profile.vue'
 import UserList from '@/components/users/userlist/UserList.vue'
 import cutdata from '@/components/charts/cutdate.vue'
 import dailycuts from '@/components/charts/dailycuts.vue'
+import sawprints from '@/components/dbtables/sawprints/sawprints.vue'
 
 Vue.use(VueRouter)
 const routes = [
@@ -36,6 +37,7 @@ const routes = [
   { path: '/sawcuts',name:'sawcuts', component: sawcuts,meta: { requiresAuth: true }},
   { path: '/sawstatus',name:'sawstatus', component: sawstatus,meta: { requiresAuth: true }},
   { path: '/sawflags',name:'sawflags', component: sawflags,meta: { requiresAuth: true }},
+  { path: '/sawprints',name:'sawprints', component: sawprints,meta: { requiresAuth: true }},
   { path: '/saw',name:'saw', component: saw,meta: { requiresAuth: true }},
   { path: '/saw/joblist',name:'joblist', component: joblist,meta: { requiresAuth: true }},
   { path: '/saw/jobdetails',name:'jobdetails', component: jobdetails,meta: { requiresAuth: true }},

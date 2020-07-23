@@ -6,7 +6,7 @@ export default
 {
   state: {sawflags:null,sawstatus:null,sawlist:null,joblist:null, selectedSaw:null,
           jobdetailslist:null,selectedJob:null,selectedJobDetail:null,profilecutting:null,
-          cutlist:null,flaggedjob:null,
+          cutlist:null,flaggedjob:null,sawprints:null, sawoptions:null,
         },
   getters:{
       
@@ -17,12 +17,19 @@ export default
     { state.sawflags = payload.sawflags;
      console.log('/store/saw.js-types.GET_SAW_FLAGS state=', state);
     },
+    [types.GET_SAW_PRINTS ] (state, payload) 
+    { state.sawprints = payload.sawprints;
+     console.log('/store/saw.js-types.GET_SAW_PRINTS state=', state);
+    },
    [types.GET_SAW_STATUS ] (state, payload) 
    { state.sawstatus = payload.sawstatus;
     console.log('/store/saw.js-types.GET_SAW_STATUS state=', state);
     },
      [types.GET_SAW_SAWLIST ] (state, payload) 
-        { state.sawlist = payload.sawlist;
+        { state.sawlist = payload.sawlist; let options = [];
+          for (let status in payload.sawlist) 
+          { options.push({value:payload.sawlist[status].SawCode});  }
+          state.sawoptions = options;
          console.log('/store/saw.js-types.GET_SAW_SAWLIST state=', state);
        },
      [types.GET_SAW_JOBLIST ] (state, payload) 
@@ -328,6 +335,34 @@ async updateselectedcutlist({dispatch}, formData)
           return res;
   },
   //---------------------------------------
+  async getsawprint ({commit,dispatch}) 
+  { let res= await axios.get(api.getsawprint);  
+    commit({type:types.GET_SAW_PRINTS ,  sawprints: res.data} ); 
+    return res;    
+  },
+  async addsawprint ({dispatch}, formData)
+  {   console.log('addsawprint-- formData=', formData);
+        let res= await axios.post(api.addsawprint, formData)  
+              .then(response => { dispatch('getsawprint');  })
+              .catch(response => {    });
+          return res;
+  },
+  async editsawprint ({dispatch}, formData)
+  {   console.log('sawprint-- formData=', formData);
+        let res= await axios.post(api.editsawprint, formData)  
+              .then(response => { dispatch('getsawprint');  })
+              .catch(response => {    });
+          return res;
+  },
+  async deletesawprint ({dispatch}, formData)
+  {   console.log('sawprint-- formData=', formData);
+        let res= await axios.post(api.deletesawprint, formData)  
+              .then(response => { dispatch('getsawprint');  })
+              .catch(response => {    });
+          return res;
+  },
+
+  //------------------------------------
   async getsawstatus ({commit,dispatch}) 
   { let res= await axios.get(api.getsawstatus);   
     commit({type:types.GET_SAW_STATUS ,  sawstatus: res.data} );

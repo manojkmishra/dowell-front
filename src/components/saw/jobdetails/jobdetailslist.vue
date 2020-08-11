@@ -87,6 +87,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               else this.formSearchData.SawCode = this.selectedSaw ;
               this.formSearchData.QuoteID = this.selectedJob.quote_ID;
               this.formSearchData.extn_id = data.extn_id;
+              this.formSearchData.fincol = data.FincolID;
               console.log('formSearchData=',this.formSearchData);
               this.loading=true;
               this.$store.dispatch('selectedJobDetail', data);

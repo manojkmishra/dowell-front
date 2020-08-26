@@ -13,7 +13,7 @@
 >
     <template v-slot:top>
         <v-toolbar  color="light-blue darken-3" dark >
-          <v-toolbar-title>Summary</v-toolbar-title>
+          <v-toolbar-title>JOBS SUMMARY</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
                   <v-menu max-width="290">
                       <template v-slot:activator="{ on }">

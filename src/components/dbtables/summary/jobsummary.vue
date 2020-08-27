@@ -9,7 +9,7 @@
     ></v-progress-linear>
   <v-data-table :headers="headers" :items="aa"  dense
   class="elevation-1" :search="search"
- :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [20,40,-1], }"
+ :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [-1,20,40], }"
 >
     <template v-slot:top>
         <v-toolbar  color="light-blue darken-3" dark >
@@ -36,52 +36,101 @@
        <span>{{moment(item.cut_date).format('DD-MM-YYYY')}}</span>
     </template>
     <template v-slot:item.slidsash1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+
        <v-btn  ripple x-small v-if="item.slidsash.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.slidsash.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.slidsash.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >QUD</v-btn>
        <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+      <span v-for="aa in sawflags" :key="aa.id">
+        <span v-if="aa.id==item.slidsash.review">  <!-- {{aa.id}} -->
+        <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       </span>
+      </span>
     </template>
     <template v-slot:item.slidframe1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+
        <v-btn  ripple x-small v-if="item.slidframe.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.slidframe.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.slidframe.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >QUD</v-btn>
        <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-    </template>
+      <span v-for="aa in sawflags" :key="aa.id">
+        <span v-if="aa.id==item.slidframe.review">  <!-- {{aa.id}} -->
+        <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       </span>
+      </span>
+      </template>
     <template v-slot:item.dsw1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+
        <v-btn  ripple x-small v-if="item.dsw.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.dsw.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.dsw.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >QUD</v-btn>
        <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+      <span v-for="aa in sawflags" :key="aa.id">
+        <span v-if="aa.id==item.dsw.review">  <!-- {{aa.id}} -->
+        <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       </span>
+      </span>
     </template>
     <template v-slot:item.windows1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+
        <v-btn  ripple x-small v-if="item.windows.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.windows.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.windows.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >QUD</v-btn>
        <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-    </template>
-        <template v-slot:item.easash1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+       <span v-for="aa in sawflags" :key="aa.id">
+        <span v-if="aa.id==item.windows.review">  <!-- {{aa.id}} -->
+        <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       </span>
+      </span>
+      </template>
+
+      <template v-slot:item.easash1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.easash.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.easash.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.easash.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >QUD</v-btn>
        <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+      <span v-for="aa in sawflags" :key="aa.id">
+        <span v-if="aa.id==item.easash.review">  <!-- {{aa.id}} -->
+        <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       </span>
+      </span>
     </template>
     <template v-slot:item.eadfl1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+
        <v-btn  ripple x-small v-if="item.eadfl.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.eadfl.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.eadfl.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >QUD</v-btn>
        <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+      <span v-for="aa in sawflags" :key="aa.id">
+        <span v-if="aa.id==item.eadfl.review">  <!-- {{aa.id}} -->
+        <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       </span>
+      </span>
     </template>
+
         <template v-slot:item.bfhd1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+
        <v-btn  ripple x-small v-if="item.bfhd.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.bfhd.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.bfhd.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >QUD</v-btn>
        <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <span v-for="aa in sawflags" :key="aa.id">
+        <span v-if="aa.id==item.bfhd.review">  <!-- {{aa.id}} -->
+        <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       </span>
+      </span>
     </template>
-            <template v-slot:item.commercial1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+    <template v-slot:item.commercial1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+
        <v-btn  ripple x-small v-if="item.commercial.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.commercial.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.commercial.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >QUD</v-btn>
        <v-btn  ripple x-small disabled  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+        <span v-for="aa in sawflags" :key="aa.id">
+        <span v-if="aa.id==item.commercial.review">  <!-- {{aa.id}} -->
+        <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       </span>
+      </span>
     </template>
 
     <template slot="no-data">
@@ -98,7 +147,7 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 export default
 {      computed: 
-  {  ...mapState({   user: state => state.auth.user,     }),
+  {  ...mapState({   user: state => state.auth.user,   sawflags:state => state.saw.sawflags,  }),
       formattedDate(){return this.due ? format(parseISO(this.due),'do MMM yyyy') : ''}
   },
   data() { return {dialog: false,search: '',aa:[],loading:false,due:'',

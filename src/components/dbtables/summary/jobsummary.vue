@@ -39,56 +39,51 @@
        <v-btn  ripple x-small v-if="item.slidsash.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.slidsash.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.slidsash.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >QUD</v-btn>
-       <v-btn  ripple x-small v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
     </template>
     <template v-slot:item.slidframe1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.slidframe.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.slidframe.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.slidframe.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >QUD</v-btn>
-       <v-btn  ripple x-small v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
     </template>
     <template v-slot:item.dsw1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.dsw.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.dsw.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.dsw.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >QUD</v-btn>
-       <v-btn  ripple x-small v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
     </template>
     <template v-slot:item.windows1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.windows.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.windows.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.windows.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >QUD</v-btn>
-       <v-btn  ripple x-small v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
     </template>
         <template v-slot:item.easash1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.easash.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.easash.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.easash.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >QUD</v-btn>
-       <v-btn  ripple x-small v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
     </template>
     <template v-slot:item.eadfl1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.eadfl.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.eadfl.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.eadfl.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >QUD</v-btn>
-       <v-btn  ripple x-small v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
     </template>
         <template v-slot:item.bfhd1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.bfhd.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.bfhd.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.bfhd.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >QUD</v-btn>
-       <v-btn  ripple x-small v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
     </template>
             <template v-slot:item.commercial1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.commercial.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.commercial.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >Cmplt</v-btn>
        <v-btn  ripple x-small v-else-if="item.commercial.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >QUD</v-btn>
-       <v-btn  ripple x-small  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <v-btn  ripple x-small disabled  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
     </template>
-    <template v-slot:item.timber1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-       <v-btn  ripple x-small v-if="item.timber.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.timber)" >InPrg</v-btn>
-       <v-btn  ripple x-small v-else-if="item.timber.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.timber)" >Cmplt</v-btn>
-       <v-btn  ripple x-small v-else-if="item.timber.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.timber)" >QUD</v-btn>
-       <v-btn  ripple x-small  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-    </template>
+
     <template slot="no-data">
       <div></div>
     </template>
@@ -115,15 +110,15 @@ export default
               { text: 'orderID', align: 'left',  value: 'order_ID',width:"1%"},
               { text: 'CUSTOMER', align: 'left',  value: 'cust_name',width:"10%"},
             //  { text: 'quote_ID', align: 'left',  value: 'quote_ID',width:"1%"},
-              { text: 'SldDrSash', align: 'left',  value: 'slidsash1',width:"1%"},
-              { text: 'SldDrFrame', align: 'left',  value: 'slidframe1',width:"1%"},
+              { text: 'ADSash', align: 'left',  value: 'slidsash1',width:"1%"},
+              { text: 'ADFrame', align: 'left',  value: 'slidframe1',width:"1%"},
               { text: 'DSW', align: 'left',  value: 'dsw1',width:"1%"},
-              { text: 'Win', align: 'left',  value: 'windows1',width:"1%"},
+              { text: 'WinSash', align: 'left',  value: 'windows1',width:"1%"},
               { text: 'EaSash', align: 'left',  value: 'easash1',width:"1%"},
-              { text: 'EaDFL', align: 'left',  value: 'eadfl1',width:"1%"},
+              { text: 'Awnings', align: 'left',  value: 'eadfl1',width:"1%"},
               { text: 'BFHD', align: 'left',  value: 'bfhd1',width:"1%"},
               { text: 'Commercial', align: 'left',  value: 'commercial1',width:"1%"},
-               { text: 'Timber', align: 'left',  value: 'timber1',width:"1%"},
+             //  { text: 'Timber', align: 'left',  value: 'timber1',width:"1%"},
 
 
             ],

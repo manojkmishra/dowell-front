@@ -1,6 +1,7 @@
 <template>
   <v-data-table :headers="headers" :items="cutlist"   class="elevation-1" :search="search" v-model="selected"
-       item-key="ID" :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }"
+       item-key="ID" 
+        :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [-1,20,40], }"
       :expanded.sync="expanded"
       show-expand
        >

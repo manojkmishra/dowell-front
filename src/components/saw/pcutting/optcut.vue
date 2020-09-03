@@ -85,6 +85,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                       this.formData.qt_id=this.selectedJob.quote_ID;
                       this.formData.QuoteID=this.selectedJob.quote_ID;
                       this.formData.extn_id=this.selectedJobDetail.extn_id;
+                      this.formData.fincol=this.selectedJobDetail.FincolID;
                       //--------------------------
                       console.log('optcut---this.formdata=',this.formData);
                       this.loading=true;

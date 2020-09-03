@@ -85,6 +85,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                       this.formData.QuoteID=this.selectedJob.quote_ID;
                       this.formData.extn_id=this.selectedJobDetail.extn_id;
                       this.formData.jid = this.selectedJob.id;
+                      this.formData.fincol=this.selectedJobDetail.FincolID;
+                      
                       //--------------------------
                       this.loading=true;
                       console.log('pcuttinglist---this.formdata=',this.formData);

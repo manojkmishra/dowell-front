@@ -324,8 +324,41 @@ export default
             this.formSearchData={};
            
            let res1= await axios.post(`${axios.defaults.baseURL}/saw/jobsummary`, {'date':x})       
-           .then((res) => { console.log('getjobsummary response',res.data)  
+           .then((res) => { console.log('getjobsummary response-aa=',res.data)  
                             this.aa=res.data;
+
+                            let myObj=this.aa;
+                            //Object.keys(obj).forEach(k => 
+                           //// (obj[k].commercial == "") && delete obj[k]);
+                           // console.log('obj=',obj);
+
+                            Object.keys(myObj).forEach(key => {
+                             // console.log(key);        // the name of the current key.
+                              console.log(myObj[key].bfhd); // the value of the current key.
+                              
+                              if((myObj[key].slidsash)==""
+                              && (myObj[key].slidframe)==""
+                              && (myObj[key].dsw)==""
+                              && (myObj[key].windows)==""
+                              && (myObj[key].easash)==""
+                              && (myObj[key].eadfl)==""
+                              && (myObj[key].bfhd)==""
+                              && (myObj[key].commercial)==""
+                              ){
+                               // console.log('hehe')
+                                delete myObj[key]
+                              }
+                            });
+                              console.log(myObj);
+                            //-------------------------
+                       // if(this.user.admin !='1')
+                      //  { //return this.headers.filter(header => header.text !== "CutJob")
+                                         // }
+                         // return this.headers;
+                         // let bb=res.data.filter(commer => header.text !== "CutJob");
+
+
+                        //-------------------------------------
                             })
                     .catch(err=>{ console.log('getjobsummary-err=', err) ;  })
           }

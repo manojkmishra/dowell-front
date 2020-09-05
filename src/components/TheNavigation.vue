@@ -101,8 +101,9 @@ export default {
              ],
           },
            { action: 'mdi-chart-bar', title: 'Summary',hasMulSub: true, items: [ 
-           { title: 'Jobsummary', route:'/summary/jobs' },
-           { title: 'dailycuts', route:'/dailycuts' }, ], },
+              //{ title: 'Jobsummary', route:'/summary/jobs' },
+              //{ title: 'dailycuts', route:'/dailycuts' }, 
+              ], },
        /*   { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [
               { title: 'Smithfield' },
               { title: 'Nowra' },

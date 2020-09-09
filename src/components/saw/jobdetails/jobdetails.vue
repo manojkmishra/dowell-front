@@ -39,12 +39,12 @@
           </v-card>
         </v-dialog>
 <!----------------dialog for flag finished----------------------------------->
-        <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   :loading="loadingexttosaw"
-                  @click.prevent="exttosawjd"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
-        <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
-                  @click.prevent="reoptimise" ><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn> 
-        <v-btn id="flag-btn" ripple medium color="blue"  rounded dark  :loading="loadingcutlist" 
+        <v-btn id="flag-btn" ripple small color="blue"  rounded dark  :loading="loadingcutlist" 
                   @click.prevent="scrap"><v-icon  >mdi-clipboard-list</v-icon>CUTLIST</v-btn>
+        <v-btn id="flag-btn" ripple small color="orange"  rounded dark :loading="loadingcutall"
+                  @click.prevent="cutall"><v-icon  >mdi-check-all</v-icon>CUTALL</v-btn>
+
+
 <!-----------------dialog for print-start---------------------------->
 
 <v-dialog v-model="printdialog" max-width="500px">
@@ -75,10 +75,14 @@
         </v-dialog>
 
 <!-------------dialog for print stop--------------------------------->
+        <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   :loading="loadingexttosaw"
+                  @click.prevent="exttosawjd"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
         <v-btn id="flag-btn" ripple small color="cyan"  rounded dark   
                   @click.prevent="changesaw"><v-icon  >mdi-circular-saw</v-icon>ChangeSaw</v-btn>
-        <v-btn id="flag-btn" ripple small color="orange"  rounded dark :loading="loadingcutall"
-                  @click.prevent="cutall"><v-icon  >mdi-check-all</v-icon>CUTALL</v-btn>
+        <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
+                  @click.prevent="reoptimise" ><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn> 
+ 
+
             
             
        </v-flex>

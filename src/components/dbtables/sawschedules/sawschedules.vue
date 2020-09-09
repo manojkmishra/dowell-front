@@ -30,6 +30,9 @@
     <template v-slot:item.cutday="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <span>{{moment(item.cut_date).format('DD-MM-YYYY')}}</span>
     </template>
+    <template v-slot:item.tim="{ item }">
+      {{ ~~(item.cut_time / 60) + ":" + (item.cut_time % 60 < 10 ? "0" : "") + item.cut_time % 60 }}
+    </template>
     <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <v-btn  ripple x-small v-if="item.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item)" >InPrg</v-btn>
        <v-btn  ripple x-small v-else-if="item.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item)" >Cmplt</v-btn>
@@ -76,7 +79,8 @@ export default
               { text: 'cut_saw', align: 'left',  value: 'cut_saw',width:"1%"},
               { text: 'quote_ID', value: 'quote_ID',sortable: false,width:"1%" },
               { text: 'order_ID', value: 'order_ID' ,sortable: false,width:"1%"},
-              { text: 'Time (Min)', value: 'cut_time',sortable: false,width:"1%" },
+             // { text: 'Time (Min)', value: 'cut_time',sortable: false,width:"1%" },
+              { text: 'Time (Min)', value: 'tim',sortable: false,width:"1%" },
               //{ text: 'Status', value: 'status_id', sortable: false },
               { text: 'Status', value: 'action', sortable: false,width:"1%" },
               { text: 'Flag', value: 'flag', sortable: false,width:"1%" },

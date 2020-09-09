@@ -7,6 +7,7 @@
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
           <v-btn v-if="user.admin =='1'" id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="cutselectloading"  @click.prevent="cutselcted">CutSelected</v-btn>
+       <!--   <v-btn v-if="user.admin =='1'" id="btn-cutselected" small  color="red" rounded dark :loading="cutselectloading"  @click.prevent="transferjob">TrnsfrJob</v-btn> -->
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>&nbsp;
@@ -50,7 +51,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Order No', value: 'Order_Number',sortable: false },
               { text: 'Customer', value: 'Customer' ,sortable: false},
              // { text: 'Time (Min)', value: 'Time',sortable: false },
-              { text: 'Time (Min)', value: 'tim',sortable: false },
+              { text: 'Time (Sec)', value: 'tim',sortable: false },
               { text: 'Color', value: 'Color', sortable: false},
               { text: 'Flag', value: 'flag', sortable: false },
               { text: 'Status', value: 'action', sortable: false },
@@ -80,7 +81,51 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 console.log('joblist.vue-this.joblist=',this.joblist)    
               },
     methods: 
-    {  cutselcted()
+    {  
+      transferjob(){
+        //-------------------------
+            this.formSearchData.SawCode=this.selectedSaw; 
+            console.log('tansfer- this.selected=',this.selected)
+            console.log('tansfer- this.formSearchData.selected1=',this.formSearchData.selected1)
+            if(this.selected.length==0) //if clicked without selecting
+              { swal.fire({ position: 'top-right', title:'<span style="color:white">Please select jobs to cut</span>',
+                            timer: 2000, toast: true, background: 'purple',
+                          });
+              }
+            else{ this.formSearchData.selected1=[];
+                  var i = 0;
+                while ( i < this.selected.length ) 
+                  { var x = this.selected[i]; console.log('hehe',x);
+                    if (x){ this.selected.splice(i,1); console.log('hehe1',x);
+                            if(x.Status_id==12 || x.Status_id==9) //8,0=qd,9-inpr,12-complt
+                            { swal.fire({ position: 'top-right',
+                            title:'<span style="color:white">Only Queued Jobs can be selected</span>',
+                            timer: 2000, toast: true, background: 'black',
+                            });
+                              this.selected=[];this.formSearchData.selected1=[];
+                            return;
+                            }
+                            else this.formSearchData.selected1.push(x.id);
+                        }
+                      else i++;
+                }
+              console.log('tansfer- this.selected=',this.selected)
+              console.log('tansfer- this.formSearchData.selected1=',this.formSearchData.selected1)
+                if(this.formSearchData.selected1.length>0)
+                {       this.cutselectloading=true; 
+                        this.$store.dispatch('updatetransferjob', this.formSearchData)
+                        .then((response) =>  { console.log('tansfer---response=',response);  
+                                this.cutselectloading=false;   })     
+                        .catch((error) => {   this.cutselectloading=false;      });
+                }
+              this.selected=[];this.selected1=[];
+              this.resetformSearchData();     
+            }//length>0 
+
+
+        //--------------------------
+      },
+      cutselcted()
           {  //this.formSearchData.SawCode=this.selectedSaw; 
             this.formSearchData.SawCode=this.selectedSaw; 
             console.log('cutselected- this.selected=',this.selected)
@@ -112,7 +157,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             title:'<span style="color:white">Only UnCut Jobs can be selected</span>',
                             timer: 2000, toast: true, background: 'purple',
                             });
-                                                        this.selected=[];this.formSearchData.selected1=[];
+                              this.selected=[];this.formSearchData.selected1=[];
                             return;
                             }
                             else this.formSearchData.selected1.push(x.id);

@@ -51,7 +51,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Order No', value: 'Order_Number',sortable: false },
               { text: 'Customer', value: 'Customer' ,sortable: false},
              // { text: 'Time (Min)', value: 'Time',sortable: false },
-              { text: 'Time (Sec)', value: 'tim',sortable: false },
+              { text: 'Time (Min)', value: 'tim',sortable: false },
               { text: 'Color', value: 'Color', sortable: false},
               { text: 'Flag', value: 'flag', sortable: false },
               { text: 'Status', value: 'action', sortable: false },

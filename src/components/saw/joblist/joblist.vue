@@ -7,7 +7,7 @@
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
           <v-btn v-if="user.admin =='1'" id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="cutselectloading"  @click.prevent="cutselcted">CutSelected</v-btn>
-          <v-btn v-if="user.admin =='1'" id="btn-cutselected" small  color="red" rounded dark :loading="cutselectloading"  @click.prevent="transferjob">TrnsfrJob</v-btn> 
+      <!--    <v-btn v-if="user.admin =='1'" id="btn-cutselected" small  color="red" rounded dark :loading="cutselectloading"  @click.prevent="transferjob">TrnsfrJob</v-btn>  -->
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>&nbsp;
@@ -49,7 +49,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           headers: [
               { text: 'Cut Date', align: 'left', sortable: false, value: 'cut_date', width:"12%"},
               { text: 'Order No', value: 'Order_Number',sortable: false },
-               { text: 'truckno', value: 'Priority' ,sortable: false},
+            //   { text: 'truckno', value: 'Priority' ,sortable: false},
               { text: 'Customer', value: 'Customer' ,sortable: false},
              // { text: 'Time (Min)', value: 'Time',sortable: false },
               { text: 'Time (Min)', value: 'tim',sortable: false },

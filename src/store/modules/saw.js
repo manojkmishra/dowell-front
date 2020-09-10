@@ -151,6 +151,20 @@ export default
     .catch((error) => {console.log('cutall-error',error)});
     return res;
   },
+  async updatetransferjob({dispatch}, formData)
+  {  let res= await axios.post(api.updatetransferjob, formData)  
+    .then((response) => {  console.log('transferjob--- response',response.data);  
+                            var fdqt=formData.order_ID;
+                            swal.fire({
+                              position: 'top-right',
+                              title:'<span style="color:white">Selected Jobs have been transferred</span>',
+                                timer: 2000, toast: true,background: 'black',
+                              });
+                            dispatch('getJobs',formData);
+                          })
+    .catch((error) => {console.log('transferjob-error',error)});
+    return res;
+  },
   //=========================profilecut page=============================
   async updateprofilecut ({dispatch}, formData)
   { let res= await axios.post(api.updateprofilecut, formData)   

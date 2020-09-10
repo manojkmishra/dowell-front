@@ -8,7 +8,7 @@
         color="deep-purple accent-4"
     ></v-progress-linear>
   <v-data-table :headers="headers" :items="aa"  dense
-  class="elevation-1" :search="search"
+  class="elevation-1" :search="search" sortBy="truck_no"
  :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [-1,20,40], }"
 >
     <template v-slot:top>

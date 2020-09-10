@@ -267,7 +267,7 @@ export default
             //  { text: 'created_at', align: 'left', value: 'created_at', },
             //  { text: 'created_by', align: 'left',  value: 'created_by.name'},
              // { text: 'updated_at', align: 'left',  value: 'updatedat',width:"1%"},
-             { text: 'cut_date', align: 'left',  value: 'cutday',width:"2%"},
+             { text: 'cut_date', align: 'left',  value: 'cutday',width:"5%"},
              { text: 'TrkNo', align: 'left',  value: 'truck_no',width:"1%"},
               { text: 'orderID', align: 'left',  value: 'order_ID',width:"1%"},
               { text: 'CUSTOMER', align: 'left',  value: 'cust_name',width:"10%"},

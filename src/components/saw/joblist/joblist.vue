@@ -7,7 +7,44 @@
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
           <v-btn v-if="user.admin =='1'" id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="cutselectloading"  @click.prevent="cutselcted">CutSelected</v-btn>
-      <!--    <v-btn v-if="user.admin =='1'" id="btn-cutselected" small  color="red" rounded dark :loading="cutselectloading"  @click.prevent="transferjob">TrnsfrJob</v-btn>  -->
+         <!----->
+          
+          <!-----------------dialog for transfer-start---------------------------->
+      <!--    <v-btn v-if="user.admin =='1' && (selectedSaw =='BF_HD' || selectedSaw =='Timber'
+          || selectedSaw =='EA_DFL_LVR' || selectedSaw =='General') " id="btn-cutselected" small  color="red" rounded dark :loading="cutselectloading"  @click.prevent="transferjob">TrnsfrJob</v-btn>  
+ -->
+
+<v-dialog v-model="printdialog" v-if="user.admin =='1' && (selectedSaw =='BF_HD' || selectedSaw =='Timber'
+          || selectedSaw =='EA_DFL_LVR' || selectedSaw =='General' || selectedSaw =='transfer_saw')" max-width="500px">
+          <template v-slot:activator="{ on }">
+            <v-btn id="flag-btn" ripple small color="purple" :loading="transferloading" rounded dark  v-on="on">
+            <v-icon>mdi-share-circle</v-icon>Transfer Saw</v-btn>
+
+          </template>
+          <!----popup---------------->
+          <v-card>
+            <v-card-title><span class="headline" >Transfer Jobs</span></v-card-title>
+            <v-card-text>
+              <v-container>
+                <div v-for="(stateNode,index) in sawpr">
+                  <template>
+                   <v-btn block rounded class="mx-2 mb-2 " dark  outlined  v-bind:style="{   'background-color':'teal'}"
+                    @click.prevent="transferjob(stateNode)">
+                      {{ stateNode.SawCode }} 
+                  </v-btn>
+                  </template>
+                </div>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+                  <v-btn color="blue darken-1" text @click="closeprint">Cancel</v-btn>
+              </v-card-actions>
+          </v-card>
+</v-dialog>
+
+<!-------------dialog for print stop--------------------------------->
+          <!----->
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
                 ></v-text-field>&nbsp;
@@ -45,7 +82,7 @@
 import { mapGetters, mapState, mapActions} from 'vuex';
   export default 
   {   data: () => (
-        { dialog: false,search: '',selected: [],cutselectloading:false,
+        { dialog: false,search: '',selected: [],cutselectloading:false,printdialog: false,transferloading:false,
           headers: [
               { text: 'Cut Date', align: 'left', sortable: false, value: 'cut_date', width:"12%"},
               { text: 'Order No', value: 'Order_Number',sortable: false },
@@ -73,35 +110,54 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                     return this.headers.filter(header => header.text !== "CutJob")
                   }
                   return this.headers;
-              }
-          
-       },
+              },
+              sawpr()
+              {    
+                  let aa=this.sawlist
+                 // let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
+                 // console.log('bb=',bb)
+                    var newArray = this.sawlist.filter(function (el) { 
+                        if(el.SawCode =="EA_DFL_LVR" || el.SawCode =="Timber"
+                        || el.SawCode =="BF_HD" || el.SawCode =="General" || el.SawCode =="transfer_saw")
+                      return el;
+                    });
+                  console.log('sawlist=',this.sawlist)
+                  console.log('newArray=',newArray) 
+                  return newArray;
+              },
+      },
     watch: {   },
     created () {  },
     mounted() { console.log('joblist.vue-this.sawlist=',this.sawlist)
                 console.log('joblist.vue-this.joblist=',this.joblist)    
               },
     methods: 
-    {  
-      transferjob(){
+    {   closeprint(){ this.printdialog=false;},
+      transferjob(y){
         //-------------------------
+            this.formSearchData.fromSaw=this.selectedSaw; 
             this.formSearchData.SawCode=this.selectedSaw; 
+            this.formSearchData.toSaw=y.SawCode; 
             console.log('tansfer- this.selected=',this.selected)
-            console.log('tansfer- this.formSearchData.selected1=',this.formSearchData.selected1)
+            console.log('transfer to saw==',y.SawCode)
+
             if(this.selected.length==0) //if clicked without selecting
-              { swal.fire({ position: 'top-right', title:'<span style="color:white">Please select jobs to cut</span>',
+              { this.printdialog=false;
+                swal.fire({ position: 'top-right', title:'<span style="color:white">Please select jobs to cut</span>',
                             timer: 2000, toast: true, background: 'purple',
                           });
+                    
               }
             else{ this.formSearchData.selected1=[];
                   var i = 0;
                 while ( i < this.selected.length ) 
-                  { var x = this.selected[i]; console.log('hehe',x);
-                    if (x){ this.selected.splice(i,1); console.log('hehe1',x);
+                  { var x = this.selected[i]; 
+                    if (x){ this.selected.splice(i,1); 
                             if(x.Status_id==12 || x.Status_id==9) //8,0=qd,9-inpr,12-complt
-                            { swal.fire({ position: 'top-right',
+                            { this.printdialog=false;
+                              swal.fire({ position: 'top-right',
                             title:'<span style="color:white">Only Queued Jobs can be selected</span>',
-                            timer: 2000, toast: true, background: 'black',
+                            timer: 2000, toast: true, background: 'purple',
                             });
                               this.selected=[];this.formSearchData.selected1=[];
                             return;
@@ -110,15 +166,15 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         }
                       else i++;
                 }
-              console.log('tansfer- this.selected=',this.selected)
-              console.log('tansfer- this.formSearchData.selected1=',this.formSearchData.selected1)
+              console.log('tansfer- this.formSearchData',this.formSearchData)
                 if(this.formSearchData.selected1.length>0)
-                {       this.cutselectloading=true; 
+                {       this.transferloading=true; 
                         this.$store.dispatch('updatetransferjob', this.formSearchData)
                         .then((response) =>  { console.log('tansfer---response=',response);  
-                                this.cutselectloading=false;   })     
-                        .catch((error) => {   this.cutselectloading=false;      });
+                                this.transferloading=false;   })     
+                        .catch((error) => {   this.transferloading=false;      });
                 }
+              this.printdialog=false;
               this.selected=[];this.selected1=[];
               this.resetformSearchData();     
             }//length>0 
@@ -266,5 +322,6 @@ tr > td > .text-left{
   width:5% !important;
 }
 
-
+#flag-btn{margin-left:10px}
+#bbtn{ width:20%}
 </style>

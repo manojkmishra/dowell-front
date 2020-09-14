@@ -81,6 +81,9 @@
                   @click.prevent="changesaw"><v-icon  >mdi-circular-saw</v-icon>ChangeSaw</v-btn>
         <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
                   @click.prevent="reoptimise" ><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn> 
+    <!--    <v-btn id="flag-btn" ripple small color="blue accent-4"  rounded dark   :loading="loadingfixstatus"
+                  @click.prevent="fixstatus" ><v-icon  >mdi-cog-clockwise</v-icon>fix-status</v-btn>
+                  -->
  
 
             
@@ -129,7 +132,7 @@ console.log('jd--sawflags',this.sawflags)
    data() {  return { seen: true,dialog: false,printdialog: false,loadingexttosaw:false, loadingcutall:false,loadingcutlist:false,
             formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:''  },
                   editedItem: { name: '', calories: 0, fat: 0, carbs: 0, protein: 0, },
-      editedIndex: -1,loadingprint:false,
+      editedIndex: -1,loadingprint:false, loadingfixstatus:false,
         }
     },
 components: {   'job-details-list': JobDetailsList,  },
@@ -151,6 +154,21 @@ methods: {   close(){ this.dialog=false;},
                 .catch((error) => {       });
                 this.dialog=false;
         },
+        fixstatus() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+                this.formSearchData.SawCode = this.selectedSaw;
+                this.loadingfixstatus=true;
+                 console.log('fixstatus-form',this.formSearchData);
+                this.$store.dispatch('fixstatus', this.formSearchData)
+                .then((response) => {   
+                console.log('fixstatus-res=',response);
+                this.loadingfixstatus=false; 
+                 swal.fire({ position: 'top-right',
+                            title:'<span style="color:white">Status Fixed</span>',
+                            timer: 2000, toast: true,background: 'purple',
+                            });     })
+                .catch((error) => { console.log('fixstatus-error=',error);
+                    this.loadingfixstatus=false;   });
+            },
         OnSavePrint(x)
         {  console.log('print selected',x);
             this.formSearchData.report = x.name;
@@ -187,6 +205,7 @@ methods: {   close(){ this.dialog=false;},
                 .catch((error) => {this.loadingcutlist=false;});
                 },
             //-----------scrap finish---------------------
+
     exttosawjd() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.formSearchData.loc = "GBG";

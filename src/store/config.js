@@ -27,6 +27,7 @@ export const getsawprint = apiDomain + '/saw/getsawprint';
 export const addsawprint = apiDomain + '/saw/addsawprint';
 export const editsawprint = apiDomain + '/saw/editsawprint';
 export const deletesawprint = apiDomain + '/saw/deletesawprint';
+export const fixstatus = apiDomain + '/saw/fixstatus';
 //--------------------------------------------------
 export const getsawstatus = apiDomain+ '/saw/getsawstatus';
 export const getsawflags = apiDomain+ '/saw/getsawflags';

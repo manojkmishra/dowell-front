@@ -237,8 +237,22 @@ async updateOptCut({dispatch}, formData)
             
             });
                               return res;  
+     },
+     //------------------------------------------
+     async fixstatus ({dispatch}, formData)
+     {   console.log('fixstatus-vuex- formData=', formData);
+          let res= await axios.post(api.fixstatus, formData)  
+          .then((response) => {  
+            console.log('fixstatus-vuex- res=', response);
+                            })
+              .catch((error) => {console.log('fixstatus-vuex-error',error)
+            
+            });
+                              return res;  
 
      },
+
+     //------------------------------------------
      async sawprint ({dispatch}, formData)
      {   console.log('sawprint-- formData=', formData);
           let res= await axios.post(api.sawprint, formData)  

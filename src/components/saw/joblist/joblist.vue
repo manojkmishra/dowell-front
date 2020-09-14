@@ -13,7 +13,7 @@
       <!--    <v-btn v-if="user.admin =='1' && (selectedSaw =='BF_HD' || selectedSaw =='Timber'
           || selectedSaw =='EA_DFL_LVR' || selectedSaw =='General') " id="btn-cutselected" small  color="red" rounded dark :loading="cutselectloading"  @click.prevent="transferjob">TrnsfrJob</v-btn>  
  -->
-<!--
+
 <v-dialog v-model="printdialog" v-if="user.admin =='1' && (selectedSaw =='BF_HD' || selectedSaw =='Timber'
           || selectedSaw =='EA_DFL_LVR' || selectedSaw =='General' || selectedSaw =='transfer_saw')" max-width="500px">
           <template v-slot:activator="{ on }">
@@ -21,8 +21,8 @@
             <v-icon>mdi-share-circle</v-icon>Transfer Saw</v-btn>
 
           </template>
-          ---popup---------------->
-    <!--      <v-card>
+         <!---popup--->
+          <v-card>
             <v-card-title><span class="headline" >Transfer Jobs</span></v-card-title>
             <v-card-text>
               <v-container>
@@ -42,7 +42,7 @@
               </v-card-actions>
           </v-card>
 </v-dialog>
--->
+
 <!-------------dialog for print stop--------------------------------->
           <!----->
           <v-spacer></v-spacer>

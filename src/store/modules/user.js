@@ -26,6 +26,33 @@ export default{
         commit({type:types.GET_USER_LIST ,  userlist: resp.data} );
         
       },
+      adduser(ctx, payload) 
+      {  return new Promise((resolve, reject) => 
+        {  axios.post(api.adduser, payload)
+                .then((response) => 
+                {  console.log('actions-adduser-res=',response);
+                    ctx.dispatch('getusers');
+                }).catch((error) => { console.log('actions-adduser-res=',error);
+                  reject(error);  })
+        })
+      },
+      deleteuser(ctx, payload) 
+      {  return new Promise((resolve, reject) => 
+        {  axios.post(api.deleteuser, payload)
+                .then((response) => 
+                {  console.log('actions-deleteuser-res=',response);
+                    ctx.dispatch('getusers');
+                }).catch((error) => { reject(error);  })
+        })
+      },
+      edituser(ctx, payload) 
+      {  return new Promise((resolve, reject) => 
+        {  axios.post(api.edituser, payload)
+                .then((response) => 
+                { ctx.dispatch('getusers');
+                }).catch((error) => { reject(error);  })
+        })
+      },
       
   }
 }

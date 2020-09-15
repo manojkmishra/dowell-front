@@ -241,6 +241,35 @@
           </span>
         </span>
        </v-btn>
+       
+       <v-btn  ripple x-small disabled  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+
+    </template>
+
+        <template v-slot:item.transfer1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+
+       <v-btn  ripple x-small v-if="item.transfer.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.transfer)" >InPrg
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.transfer.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn  ripple x-small v-else-if="item.transfer.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.transfer)" >Cmplt
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.transfer.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn  ripple x-small v-else-if="item.transfer.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.transfer)" >QUD
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.transfer.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       
        <v-btn  ripple x-small disabled  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
 
     </template>
@@ -279,7 +308,8 @@ export default
               { text: 'EaSash', align: 'left',  value: 'easash1',width:"1%"},
               { text: 'Awnings', align: 'left',  value: 'eadfl1',width:"1%"},
               { text: 'BFHD', align: 'left',  value: 'bfhd1',width:"1%"},
-              { text: 'Commercial', align: 'left',  value: 'commercial1',width:"1%"},
+              { text: 'Comrcial', align: 'left',  value: 'commercial1',width:"1%"},
+              { text: 'Transfr', align: 'left',  value: 'transfer1',width:"1%"},
              //  { text: 'Timber', align: 'left',  value: 'timber1',width:"1%"},
 
 
@@ -345,6 +375,7 @@ export default
                               && (myObj[key].eadfl)==""
                               && (myObj[key].bfhd)==""
                               && (myObj[key].commercial)==""
+                              && (myObj[key].transfer)==""
                               ){
                                // console.log('hehe')
                                 delete myObj[key]

@@ -31,8 +31,10 @@
                <v-layout column align-center>
                     <v-flex class="mt-5" >
                          <v-avatar size="120" class=""><img src="@/assets/user.png"></v-avatar>
-                         <p class="subheading mt-1" style="text-align: center; color:rgb(6, 231, 125);"
-                         color="green accent-4">{{user.name}}</p>
+                         <p class="subheading mt-2" style="text-align: center; color:rgb(6, 231, 125);"
+                         >{{user.name}}</p>
+                         <p style="text-align: center; color:rgb(6, 231, 125);"
+                         >{{usertype}}</p>
                     </v-flex> <!--popup to add projects below -->
                </v-layout>            
       <!---multi leve finish ---------->
@@ -87,6 +89,7 @@ export default {
            { action: 'mdi-account', title: 'User Settings',hasMulSub: true,items: [
           //  { title: 'Profile', route:'/profile' },
               { title: 'Users List', route:'/userlist' },
+              { title: 'Profile', route:'/profile' },
              //  { title: 'User Rights', route:'/userrights' },
 
              ],
@@ -121,6 +124,13 @@ export default {
         ...mapGetters({authenticated:'auth/authenticated',
                       user:'auth/user'
                       }),
+                   usertype(){
+                     console.log('utype-user=',this.user)
+                        if(this.user.admin==1){
+                          return "Admin User";
+                        }
+                        else{ return "Saw User"}
+                      }
           
     },
     methods:{

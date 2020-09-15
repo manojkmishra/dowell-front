@@ -143,8 +143,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 
             if(this.selected.length==0) //if clicked without selecting
               { this.printdialog=false;
-                swal.fire({ position: 'top-right', title:'<span style="color:white">Please select jobs to cut</span>',
-                            timer: 2000, toast: true, background: 'purple',
+                swal.fire({ position: 'top-right', title:'<span style="color:white">Please select jobs to transfer</span>',
+                            timer: 2000, toast: true, background: 'red',
                           });
                     
               }
@@ -157,7 +157,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             { this.printdialog=false;
                               swal.fire({ position: 'top-right',
                             title:'<span style="color:white">Only Queued Jobs can be selected</span>',
-                            timer: 2000, toast: true, background: 'purple',
+                            timer: 2000, toast: true, background: 'red',
                             });
                               this.selected=[];this.formSearchData.selected1=[];
                             return;

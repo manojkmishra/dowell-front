@@ -1,4 +1,6 @@
 <template>
+<div>
+<div v-if="user.admin =='1'">
   <v-data-table  :headers="headers" :items="sawstatus"  class="elevation-1" >
     <template v-slot:top>
       <v-toolbar flat color="white">
@@ -35,9 +37,9 @@
                       'Passwords  not matching']" ></v-text-field>
                     </v-col>
                  
-                   <v-col cols="12" sm="6" md="6">
+                <!--   <v-col cols="12" sm="6" md="6">
                     <v-text-field v-model="editedItem.mobile" label="Mobile"></v-text-field>
-                  </v-col>
+                  </v-col> -->
                   <v-col cols="12" sm="6" md="6">
                     <v-select single-line bottom label="Type" 
                       v-model="editedItem.type" :items="typeOptions"    
@@ -79,6 +81,9 @@
       <div></div> <!----show nothing when no data -->
     </template>
   </v-data-table>
+  </div>
+  <div v-else class="text-center pt-5"> <h3>Accessible only to Admin Users</h3></div>
+  </div>
 </template>
 <script>
     import { mapGetters, mapState, mapActions} from 'vuex'
@@ -92,15 +97,15 @@
                         { text: "TYPE", align: "left", sortable: true, value: "mobile" },
                        // { text: "TYPE", align: "left", sortable: true, value: "type" },
                        // { text: "CREATEDBY", align: "left", sortable: true, value: "created_by.name" },
-                        { text: "UPDATEDBY", align: "left", sortable: true, value: "updated_by" },
-                        { text: "UPDATEDAT", align: "left", sortable: true, value: "updated_at" },
+                       // { text: "UPDATEDBY", align: "left", sortable: true, value: "updated_by" },
+                       // { text: "UPDATEDAT", align: "left", sortable: true, value: "updated_at" },
                        // { text: "Actions", value: "action", sortable: false, width: "8%" },
                         { text: 'Actions', value: 'actions', sortable: false,width: "10%" },
       ],
       desserts: [],categories: [],
       editedItem: { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:''},
       editedIndex: -1,
-      typeOptions: [ "Admin User",  "Normal User" ],
+      typeOptions: [ "Admin",  "Normal" ],
       requiredRules: [ v => !!v || 'This field is required'        ],
       emailRules:[ v => !!v || 'The Email is required',
                     v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -153,17 +158,19 @@
       save () 
       {  //console.log('save-item=',item);
         if (this.editedIndex > -1) //save clicked when editing
-              {  console.log('edit',this.editedItem)
+              {  console.log('save--edit=',this.editedItem)
                     //edit api here
-                      if(this.editedItem.type=="Admin User") this.editedItem.type=1;
-                      else if(this.editedItem.type=="Normal User") this.editedItem.type=2;
+                      if(this.editedItem.type=="Admin") this.editedItem.type=1;
+                      else if(this.editedItem.type=="Normal") this.editedItem.type=2;
                     if (!this.$refs.userform.validate()) 
                     {   
-                      console.log('add-item- form validation wrong',this.editedItem)
+                      console.log('edit-item- form validation wrong',this.editedItem)
                       return false; 
                     }
                     else
+                    { console.log('edit-item- form ',this.editedItem)
                     this.$store.dispatch('edituser', this.editedItem) 
+                    }
                 } 
            //--------save clicked when adding new
         else {  console.log('add-item',this.editedItem)
@@ -188,7 +195,7 @@
                         { 
                           return false;
                         }
-                        return false;
+                        //return false;
                         this.dialogDelete = true;
                         this.editedIndex = this.sawstatus.indexOf(item);
                         this.editedItem = Object.assign({}, item);

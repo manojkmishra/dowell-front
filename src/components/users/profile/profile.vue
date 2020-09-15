@@ -25,8 +25,8 @@
                     <v-text-field v-model="editedItem.name" label="Name" :rules="requiredRules"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="6">
-                    <v-text-field v-model="editedItem.email" label="Email" 
-                    :rules="emailRules" ></v-text-field>
+                    <v-text-field v-model="editedItem.email" label="Email" disabled
+                     ></v-text-field>
                   </v-col>
                  
                     <v-col cols="12" sm="6" md="6" v-if="dialogDelete === false">
@@ -73,7 +73,7 @@
     data: () => ({
       dialog: false,dialogDelete: false,
       headers: [
-                        { text: "ID", value: "id", width: "6%" },
+                       // { text: "ID", value: "id", width: "6%" },
                         { text: "NAME", align: "left", sortable: true, value: "name" },
                         { text: "EMAIL", align: "left", sortable: true, value: "email" },
                         { text: "TYPE", align: "left", sortable: true, value: "mobile1" },
@@ -82,7 +82,7 @@
                        // { text: "UPDATEDBY", align: "left", sortable: true, value: "updated_by" },
                        // { text: "UPDATEDAT", align: "left", sortable: true, value: "updated_at" },
                        // { text: "Actions", value: "action", sortable: false, width: "8%" },
-                        { text: 'Actions', value: 'actions', sortable: false,width: "10%" },
+                        { text: 'Edit', value: 'actions', sortable: false,width: "10%" },
       ],
       desserts: [],categories: [],
       editedItem: { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:''},

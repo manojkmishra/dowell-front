@@ -1,6 +1,9 @@
 <template>
   <v-data-table  :headers="headers" :items="computeduser"  class="elevation-1"
   :hide-default-footer="true"  >
+   <template v-slot:item.mobile1="{ item }">
+      {{ usertype }}
+    </template>
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>User Profile</v-toolbar-title>
@@ -40,22 +43,6 @@
               </v-container>
             </v-card-text>
 
-           <!-- <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-            </v-card-actions> -->
-            <v-card-actions>
-              <div class="flex-grow-1"></div>
-                <div v-if="dialogDelete === true">
-                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="remove">Delete</v-btn>
-                </div>
-                <div v-else-if="dialogDelete === false">
-                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-                </div>
-            </v-card-actions>
           </v-card>
         </v-dialog>
         <!--------------modal--------------->
@@ -79,7 +66,7 @@
                         { text: "ID", value: "id", width: "6%" },
                         { text: "NAME", align: "left", sortable: true, value: "name" },
                         { text: "EMAIL", align: "left", sortable: true, value: "email" },
-                        { text: "TYPE", align: "left", sortable: true, value: "mobile" },
+                        { text: "TYPE", align: "left", sortable: true, value: "mobile1" },
                        // { text: "TYPE", align: "left", sortable: true, value: "type" },
                        // { text: "CREATEDBY", align: "left", sortable: true, value: "created_by.name" },
                        // { text: "UPDATEDBY", align: "left", sortable: true, value: "updated_by" },
@@ -125,7 +112,14 @@
               },
           ...mapGetters({authenticated:'auth/authenticated',
                           user:'auth/user'
-                        })
+                        }),
+                    usertype(){
+                     console.log('utype-user=',this.user)
+                        if(this.user.admin==1){
+                          return "Admin User";
+                        }
+                        else{ return "Saw User"}
+                      }
 
      },
     watch: { dialog (val) { console.log('inside watch- dialog- val=',val)

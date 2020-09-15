@@ -77,7 +77,7 @@ export default
                                swal.fire({
                 position: 'top-right',
                 title:'<span style="color:white">Login Failed!!</span>',
-                  timer: 3000, toast: true, background: 'purple', color:'white'
+                  timer: 5000, toast: true, background: 'red', color:'white'
                  });
                               this.loading=false;
                               })

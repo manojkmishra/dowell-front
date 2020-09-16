@@ -30,10 +30,10 @@
              id="sidebar">
                <v-layout column align-center>
                     <v-flex class="mt-5" >
-                         <v-avatar size="120" class=""><img src="@/assets/user.png"></v-avatar>
-                         <p class="subheading mt-2" style="text-align: center; color:rgb(6, 231, 125);"
+                         <v-avatar size="120" class="mb-2"><img src="@/assets/user.png"></v-avatar>
+                         <p class="mt-2" style="text-align: center; color:rgb(6, 231, 125);"
                          >{{user.name}}</p>
-                         <p style="text-align: center; color:rgb(6, 231, 125);"
+                         <p style="text-align: center; color:rgb(6, 231, 125); margin-top: -1rem;"
                          >{{usertype}}</p>
                     </v-flex> <!--popup to add projects below -->
                </v-layout>            
@@ -105,6 +105,7 @@ export default {
           },
            { action: 'mdi-chart-bar', title: 'Summary',hasMulSub: true, items: [ 
               { title: 'Jobsummary', route:'/summary/jobs' },
+              { title: 'Screens', route:'/summary/screens' },
               //{ title: 'dailycuts', route:'/dailycuts' }, 
               ], },
        /*   { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [

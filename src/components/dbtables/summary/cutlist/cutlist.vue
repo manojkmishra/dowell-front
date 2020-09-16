@@ -2,8 +2,8 @@
  <v-container grid-list-lg pa-0 mt-2>
     <v-layout wrap>
        <v-flex xs12>
-         <v-btn  text  color="grey" @click="backToSaw">
-            <v-icon id="return-btn">mdi-keyboard-backspace</v-icon>RETURN TO JOBSUMMARY
+         <v-btn  text  color="grey" @click="$router.go(-1)">
+            <v-icon id="return-btn" ml-2>mdi-keyboard-backspace</v-icon>RETURN
          </v-btn> 
        </v-flex>
     <v-flex xs12 pt-0>

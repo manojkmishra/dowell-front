@@ -23,6 +23,7 @@ import cutdata from '@/components/charts/cutdate.vue'
 import dailycuts from '@/components/charts/dailycuts.vue'
 import sawprints from '@/components/dbtables/sawprints/sawprints.vue'
 import jobsummary from '@/components/dbtables/summary/jobsummary.vue'
+import screensummary from '@/components/dbtables/summary/screensummary.vue'
 
 Vue.use(VueRouter)
 const routes = [
@@ -50,6 +51,7 @@ const routes = [
   { path: '/cutdata',name:'cutdata', component: cutdata,meta: { requiresAuth: true }},
   { path: '/dailycuts',name:'dailycuts', component: dailycuts,meta: { requiresAuth: true }},
   { path: '/summary/jobs',name:'jobsummary', component: jobsummary,meta: { requiresAuth: true }},
+  { path: '/summary/screens',name:'screens', component: screensummary,meta: { requiresAuth: true }},
   { path: '/404', component: () => import('@/views/App404.vue'),meta: { requiresAuth: true  }, },
   
   { path: '*', redirect: '/404' },

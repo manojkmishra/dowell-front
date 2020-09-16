@@ -6,10 +6,12 @@
         absolute
         top
         color="deep-purple accent-4"
+        
     ></v-progress-linear>
   <v-data-table :headers="headers" :items="aa"  dense
   class="elevation-1" :search="search" sortBy="truck_no"
  :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [-1,20,40], }"
+ 
 >
     <template v-slot:top>
         <v-toolbar  color="light-blue darken-3" dark >
@@ -35,8 +37,8 @@
     <template v-slot:item.cutday="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <span>{{moment(item.cut_date).format('DD-MM-YYYY')}}</span>
     </template>
+    <!------------------------>
     <template v-slot:item.slidsash1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-<!------------------------>
        <v-btn  ripple x-small v-if="item.slidsash.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >InPrg
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
             <span v-if="aa.id==item.slidsash.review">  <!-- {{aa.id}} -->
@@ -51,7 +53,7 @@
           </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.slidsash.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >QUD
+       <v-btn  ripple x-small v-else-if="item.slidsash.status_id =='0' || item.slidsash.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >QUD
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
             <span v-if="aa.id==item.slidsash.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 

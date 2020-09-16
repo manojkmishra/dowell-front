@@ -104,8 +104,8 @@ export default {
              ],
           },
            { action: 'mdi-chart-bar', title: 'Summary',hasMulSub: true, items: [ 
-              { title: 'Jobsummary', route:'/summary/jobs' },
-              { title: 'Screens', route:'/summary/screens' },
+              { title: 'Job summary', route:'/summary/jobs' },
+              { title: 'Screens summary', route:'/summary/screens' },
               //{ title: 'dailycuts', route:'/dailycuts' }, 
               ], },
        /*   { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [

@@ -11,6 +11,7 @@
   <v-data-table :headers="headers" :items="aa"  dense
   class="elevation-1" :search="search" sortBy="truck_no"
  :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [-1,20,40], }"
+ :hide-default-footer="true"
  
 >
     <template v-slot:top>

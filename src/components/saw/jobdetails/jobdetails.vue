@@ -77,16 +77,16 @@
 <!-------------dialog for print stop--------------------------------->
         <v-btn id="flag-btn" ripple small color="blue darken-4"  rounded dark   :loading="loadingexttosaw"
                   @click.prevent="exttosawjd"><v-icon  >mdi-share-circle</v-icon>Ext-To-Saw</v-btn>
-        <v-btn id="flag-btn" ripple small color="cyan"  rounded dark   
+    <!--    <v-btn id="flag-btn" ripple small color="cyan"  rounded dark   
                   @click.prevent="changesaw"><v-icon  >mdi-circular-saw</v-icon>ChangeSaw</v-btn>
         <v-btn id="flag-btn" ripple small color="green accent-4"  rounded dark   
                   @click.prevent="reoptimise" ><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn> 
-    <!--    <v-btn id="flag-btn" ripple small color="blue accent-4"  rounded dark   :loading="loadingfixstatus"
+        <v-btn id="flag-btn" ripple small color="blue accent-4"  rounded dark   :loading="loadingfixstatus"
                   @click.prevent="fixstatus" ><v-icon  >mdi-cog-clockwise</v-icon>fix-status</v-btn> -->
                   
  
 
-            
+    
             
        </v-flex>
  

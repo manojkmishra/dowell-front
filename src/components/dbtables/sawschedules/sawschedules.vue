@@ -65,7 +65,7 @@ export default
             }),
   },
   props:{bb:Array},
-  data() { return {dialog: false,search: '',aa:[],loading:false,
+  data() { return {dialog: false,search: '',aa:[],loading:false,//paginate1: {},
           headers: [
             //  { text: 'created_at', align: 'left', value: 'created_at', },
             //  { text: 'created_by', align: 'left',  value: 'created_by.name'},
@@ -96,14 +96,46 @@ export default
         },
         methods:{ 
 
-            paginate1(e){ console.log('paginate-$event',e); this.loading=true;
+            paginate1(e){
+              
+              console.log('paginate-$event',e); this.loading=true;
             //axios.get(`http://127.0.0.1:8000/api/saw/getsawschedules?page='+${e.page}`,{})
-             axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=${e.page}`,
-             {params:{'per_page':e.itemsPerPage}})
-               // this.$store.dispatch(`getsawschedules?page='+${e.page}`,{})
-                    .then((res) => { console.log('getschedules response',res.data.response.data)  
-                                      this.aa=res.data.response; this.loading=false;  })
-                    .catch(err=>{ console.log('paginate-err=', err) ; this.loading=false; })
+
+            if(this.search =='')
+                { console.log('paginate-not search-e',e)
+                axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=${e.page}`,
+                {params:{'per_page':e.itemsPerPage}})
+                  // this.$store.dispatch(`getsawschedules?page='+${e.page}`,{})
+                        .then((res) => { console.log('getschedules response',res.data.response.data)  
+                                          this.aa=res.data.response; this.loading=false;  })
+                        .catch(err=>{ console.log('paginate-err=', err) ; this.loading=false; })
+                }
+              else{
+                //this.searchit(e)
+                console.log('paginate-search-e=',e)
+                 console.log('paginate-search=',this.search)
+              //--------------
+                  let x=this.search;
+                  if(x.length>3){ this.loading=true;
+                  console.log('paginate-search-e-len',x)
+                    axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${x}`,{params:{'per_page':20, 'page':e.page}} )
+                        .then((res) => { console.log('sawsc search res>3 =',res.data.response)  
+                                          this.aa=res.data.response; this.loading=false;  })
+                        .catch(err=>{ console.log('sawsc search err=', err); this.loading=false;  })
+                    }
+                  if(x.length<=0){ this.loading=true;
+                  console.log('searchlen=0, e=',x)
+                    axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=1`,
+                {params:{'per_page':20}} )
+                        .then((res) => { console.log('sawsc search res less<=0 =',res.data.response)  
+                                          this.aa=res.data.response; this.loading=false;  })
+                        .catch(err=>{ console.log('sawsc search err=', err) ; this.loading=false; })
+
+                  }
+
+              //-----------------
+
+              }
             },
             searchit(e){ this.search=e;
               console.log('search=',e)

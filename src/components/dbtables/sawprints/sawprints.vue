@@ -29,6 +29,9 @@
                     > </v-select>
                   </v-col>
                   <v-col cols="4" sm="6" md="6">
+                    <v-text-field v-model="editedItem.alias" label="Alias"></v-text-field>
+                  </v-col>
+                  <v-col cols="4" sm="6" md="6">
                     <v-text-field v-model="editedItem.printer" label="Printer"></v-text-field>
                   </v-col>
                   <v-col cols="4" sm="6" md="6">
@@ -77,6 +80,7 @@
                         { text: "ID", value: "id", width: "6%" },
                         { text: "NAME", align: "left", sortable: true, value: "name" },
                         { text: "Saw", align: "left", sortable: true, value: "saw" },
+                        { text: "Alias", align: "left", sortable: true, value: "alias" },
                         { text: "Printer", align: "left", sortable: false, value: "printer" },
                         { text: "Location", align: "left", sortable: false, value: "location" },
                         //{ text: "CREATEDBY", align: "left", sortable: true, value: "createdby.name" },
@@ -87,7 +91,7 @@
       ],
     //  categories: [],
       //sawflags:[],
-      editedItem: { name: '', saw: '', printer:'', location:'',},
+      editedItem: { name: '', saw: '', printer:'', location:'',alias:''},
       editedIndex: -1,
      // typeOptions: [ "saw_schedules",  "optimised_bars", "optimised_cuts", "Flag" ],
      // formData: {     id: '',    STATUS: '', TYPE:'',   comment: '', }

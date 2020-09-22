@@ -14,8 +14,8 @@
           || selectedSaw =='EA_DFL_LVR' || selectedSaw =='General') " id="btn-cutselected" small  color="red" rounded dark :loading="cutselectloading"  @click.prevent="transferjob">TrnsfrJob</v-btn>  
  -->
 
-<v-dialog v-model="printdialog" v-if="user.admin =='1' && (selectedSaw =='BF_HD' || selectedSaw =='Timber'
-          || selectedSaw =='EA_DFL_LVR' || selectedSaw =='General' || selectedSaw =='transfer_saw')" max-width="500px">
+<v-dialog v-model="printdialog" v-if="user.admin =='1' && (selectedSaw =='DSW_DH_Sashes' || selectedSaw =='EA_Sashes'
+           || selectedSaw =='General' || selectedSaw =='transfer_saw')" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn id="flag-btn" ripple small color="purple" :loading="transferloading" rounded dark  v-on="on">
             <v-icon>mdi-share-circle</v-icon>Transfer Saw</v-btn> 

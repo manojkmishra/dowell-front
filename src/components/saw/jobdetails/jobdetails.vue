@@ -175,6 +175,7 @@ methods: {   close(){ this.dialog=false;},
             this.formSearchData.QuoteID = this.selectedJob.quote_ID;
             this.formSearchData.SawCode = this.selectedSaw;
             this.formSearchData.printer = x.printer;
+            this.formSearchData.alias = x.alias;
             this.loadingprint=true;
             console.log('formSearchData=',this.formSearchData);
                         this.$store.dispatch('sawprint', this.formSearchData)

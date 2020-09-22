@@ -96,11 +96,13 @@ export default {
           },
           { action: 'mdi-hand-saw', title: 'SAW Settings',hasMulSub: true,items: [
               { title: 'Saw Schedules', route:'/sawschedules' },
-               { title: 'Saw Bars', route:'/sawbars' },
-               { title: 'Saw Cuts', route:'/sawcuts' },
+              // { title: 'Saw Bars', route:'/sawbars' },
+              // { title: 'Saw Cuts', route:'/sawcuts' },
                { title: 'Saw Status', route:'/sawstatus' },
                { title: 'Saw Flags', route:'/sawflags' },
                { title: 'Saw Prints', route:'/sawprints' },
+               { title: 'Transfrd Jobs', route:'/transfrdjobs' },
+               { title: 'Transfr Saw', route:'/transfrsaw' },
              ],
           },
            { action: 'mdi-chart-bar', title: 'Summary',hasMulSub: true, items: [ 

@@ -14,8 +14,8 @@ import sawcuts from '@/components/dbtables/sawcuts/sawcuts.vue'
 import sawstatus from '@/components/dbtables/sawstatus/sawstatus.vue'
 import sawflags from '@/components/dbtables/sawflags/sawflags.vue'
 import cutlist from '@/components/saw/cutlist/cutlist.vue'
-import sscutlist from '@/components//dbtables/sawschedules/cutlist/cutlist.vue'
-import jscutlist from '@/components//dbtables/summary/cutlist/cutlist.vue'
+import sscutlist from '@/components/dbtables/sawschedules/cutlist/cutlist.vue'
+import jscutlist from '@/components/dbtables/summary/cutlist/cutlist.vue'
 import user from '@/components/users/user.vue'
 import UserList from '@/components/users/userlist/UserList.vue'
 import profile from '@/components/users/profile/profile.vue'
@@ -24,6 +24,10 @@ import dailycuts from '@/components/charts/dailycuts.vue'
 import sawprints from '@/components/dbtables/sawprints/sawprints.vue'
 import jobsummary from '@/components/dbtables/summary/jobsummary.vue'
 import screensummary from '@/components/dbtables/summary/screensummary.vue'
+import transfrdjobs from '@/components/dbtables/transfrdjobs/transfrdjobs.vue'
+import transfrsaw from '@/components/dbtables/transfrsaw/transfrsaw.vue'
+import tjcutlist from '@/components/dbtables/transfrdjobs/cutlist/cutlist.vue'
+
 
 Vue.use(VueRouter)
 const routes = [
@@ -52,6 +56,9 @@ const routes = [
   { path: '/dailycuts',name:'dailycuts', component: dailycuts,meta: { requiresAuth: true }},
   { path: '/summary/jobs',name:'jobsummary', component: jobsummary,meta: { requiresAuth: true }},
   { path: '/summary/screens',name:'screens', component: screensummary,meta: { requiresAuth: true }},
+  { path: '/transfrdjobs',name:'transfrdjobs', component: transfrdjobs,meta: { requiresAuth: true }},
+  { path: '/transfrsaw',name:'transfrsaw', component: transfrsaw,meta: { requiresAuth: true }},
+  { path: '/saw/tjcutlist',name:'tjcutlist', component: tjcutlist, props: true,meta: { requiresAuth: true }},
   { path: '/404', component: () => import('@/views/App404.vue'),meta: { requiresAuth: true  }, },
   
   { path: '*', redirect: '/404' },

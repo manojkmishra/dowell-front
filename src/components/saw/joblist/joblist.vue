@@ -117,8 +117,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                  // let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
                  // console.log('bb=',bb)
                     var newArray = this.sawlist.filter(function (el) { 
-                        if(el.SawCode =="EA_DFL_LVR" || el.SawCode =="Timber"
-                        || el.SawCode =="BF_HD" || el.SawCode =="General" || el.SawCode =="transfer_saw")
+                        if( el.SawCode =="DSW_DH_Sashes" || el.SawCode =="EA_Sashes"
+                         //|| el.SawCode =="EA_DFL_LVR" || el.SawCode =="Timber"|| el.SawCode =="BF_HD" 
+                        || el.SawCode =="General" || el.SawCode =="transfer_saw")
                       return el;
                     });
                   console.log('sawlist=',this.sawlist)

@@ -132,6 +132,7 @@ export default {
                         if(this.user.admin==1){
                           return "Admin User";
                         }
+                        else if (this.user.admin==3) {return "View Only User";}
                         else{ return "Saw User"}
                       }
           

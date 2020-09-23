@@ -107,7 +107,7 @@
       desserts: [],categories: [],
       editedItem: { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:''},
       editedIndex: -1,
-      typeOptions: [ "Admin",  "Normal" ],
+      typeOptions: [ "Admin",  "Normal" , "View"],
       requiredRules: [ v => !!v || 'This field is required'        ],
       emailRules:[ v => !!v || 'The Email is required',
                     v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -164,6 +164,7 @@
                     //edit api here
                       if(this.editedItem.type=="Admin") this.editedItem.type=1;
                       else if(this.editedItem.type=="Normal") this.editedItem.type=2;
+                      else if(this.editedItem.type=="View") this.editedItem.type=3;
                     if (!this.$refs.userform.validate()) 
                     {   
                       console.log('edit-item- form validation wrong',this.editedItem)
@@ -177,8 +178,9 @@
            //--------save clicked when adding new
         else {  console.log('add-item',this.editedItem)
                     //adduser api here
-                      if(this.editedItem.type=="Admin User") this.editedItem.type=1;
-                      else if(this.editedItem.type=="Normal User") this.editedItem.type=2;
+                      if(this.editedItem.type=="Admin") this.editedItem.type=1;
+                      else if(this.editedItem.type=="Normal") this.editedItem.type=2;
+                      else if(this.editedItem.type=="View") this.editedItem.type=3;
                      if (!this.$refs.userform.validate()) 
                     {   
                       console.log('add-item- form validation wrong',this.editedItem)

@@ -25,7 +25,7 @@
         </v-toolbar>
     </template>
     <template v-slot:item.updatedat="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-       <span>{{moment(item.updated_at).format('DD-MM-YYYY, h:mm:ss')}}</span>
+       <span>{{moment(item.updated_at).format('DD-MM-YYYY, HH:mm')}}</span>
     </template>
     <template v-slot:item.cutday="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <span>{{moment(item.cut_date).format('DD-MM-YYYY')}}</span>
@@ -33,18 +33,55 @@
     <template v-slot:item.tim="{ item }">
       {{ ~~(item.cut_time / 60) + ":" + (item.cut_time % 60 < 10 ? "0" : "") + item.cut_time % 60 }}
     </template>
+    <!---=============status===========--------------->
+   
     <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-       <v-btn  ripple x-small v-if="item.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item)" >InPrg</v-btn>
-       <v-btn  ripple x-small v-else-if="item.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item)" >Cmplt</v-btn>
-       <v-btn  ripple x-small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="scrap(item)" >Queud</v-btn>
+    <!------------------->
+ <v-tooltip bottom :disabled="item.comments==null">
+   <template v-slot:activator="{ on }">
+      <v-btn v-on="on"  ripple x-small v-if="item.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item)" >
+         InPrg
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+            <span v-if="aa.id==item.review">  <!-- {{aa.id}} -->
+              <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+            </span>
+        </span>
+      </v-btn>
+
+       <!----------------->
+       <v-btn v-on="on"  ripple x-small v-else-if="item.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item)" >
+         Cmplt
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+            <span v-if="aa.id==item.review">  <!-- {{aa.id}} -->
+              <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+            </span>
+        </span>
+      </v-btn>
+       <!----------------->
+       
+        <v-btn v-on="on"  ripple x-small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="scrap(item)" >
+          Qud
+          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+              <span v-if="aa.id==item.review">  <!-- {{aa.id}} -->
+                <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+              </span>
+          </span>
+        </v-btn>
+      </template>
+      <span v-if="item.comments !=null">{{item.comments}}</span>
+      <span :disabled="item.comments ==null" ></span>
+    </v-tooltip>
     </template>
-     <template v-slot:item.flag="{ item }">
+
+    <!---===============status finish=========----->
+  <!-- <template v-slot:item.flag="{ item }">
       <span v-for="aa in sawflags" :key="aa.id">
-        <span v-if="aa.id==item.review">  <!-- {{aa.id}} -->
+        <span v-if="aa.id==item.review">  
         <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
        </span>
       </span>
-    </template>
+    </template>   
+  -->
     <template slot="no-data">
       <div></div>
     </template>
@@ -76,7 +113,7 @@ export default
               { text: 'cut_date', align: 'left',  value: 'cutday',width:"2%"},
               { text: 'quote_ID', value: 'quote_ID',sortable: false,width:"1%" },
               { text: 'order_ID', value: 'order_ID' ,sortable: false,width:"1%"},
-              { text: 'Cust', align: 'left',  value: 'cust_name',width:"1%"},
+              { text: 'Customer', align: 'left',  value: 'cust_name',width:"2%"},
               
              // { text: 'cut_time', align: 'left',  value: 'cut_time'},
               { text: 'schedule_saw', align: 'left',  value: 'schedule_saw',width:"1%"},
@@ -86,7 +123,7 @@ export default
               { text: 'Time (Min)', value: 'tim',sortable: false,width:"1%" },
               //{ text: 'Status', value: 'status_id', sortable: false },
               { text: 'Status', value: 'action', sortable: false,width:"1%" },
-              { text: 'Flag', value: 'flag', sortable: false,width:"1%" },
+              //{ text: 'Flag', value: 'flag', sortable: false,width:"1%" },
               //{ text: 'Flag', value: 'review', sortable: false ,width:"1%"},
             ],
             formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[], cut_saw:'' ,'selerr':false }, 
@@ -224,5 +261,9 @@ export default
 <style scoped>
 .disable-events {
   pointer-events: none
+}
+.v-tooltip__content {
+ 
+
 }
 </style>

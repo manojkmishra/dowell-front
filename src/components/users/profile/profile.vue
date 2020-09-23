@@ -125,12 +125,10 @@
                         }),
                     usertype(){
                      console.log('utype-user=',this.user)
-                        if(this.user.admin==1){
-                          return "Admin User";
-                        }
+                        if(this.user.admin==1){ return "Admin User"; }
+                        else if (this.user.admin==3) {return "View Only User";}
                         else{ return "Saw User"}
-                      }
-
+                      },
      },
     watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
                           val || this.close()  },    

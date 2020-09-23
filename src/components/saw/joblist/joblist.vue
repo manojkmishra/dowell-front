@@ -55,17 +55,43 @@
       {{ ~~(item.Time / 60) + ":" + (item.Time % 60 < 10 ? "0" : "") + item.Time % 60 }}
     </template>
     <!------flag---------->
-     <template v-slot:item.flag="{ item }">
+    <!-- <template v-slot:item.flag="{ item }">
       <v-icon  v-if="item.review>0" v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" >
         mdi-flag</v-icon> 
     </template>
-    <!----status----->
+    -->
+    <!--================--status-==============================---->
     <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-       <v-btn ripple small v-if="item.Status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="selectjob(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else-if="item.Status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="selectjob(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else-if="item.Status =='Up Next'"  color="red accent-1" rounded dark :loading="loading"  @click.prevent="selectjob(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else-if="item.Status =='Flagged'"  color="red darken-4" rounded dark :loading="loading"  @click.prevent="selectjob(item)">{{item.Status}}</v-btn>
-       <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="selectjob(item)">{{item.Status}}</v-btn>
+    <!----9=inprogress--->
+      <v-btn ripple small v-if="item.Status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
+          {{item.Status}}
+          <span v-if="item.review !='0' && item.review !='9'">  
+            <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
+          </span>
+      </v-btn>
+       
+       <!--12= complete---->
+       <v-btn ripple small v-else-if="item.Status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
+         {{item.Status}}
+          <span v-if="item.review !='0' && item.review !='9'">  
+            <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </v-btn>
+       <!------up next------->
+       <v-btn ripple small v-else-if="item.Status =='Up Next'"  color="red accent-1" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
+        {{item.Status}}
+          <span v-if="item.review !='0' && item.review !='9'">  
+            <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </v-btn>
+      <!-----flagged---->
+      <!-- <v-btn ripple small v-else-if="item.Status =='Flagged'"  color="red darken-4" rounded dark :loading="loading"  @click.prevent="selectjob(item)">{{item.Status}}</v-btn>  -->
+      <!-----queued---->
+      <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="selectjob(item)">{{item.Status}}
+          <span v-if="item.review !='0' && item.review !='9'">  
+            <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
+          </span>
+       </v-btn>
     </template>
     <!----cutall---------->
     <template v-if="user.admin =='1'" v-slot:item.cutall="{ item }" >
@@ -91,7 +117,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
              // { text: 'Time (Min)', value: 'Time',sortable: false },
               { text: 'Time (Min)', value: 'tim',sortable: false },
               { text: 'Color', value: 'Color', sortable: false},
-              { text: 'Flag', value: 'flag', sortable: false },
+              //{ text: 'Flag', value: 'flag', sortable: false },
               { text: 'Status', value: 'action', sortable: false },
               { text: 'CutJob', value: 'cutall', sortable: false },
             ],
@@ -104,6 +130,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         joblist:state =>state.saw.joblist,
                         selectedSaw: state => state.saw.selectedSaw,
                         user: state => state.auth.user,
+                        sawflags:state => state.saw.sawflags
                    }),
               computedHeaders () 
               { if(this.user.admin !='1'){

@@ -14,28 +14,31 @@
           <!----popup---------------->
           <v-card>
             <v-card-title><span class="headline" >FLAG</span></v-card-title>
-            <v-card-text>
+            <v-card-text class="text-center">
               <v-container>
-                <div v-for="(stateNode,index) in sawflags">
+                <div v-for="(stateNode,index) in sawflags" class="text-center">
                   <template>
                   <v-btn block rounded v-if="stateNode.name !='UnFlag'" class="mx-2 mb-2 pl-20 pr-20"  dark   
-                  @click="OnSave(stateNode.id)"
-                  v-bind:style="{ 'background-color': 'rgb('+stateNode.red+','+stateNode.green+','+stateNode.blue+')', 'color': 'white' }">
-                      {{ stateNode.name }}
+                        @click="OnSave(stateNode.id)"
+                        v-bind:style="{ 'background-color': 'rgb('+stateNode.red+','+stateNode.green+','+stateNode.blue+')', 'color': 'white' }">
+                            {{ stateNode.name }}
                   </v-btn>
                    <v-btn block rounded v-if="stateNode.name =='UnFlag'" class="mx-2 mb-2 pl-20 pr-20"  dark   
-                   @click="OnSave(stateNode.id)"
-                  v-bind:style="{ 'background-color': 'rgb('+stateNode.red+','+stateNode.green+','+stateNode.blue+')', 'color': 'black', 'border-color':'black' }">
-                      {{ stateNode.name }}
+                        @click="OnSave(stateNode.id)"
+                        v-bind:style="{ 'background-color': 'rgb('+stateNode.red+','+stateNode.green+','+stateNode.blue+')', 'color': 'black', 'border-color':'black' }">
+                            {{ stateNode.name }}
                   </v-btn>
                   </template>
+                </div>
+                <div class="text-center">
+                    <v-text-field label="Comment" outlined v-model="cmt" ></v-text-field>
                 </div>
               </v-container>
             </v-card-text>
             <v-card-actions>
               <div class="flex-grow-1"></div>
                   <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-              </v-card-actions>
+            </v-card-actions>
           </v-card>
         </v-dialog>
 <!----------------dialog for flag finished----------------------------------->
@@ -110,50 +113,65 @@ export default {
             sawflags:state => state.saw.sawflags,
             sawprints:state => state.saw.sawprints,
             flaggedjob:state => state.saw.flaggedjob
-        }),
-        sawpr(){
-
-             
-            console.log('filter')
-            let aa=this.selectedSaw
-            console.log('.filter(this.selectedSaw)',aa)
-            console.log('this.sawprints',this.sawprints)
-            //return this.sawprints.name.filter(aa)
-            let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
-            console.log('bb=',bb)
-                /* var newArray = this.sawprints.filter(function (el) { return el.saw == aa });
-            console.log('newArray=',newArray) */
-            return bb;
-        }
+            }),
+        sawpr(){    console.log('filter')
+                    let aa=this.selectedSaw
+                    console.log('.filter(this.selectedSaw)',aa)
+                    console.log('this.sawprints',this.sawprints)
+                    //return this.sawprints.name.filter(aa)
+                    let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
+                    console.log('bb=',bb)
+                    /* var newArray = this.sawprints.filter(function (el) { return el.saw == aa });
+                    console.log('newArray=',newArray) */
+                    return bb;
+                },
+        /*cmt(){   if(this.flaggedjob)
+                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
+                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                        && this.flaggedjob.review !=6)
+                        {   //this.showflag=true;
+                            //console.log('showflag-',this.showflag);
+                            return this.flaggedjob.comments;
+                        }
+                    }
+                    else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
+                    {  this.showflag=true;
+                        console.log('showflag-',this.showflag);
+                    return this.showflag;
+                    }
+                    else return;
+            } */
         },
-    created(){
-console.log('jd--sawflags',this.sawflags)
-    },
-   data() {  return { seen: true,dialog: false,printdialog: false,loadingexttosaw:false, loadingcutall:false,loadingcutlist:false,
-            formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:''  },
-                  editedItem: { name: '', calories: 0, fat: 0, carbs: 0, protein: 0, },
-      editedIndex: -1,loadingprint:false, loadingfixstatus:false,
-        }
-    },
+    created(){console.log('jd--sawflags',this.sawflags)    },
+    data() {  return { seen: true,dialog: false,printdialog: false,loadingexttosaw:false, 
+                        loadingcutall:false,loadingcutlist:false,cmt:'',
+                    formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:''  },
+                    loadingprint:false, loadingfixstatus:false,
+                    }
+            },
 components: {   'job-details-list': JobDetailsList,  },
 methods: {   close(){ this.dialog=false;}, 
             closeprint(){ this.printdialog=false;},
-    OnSave(x){  console.log('flag selected',x);
-            this.formSearchData.SawCode = this.selectedSaw;
-            this.formSearchData.flag = x;
-            this.formSearchData.id = this.selectedJob.id;
-            console.log('formSearchData=',this.formSearchData);
-            this.$store.dispatch('updateFlag', this.formSearchData)
-                .then((response) => {   
-                    swal.fire({ position: 'top-right',
-            title:'<span style="color:white">Flag change successful</span>',
-                            timer: 2000, toast: true,background: 'purple',
-                            });
-                        return;
-                  })
-                .catch((error) => {       });
+    OnSave(x){  console.log('flag selected',x); 
+                console.log('cmt',this.cmt);
+                this.formSearchData.SawCode = this.selectedSaw;
+                this.formSearchData.flag = x;
+                this.formSearchData.comments = this.cmt;
+                this.formSearchData.id = this.selectedJob.id;
+                console.log('formSearchData=',this.formSearchData);
+                this.$store.dispatch('updateFlag', this.formSearchData)
+                    .then((response) => {   swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Flag change successful</span>',
+                                                timer: 2000, toast: true,background: 'purple',
+                                            });
+                                        return;
+                                        })
+                    .catch((error) => {       });
                 this.dialog=false;
-        },
+                this.cmt='';
+            },
         fixstatus() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.loadingfixstatus=true;
@@ -247,12 +265,8 @@ methods: {   close(){ this.dialog=false;},
                             timer: 2000, toast: true,background: 'purple',
                             });
                         return;
-
                 }
 */
-
-           
-
             this.formSearchData.QuoteID = this.selectedJob.quote_ID;
             this.formSearchData.SawCode = this.selectedSaw;
             this.formSearchData.loc = "GBG";

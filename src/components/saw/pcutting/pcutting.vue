@@ -41,6 +41,7 @@ export default {
                         selectedSaw: state => state.saw.selectedSaw,
                         stateNodes3: state => state.saw.jobdetails,
                         selectedJobDetail: state => state.saw.selectedJobDetail,
+                         user: state => state.auth.user,
                   }),
          },
        data () {  return { loading1: false , loading2: false ,  formSearchData: { SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',       }}} ,
@@ -57,6 +58,17 @@ export default {
          //this.$router.push({name: 'jobdetails'});  
          },
          extToSaw() {
+            //-----------view only user-------
+                if(this.user.admin =='3')
+                            {  
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
                   this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                   this.formSearchData.SawCode = this.selectedSaw;
                   this.formSearchData.loc = "GBG";
@@ -68,7 +80,19 @@ export default {
                   .then((response) =>  {  this.loading1=false; })     
                   .catch((error) => {    this.loading1=false;      });
                },
-         reOptimise() { this.loading2=true;
+         reOptimise() { 
+            //-----------view only user-------
+                if(this.user.admin =='3')
+                            {  
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
+            this.loading2=true;
                this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                this.formSearchData.SawCode = this.selectedSaw;
                this.formSearchData.loc = "GBG";

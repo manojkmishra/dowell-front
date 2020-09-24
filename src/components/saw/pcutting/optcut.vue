@@ -41,7 +41,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             jobdetails1: state => state.saw.jobdetails,
                             joblist: state => state.saw.joblist,
                             optcutlist: state => state.saw.optcutlist,
-                            flaggedjob:state => state.saw.flaggedjob
+                            flaggedjob:state => state.saw.flaggedjob,
+                             user: state => state.auth.user,
                     }),
                    
       },
@@ -51,7 +52,19 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               },
     methods: 
           {   onClickSChange(data)
-              {   console.log('optcut.vue--change status clicked');  // actin=edit  then follow below
+              { console.log('optcut selected')
+                //-----------view only user-------
+                if(this.user.admin =='3')
+                            {  
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------  
+                console.log('optcut.vue--change status clicked');  // actin=edit  then follow below
                   console.log('optcut.vue-item: ',data);
                   console.log('optcut.vue-cut profilecutting',this.stateNodes3);
                   console.log('optcut.vue-selectedjob',this.selectedJob);

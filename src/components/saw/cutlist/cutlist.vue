@@ -23,6 +23,8 @@ export default {
           ...mapState({ 
                         selectedJob: state => state.saw.selectedJob,
                         selectedSaw: state => state.saw.selectedSaw,
+                        joblist:state =>state.saw.joblist,
+                        user: state => state.auth.user,
                         
                   }),
          },

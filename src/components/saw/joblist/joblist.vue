@@ -6,7 +6,7 @@
           <v-toolbar-title>JobList</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
-          <v-btn v-if="user.admin =='1'" id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="cutselectloading"  @click.prevent="cutselcted">CutSelected</v-btn>
+          <v-btn v-if="user.admin =='1' || user.admin =='3'" id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="cutselectloading"  @click.prevent="cutselcted">CutSelected</v-btn>
          <!----->
           
           <!-----------------dialog for transfer-start---------------------------->
@@ -14,7 +14,7 @@
           || selectedSaw =='EA_DFL_LVR' || selectedSaw =='General') " id="btn-cutselected" small  color="red" rounded dark :loading="cutselectloading"  @click.prevent="transferjob">TrnsfrJob</v-btn>  
  -->
 
-<v-dialog v-model="printdialog" v-if="user.admin =='1' && (selectedSaw =='DSW_DH_Sashes' || selectedSaw =='EA_Sashes'
+<v-dialog v-model="printdialog" v-if="(user.admin =='1' ||user.admin =='3' )&& (selectedSaw =='DSW_DH_Sashes' || selectedSaw =='EA_Sashes'
            || selectedSaw =='General' || selectedSaw =='transfer_saw')" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn id="flag-btn" ripple small color="purple" :loading="transferloading" rounded dark  v-on="on">
@@ -85,7 +85,12 @@
           </span>
         </v-btn>
       <!-----flagged---->
-      <!-- <v-btn ripple small v-else-if="item.Status =='Flagged'"  color="red darken-4" rounded dark :loading="loading"  @click.prevent="selectjob(item)">{{item.Status}}</v-btn>  -->
+       <v-btn ripple small v-else-if="item.Status =='Flagged'"  color="deep-purple accent-4" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
+         {{item.Status}}
+          <span v-if="item.review !='0' && item.review !='9'">  
+            <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
+          </span>
+      </v-btn>  
       <!-----queued---->
       <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="selectjob(item)">{{item.Status}}
           <span v-if="item.review !='0' && item.review !='9'">  
@@ -94,7 +99,7 @@
        </v-btn>
     </template>
     <!----cutall---------->
-    <template v-if="user.admin =='1'" v-slot:item.cutall="{ item }" >
+    <template v-if="user.admin =='1' || user.admin =='3'" v-slot:item.cutall="{ item }" >
        <v-btn v-if="item.Status_id =='12'" small outlined color="red accent-2" rounded dark :loading="loadingcut"  @click.prevent="cutall(item)">UnCutJob</v-btn>
        <v-btn v-else  small color="teal" outlined rounded dark :loading="loadingcut"   @click.prevent="cutall(item)">CutJob</v-btn>
     </template>
@@ -133,7 +138,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         sawflags:state => state.saw.sawflags
                    }),
               computedHeaders () 
-              { if(this.user.admin !='1'){
+              { if(this.user.admin !='1' && this.user.admin !='3'){
                     return this.headers.filter(header => header.text !== "CutJob")
                   }
                   return this.headers;
@@ -162,7 +167,18 @@ import { mapGetters, mapState, mapActions} from 'vuex';
     methods: 
     {   closeprint(){ this.printdialog=false;},
       transferjob(y){
-        //-------------------------
+
+//-----------view only user-------
+                if(this.user.admin =='3')
+                            {  this.printdialog=false; 
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
             this.formSearchData.fromSaw=this.selectedSaw; 
             this.formSearchData.SawCode=this.selectedSaw; 
             this.formSearchData.toSaw=y.SawCode; 
@@ -212,6 +228,17 @@ import { mapGetters, mapState, mapActions} from 'vuex';
       },
       cutselcted()
           {  //this.formSearchData.SawCode=this.selectedSaw; 
+//------------------
+                if(this.user.admin =='3')
+                            { 
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//-------------------
             this.formSearchData.SawCode=this.selectedSaw; 
             console.log('cutselected- this.selected=',this.selected)
             console.log('cutselected- this.formSearchData.selected1=',this.formSearchData.selected1)
@@ -266,7 +293,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           {    console.log('chstatus-',data.Status);
               console.log('this.user.admin-',this.user.admin);
               
-              if(data.Status !="Queued" || this.user.admin =='1')
+              if(data.Status !="Queued" || this.user.admin =='1'|| this.user.admin =='3')
                {
                this.formSearchData.SawCode = this.selectedSaw;
                this.formSearchData.QuoteID = data.quote_ID;
@@ -298,6 +325,17 @@ import { mapGetters, mapState, mapActions} from 'vuex';
            },
            //---------------------------------------
            cutall(data){
+             //------------------
+                if(this.user.admin =='3')
+                            { 
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//-------------------
             /* if(data.review>0 && data.review != 9 && data.review !=6 ){
                swal.fire({ position: 'top-right',
                         title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',

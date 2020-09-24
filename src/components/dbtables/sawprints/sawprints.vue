@@ -122,7 +122,7 @@
                           if(this.user.admin =='3')
                             { this.dialog=false; this.close()
                               swal.fire({ position: 'top-right',
-                                                title:'<span style="color:white">View only user:Access denied</span>',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
                                                 timer: 2000, toast: true, background: 'red',
                                                 });
                                                 
@@ -135,7 +135,7 @@
       editItem (item) {  
         if(this.user.admin =='3')
         { swal.fire({ position: 'top-right',
-                            title:'<span style="color:white">View only user:Access denied</span>',
+                            title:'<span style="color:white">Access denied: View only user</span>',
                             timer: 2000, toast: true, background: 'red',
                             });
           return;

@@ -96,7 +96,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         selectedJob: state => state.saw.selectedJob,
                         selectedJobDetail: state => state.saw.selectedJobDetail,
                         selectedSaw: state => state.saw.selectedSaw,
-                        flaggedjob:state => state.saw.flaggedjob
+                        flaggedjob:state => state.saw.flaggedjob,
+                        joblist:state =>state.saw.joblist,
+                        user: state => state.auth.user,
                    }),
               cutlist111(){
                 return this.cutlist.key1;
@@ -127,6 +129,18 @@ import { mapGetters, mapState, mapActions} from 'vuex';
     methods: 
     {  cutgroup(item)
             {  console.log('chgroup-item',item)
+//-----------view only user-------
+                if(this.user.admin =='3')
+                            {  
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
+
               var i = 0;
               while ( i < item.key1.length ) 
                 { var x = item.key1[i];
@@ -148,7 +162,19 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 this.resetformSearchData();
             },
         uncutgroup(item)
-            {  console.log('chgroup-item',item)
+            {  
+              //-----------view only user-------
+                if(this.user.admin =='3')
+                            {  
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
+              console.log('chgroup-item',item)
               var i = 0;
               while ( i < item.key1.length ) 
                 { var x = item.key1[i];
@@ -170,7 +196,20 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 this.resetformSearchData();
             },
         cutselected()//---==7=complt, 5=qued=====
-          { console.log('cutlist.vue-this.selected----1=',this.selected)
+          { 
+            
+            console.log('cutlist.vue-this.selected----1=',this.selected)
+//-----------view only user-------
+                if(this.user.admin =='3')
+                            {  
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
             if(this.selected.length==0)
               {  swal.fire({ position: 'top-right',
                   title:'<span style="color:white">Please select rows to cut</span>',
@@ -236,7 +275,18 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                   }
                 },//cutselected finish==========7=complt, 5=qued===========================================
         uncutselect()
-          { console.log('cutlist.vue-this.selected----1=',this.selected)
+          { console.log('uncutlist.vue-this.selected----1=',this.selected)
+//-----------view only user-------
+                if(this.user.admin =='3')
+                            {  
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
             if(this.selected.length==0)
               {  swal.fire({ position: 'top-right',
                   title:'<span style="color:white">Please select rows to uncut</span>',
@@ -324,6 +374,17 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                 return;
 
                         } */
+//-----------view only user-------
+                if(this.user.admin =='3')
+                            {  
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
                     this.formSearchData.ID= data.ID;
                         this.formSearchData.SawCode=this.selectedSaw;
                         this.formSearchData.status=data.Status_id;                    

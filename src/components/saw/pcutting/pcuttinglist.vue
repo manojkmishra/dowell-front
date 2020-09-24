@@ -42,7 +42,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             selectedSaw: state => state.saw.selectedSaw,
                             jobdetails1: state => state.saw.jobdetails,
                             joblist: state => state.saw.joblist,
-                            flaggedjob:state => state.saw.flaggedjob
+                            flaggedjob:state => state.saw.flaggedjob,
+                             user: state => state.auth.user,
                     }),
                     stateNodes3() 
                     {   return this.stateNodes2.slice().sort(function(a, b) {    return a.Length - b.Length;  });
@@ -51,7 +52,18 @@ import { mapGetters, mapState, mapActions} from 'vuex';
     methods: 
           {              
               pcutchangestatus( data)
-              {   console.log('pcuttinglist.vue--change status clicked');  // actin=edit  then follow below
+              { //-----------view only user-------
+                if(this.user.admin =='3')
+                            {  
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------  
+                console.log('pcuttinglist.vue--change status clicked');  // actin=edit  then follow below
                   console.log('pcuttinglist.data ',  data);
                   console.log('pcuttinglist.vue-cut profilecutting',this.stateNodes3);
                   console.log('pcuttinglist.vue-selectedjob',this.selectedJob);

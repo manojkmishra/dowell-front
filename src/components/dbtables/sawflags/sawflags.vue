@@ -12,7 +12,7 @@
         <!--------------modal------------------->
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark rounded class="mb-2" v-on="on">New Flag</v-btn>
+            <v-btn color="primary" dark rounded class="mb-2" v-on="on" :disabled="user.admin==3">New Flag</v-btn>
           </template>
           <!----popup---------------->
           <v-card>
@@ -112,7 +112,8 @@
                    },
       ...mapState({
 
-            sawflags:state => state.saw.sawflags
+            sawflags:state => state.saw.sawflags,
+            user: state => state.auth.user,
         }),
              },
     
@@ -120,7 +121,16 @@
                           val || this.close()  },    
             },
     methods: { 
-      editItem (item) {  this.dialogDelete = false;
+      editItem (item) {  
+                if(this.user.admin =='3')
+        { swal.fire({ position: 'top-right',
+                            title:'<span style="color:white">Access denied: View only user</span>',
+                            timer: 2000, toast: true, background: 'red',
+                            });
+          return;
+        }
+        
+        this.dialogDelete = false;
         console.log('edit-item',item)
         this.editedIndex = this.sawflags.indexOf(item); console.log('editedIndex',this.editedIndex)
         this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
@@ -145,6 +155,13 @@
         },
         //--------------delete start----------------------------------------------------------
       deleteItem (item) {console.log('delete-pressed-item',item)
+              if(this.user.admin =='3')
+        { swal.fire({ position: 'top-right',
+                            title:'<span style="color:white">Access denied: View only user</span>',
+                            timer: 2000, toast: true, background: 'red',
+                            });
+          return;
+        }
                        // const index = this.desserts.indexOf(item)
                         this.dialogDelete = true;
                         this.editedIndex = this.sawflags.indexOf(item);

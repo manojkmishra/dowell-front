@@ -8,7 +8,7 @@
         <!--------------modal------------------->
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark rounded class="mb-2" v-on="on">New Status</v-btn>
+            <v-btn color="primary" dark rounded class="mb-2" v-on="on" :disabled="user.admin==3">New Status</v-btn>
           </template>
           <!----popup---------------->
           <v-card>
@@ -98,7 +98,8 @@ created(){ /*this.loading=true;
                     else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
                                 return "Edit Status";  }  
                               },
-         ...mapState({  sawstatus:state => state.saw.sawstatus
+         ...mapState({  sawstatus:state => state.saw.sawstatus,
+         user: state => state.auth.user,
         }),
 
      },

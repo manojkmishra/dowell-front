@@ -16,7 +16,7 @@
             <v-card-title><span class="headline" >FLAG</span></v-card-title>
             <v-card-text class="text-center">
               <v-container>
-                <div v-for="(stateNode,index) in sawflags" class="text-center">
+                <div v-for="(stateNode,index) in sawflags1" class="text-center">
                   <template>
                   <v-btn block rounded v-if="stateNode.name !='UnFlag'" class="mx-2 mb-2 pl-20 pr-20"  dark   
                         @click="OnSave(stateNode.id)"
@@ -105,7 +105,7 @@
  import { mapGetters, mapState, mapActions} from 'vuex';
 export default {
     computed: { ...mapGetters({}),
-        ...mapState({
+        ...mapState({ user: state => state.auth.user,
             stateNodes3: state => state.saw.jobdetails,
             selectedJob: state => state.saw.selectedJob,
             selectedSaw: state => state.saw.selectedSaw,
@@ -114,6 +114,11 @@ export default {
             sawprints:state => state.saw.sawprints,
             flaggedjob:state => state.saw.flaggedjob
             }),
+        sawflags1(){
+            let bb= this.sawflags.filter( x => x.id !=  6 );
+            return bb;
+
+        },
         sawpr(){    console.log('filter')
                     let aa=this.selectedSaw
                     console.log('.filter(this.selectedSaw)',aa)
@@ -156,6 +161,18 @@ methods: {   close(){ this.dialog=false;},
             closeprint(){ this.printdialog=false;},
     OnSave(x){  console.log('flag selected',x); 
                 console.log('cmt',this.cmt);
+//------------------
+                if(this.user.admin =='3')
+                            { this.dialog=false; this.close()
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//-------------------
+
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.formSearchData.flag = x;
                 this.formSearchData.comments = this.cmt;
@@ -189,6 +206,17 @@ methods: {   close(){ this.dialog=false;},
             },
         OnSavePrint(x)
         {  console.log('print selected',x);
+ //-----------view only user-------
+                if(this.user.admin =='3')
+                            {  this.printdialog=false; this.close()
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
             this.formSearchData.report = x.name;
             this.formSearchData.QuoteID = this.selectedJob.quote_ID;
             this.formSearchData.SawCode = this.selectedSaw;
@@ -225,7 +253,19 @@ methods: {   close(){ this.dialog=false;},
                 },
             //-----------scrap finish---------------------
 
-    exttosawjd() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
+    exttosawjd() { 
+         //-----------view only user-------
+                if(this.user.admin =='3')
+                            { this.dialog=false; this.close()
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
+        this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.formSearchData.loc = "GBG";
                 this.loadingexttosaw=true;
@@ -243,7 +283,18 @@ methods: {   close(){ this.dialog=false;},
             },
     //----------------------------------------------
         cutall() 
-        {   
+        {    
+//-----------view only user-------
+                if(this.user.admin =='3')
+                            { this.dialog=false; this.close()
+                              swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//------------------------------
           /*  if(this.flaggedjob)
             {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                 && this.flaggedjob.order_ID==this.selectedJob.Order_Number

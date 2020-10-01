@@ -31,7 +31,7 @@
                   </template>
                 </div>
                 <div class="text-center">
-                    <v-text-field label="Comment" outlined v-model="cmt" ></v-text-field>
+                    <v-text-field label="Comment" outlined v-model="cmt1.val" ></v-text-field>
                 </div>
               </v-container>
             </v-card-text>
@@ -130,6 +130,30 @@ export default {
                     console.log('newArray=',newArray) */
                     return bb;
                 },
+        cmt1(){ console.log('selectedjob-',this.selectedJob)
+            //console.log('cmt-',this.selectedJob.comments)
+           if(this.flaggedjob)
+                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
+                        )
+                        {  
+                            this.cmt.val=this.flaggedjob.comments
+                            //console.log('thiscmt1 flaggedjob-',this.cmt)
+                                return this.cmt ;
+                        }
+                    }
+                    else if(this.selectedJob.comments !='')   
+                    //if(this.selectedJob.comments !='') 
+                    {
+                        this.cmt.val=this.selectedJob.comments
+                            console.log('thiscmt.val selectedjob-',this.cmt)
+                                return this.cmt ;
+                    }
+                    else{
+                        this.cmt.val='';
+                    }
+        },
         /*cmt(){   if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
@@ -151,9 +175,9 @@ export default {
         },
     created(){console.log('jd--sawflags',this.sawflags)    },
     data() {  return { seen: true,dialog: false,printdialog: false,loadingexttosaw:false, 
-                        loadingcutall:false,loadingcutlist:false,cmt:'',
-                    formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:''  },
-                    loadingprint:false, loadingfixstatus:false,
+                        loadingcutall:false,loadingcutlist:false,cmt:{val:''},
+                    formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:'',cmt:''  },
+                    loadingprint:false, loadingfixstatus:false, 
                     }
             },
 components: {   'job-details-list': JobDetailsList,  },
@@ -175,9 +199,10 @@ methods: {   close(){ this.dialog=false;},
 
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.formSearchData.flag = x;
-                this.formSearchData.comments = this.cmt;
+                this.formSearchData.comments = this.cmt.val;
                 this.formSearchData.id = this.selectedJob.id;
                 console.log('formSearchData=',this.formSearchData);
+
                 this.$store.dispatch('updateFlag', this.formSearchData)
                     .then((response) => {   swal.fire({ position: 'top-right',
                                                 title:'<span style="color:white">Flag change successful</span>',
@@ -187,7 +212,7 @@ methods: {   close(){ this.dialog=false;},
                                         })
                     .catch((error) => {       });
                 this.dialog=false;
-                this.cmt='';
+               // this.cmt='';
             },
         fixstatus() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                 this.formSearchData.SawCode = this.selectedSaw;

@@ -62,8 +62,10 @@
     -->
     <!--================--status-==============================---->
     <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+     <v-tooltip bottom :disabled="item.comments==null">
+      <template v-slot:activator="{ on }">
     <!----9=inprogress--->
-      <v-btn ripple small v-if="item.Status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
+      <v-btn v-on="on" ripple small v-if="item.Status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
           {{item.Status}}
           <span v-if="item.review !='0' && item.review !='9'">  
             <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
@@ -71,32 +73,36 @@
       </v-btn>
        
        <!--12= complete---->
-       <v-btn ripple small v-else-if="item.Status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
+       <v-btn v-on="on" ripple small v-else-if="item.Status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
          {{item.Status}}
           <span v-if="item.review !='0' && item.review !='9'">  
             <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
           </span>
         </v-btn>
        <!------up next------->
-       <v-btn ripple small v-else-if="item.Status =='Up Next'"  color="red accent-1" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
+       <v-btn v-on="on" ripple small v-else-if="item.Status =='Up Next'"  color="red accent-1" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
         {{item.Status}}
           <span v-if="item.review !='0' && item.review !='9'">  
             <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
           </span>
         </v-btn>
       <!-----flagged---->
-       <v-btn ripple small v-else-if="item.Status =='Flagged'"  color="deep-purple accent-4" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
+       <v-btn v-on="on" ripple small v-else-if="item.Status =='Flagged'"  color="deep-purple accent-4" rounded dark :loading="loading"  @click.prevent="selectjob(item)">
          {{item.Status}}
           <span v-if="item.review !='0' && item.review !='9'">  
             <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
           </span>
       </v-btn>  
       <!-----queued---->
-      <v-btn ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="selectjob(item)">{{item.Status}}
+      <v-btn v-on="on" ripple small v-else color="light-blue darken-1" rounded dark :loading="loading"   @click.prevent="selectjob(item)">{{item.Status}}
           <span v-if="item.review !='0' && item.review !='9'">  
             <v-icon   v-bind:style="{ color: 'rgb('+item.flagRed+','+item.flagGreen+','+item.flagBlue+')' }" > mdi-flag </v-icon> 
           </span>
        </v-btn>
+             </template>
+      <span v-if="item.comments !=null">{{item.comments}}</span>
+      <span  ></span>
+    </v-tooltip>
     </template>
     <!----cutall---------->
     <template v-if="user.admin =='1' || user.admin =='3'" v-slot:item.cutall="{ item }" >

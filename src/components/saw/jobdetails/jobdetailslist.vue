@@ -11,10 +11,18 @@
                <v-divider class="mx-4" inset vertical ></v-divider>
             Order Number - {{selectedJob.Order_Number}}
             <v-divider class="mx-4" inset vertical ></v-divider>
+<!----->
+ <v-tooltip bottom :disabled="selectedJob.comments==null">
+   <template v-slot:activator="{ on }">
+            <v-btn v-on="on"  v-if="showflag1" small  rounded dark color="pink" 
+                 ><v-icon >mdi-flag-outline</v-icon>Flagged Job</v-btn> 
+    </template>
+    <span v-if="selectedJob.comments !=null">{{cmt1.val}}</span>
+    <span :disabled="selectedJob.comments ==null" ></span>
+  </v-tooltip> <span v-if="showflag1" class="ml-1"> {{cmt1.val}} </span>
+   <!----->
+</v-toolbar-title>
 
-            <v-btn v-if="showflag1" small  rounded dark color="pink" class="disable-events"
-                 ><v-icon  >mdi-flag-outline</v-icon>Flagged Job</v-btn>
-            </v-toolbar-title>
         </v-toolbar>
     </template> 
  <template v-slot:item.action="{ item }"><!--1=qd,2-inpr,3-complt----->
@@ -29,21 +37,7 @@
 <script>
 import { mapGetters, mapState, mapActions} from 'vuex';
   export default 
-  {   data: () => (
-        { dialog: false,
-          headers: [
-              { text: 'S.No', align: 'left', sortable: false, value: 'SNO',},
-              { text: 'Extrusion', value: 'Extrusion',sortable: false },
-              { text: 'Description', value: 'Description' ,sortable: false},
-              { text: 'Colour', value: 'Color',sortable: false },
-              { text: 'Pieces', value: 'Pieces', sortable: false},
-              { text: 'Bars', value: 'Bars', sortable: false },
-              { text: 'Clamps', value: 'clamp_pos', sortable: false },
-              { text: 'Status', value: 'action', sortable: false },
-            ],
-            formSearchData: {  SawCode: '', QuoteID: '', extn_id: '', loc:'',  }, loading:false,
-            showflag:false,
-        }),
+  {  
 
     computed: 
       {  ...mapState({ sawlist: state => state.saw.sawlist, 
@@ -52,6 +46,29 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         selectedJob: state => state.saw.selectedJob,
                         flaggedjob:state => state.saw.flaggedjob
                     }),
+                    cmt1(){
+                                if(this.flaggedjob)
+                              {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                                  && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                                  && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
+                                  )
+                                  {  
+                                      this.cmt.val=this.flaggedjob.comments
+                                      //console.log('thiscmt1 flaggedjob-',this.cmt)
+                                          return this.cmt ;
+                                  }
+                              }
+                              else if(this.selectedJob.comments !='')   
+                              if(this.selectedJob.comments !='') 
+                              {
+                                  this.cmt.val=this.selectedJob.comments
+                                      console.log('thiscmt.val selectedjob-',this.cmt)
+                                          return this.cmt ;
+                              }
+                              else{
+                                  this.cmt.val='';
+                              }
+                    },
           showflag1(){
            
             if(this.flaggedjob)
@@ -74,13 +91,33 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 else return;
           }
       },
-    watch: {   },
-    created () {  },
+      created () {  },
+       data: () => (
+        { dialog: false,
+          headers: [
+              { text: 'S.No', align: 'left', sortable: false, value: 'SNO',},
+              { text: 'Extrusion', value: 'Extrusion',sortable: false },
+              { text: 'Description', value: 'Description' ,sortable: false},
+              { text: 'Colour', value: 'Color',sortable: false },
+              { text: 'Pieces', value: 'Pieces', sortable: false},
+              { text: 'Bars', value: 'Bars', sortable: false },
+              { text: 'Clamps', value: 'clamp_pos', sortable: false },
+              { text: 'Status', value: 'action', sortable: false },
+            ],
+            formSearchData: {  SawCode: '', QuoteID: '', extn_id: '', loc:''  }, loading:false,
+            showflag:false, cmt:{val:''},
+        }),
+   
     mounted() { console.log('joblist.vue-this.sawlist=',this.sawlist)
                 console.log('joblist.vue-this.joblist=',this.jobdetailslist)    
               },
     methods: 
-    {   chstatus(data)
+    { showcmt(){ 
+     // console.log('showcmt clicked- showcmt1 val',cmt.val)
+     // showcmt11=1;
+     // console.log('showcmt clicked- showcmt1 val1',showcmt11)
+      },  
+      chstatus(data)
           {    console.log('chstatus-',data);
               if(this.selectedJob.cut_saw != null) 
               {this.formSearchData.SawCode = this.selectedJob.cut_saw;}

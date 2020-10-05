@@ -130,29 +130,27 @@ export default {
                     console.log('newArray=',newArray) */
                     return bb;
                 },
-        cmt1(){ console.log('selectedjob-',this.selectedJob)
-            //console.log('cmt-',this.selectedJob.comments)
-           if(this.flaggedjob)
-                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+        cmt1(){ console.log('cmt1 selectedjob-',this.selectedJob)
+            console.log('cmt1-flaggedjob-',this.flaggedjob)
+           if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                        )
-                        {  
+                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw)
+                    {   console.log('thiscmt1 flaggedjob-',this.cmt)
                             this.cmt.val=this.flaggedjob.comments
                             //console.log('thiscmt1 flaggedjob-',this.cmt)
                                 return this.cmt ;
-                        }
+                       
                     }
-                    else if(this.selectedJob.comments !='')   
+                    else //if(this.selectedJob.comments !=null)   
                     //if(this.selectedJob.comments !='') 
-                    {
+                    {   console.log('thiscmt1.val selectedjob-',this.selectedJob)
                         this.cmt.val=this.selectedJob.comments
-                            console.log('thiscmt.val selectedjob-',this.cmt)
+                           // console.log('thiscmt.val selectedjob-',this.cmt)
                                 return this.cmt ;
                     }
-                    else{
-                        this.cmt.val='';
-                    }
+                   // else{ console.log('thiscmt1 empty this.selectedJob-',this.selectedJob)
+                        //this.cmt.val='';
+                    //}
         },
         /*cmt(){   if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID

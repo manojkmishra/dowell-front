@@ -47,19 +47,17 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         flaggedjob:state => state.saw.flaggedjob
                     }),
                     cmt1(){
-                                if(this.flaggedjob)
-                              {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                                if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                                   && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                                  && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                                  )
-                                  {  
+                                  && this.flaggedjob.cut_saw==this.selectedJob.cut_saw )
+                              {    
                                       this.cmt.val=this.flaggedjob.comments
                                       //console.log('thiscmt1 flaggedjob-',this.cmt)
                                           return this.cmt ;
-                                  }
+                                  
                               }
                               else if(this.selectedJob.comments !='')   
-                              if(this.selectedJob.comments !='') 
+                             // if(this.selectedJob.comments !='') 
                               {
                                   this.cmt.val=this.selectedJob.comments
                                       console.log('thiscmt.val selectedjob-',this.cmt)
@@ -71,17 +69,16 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                     },
           showflag1(){
            
-            if(this.flaggedjob)
-            {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+            if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                 && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                 && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                 && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                 && this.flaggedjob.review !=6)
-                {   this.showflag=true;
-                    console.log('showflag-',this.showflag);
-                    return this.showflag;
-                    }
-            }
+                  {     this.showflag=true;
+                          console.log('showflag-',this.showflag);
+                          return this.showflag;
+                        
+                  }
                 else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
                 {  this.showflag=true;
                     console.log('showflag-',this.showflag);

@@ -19,7 +19,7 @@
     </template>
     <span v-if="selectedJob.comments !=null">{{cmt1.val}}</span>
     <span :disabled="selectedJob.comments ==null" ></span>
-  </v-tooltip> <span v-if="showflag1" class="ml-1"> {{cmt1.val}} </span>
+  </v-tooltip> <!--<span v-if="showflag1" class="ml-1"> {{cmt1.val}} </span>-->
    <!----->
 </v-toolbar-title>
 

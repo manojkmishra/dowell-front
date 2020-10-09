@@ -39,55 +39,64 @@
     </template>
     <!------------------------>
     <template v-slot:item.fly1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-       <v-btn  ripple x-small v-if="item.flyscreens.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.flyscreens)" >InPrg
+      <v-tooltip bottom :disabled="item.flyscreens.comments==null">
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.flyscreens.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.flyscreens)" >InPrg
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
             <span v-if="aa.id==item.flyscreens.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
             </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.flyscreens.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.flyscreens)" >Cmplt
+       <v-btn v-on="on" ripple x-small v-else-if="item.flyscreens.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.flyscreens)" >Cmplt
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
             <span v-if="aa.id==item.flyscreens.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.flyscreens.status_id =='0' || item.flyscreens.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.flyscreens)" >QUD
+       <v-btn v-on="on" ripple x-small v-else-if="item.flyscreens.status_id =='0' || item.flyscreens.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.flyscreens)" >QUD
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
             <span v-if="aa.id==item.flyscreens.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-
+       <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+             </template>
+      <span v-if="item.flyscreens.comments !=null">{{item.flyscreens.comments}}</span>
+      <span  ></span>
+    </v-tooltip>
     </template><!------------------------------->
     <template v-slot:item.sec1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-
-       <v-btn  ripple x-small v-if="item.secscreens.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.secscreens)" >InPrg
+      <v-tooltip bottom :disabled="item.secscreens.comments==null">
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.secscreens.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.secscreens)" >InPrg
          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
           <span v-if="aa.id==item.secscreens.review"> 
           <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
         </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.secscreens.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.secscreens)" >Cmplt
+       <v-btn v-on="on" ripple x-small v-else-if="item.secscreens.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.secscreens)" >Cmplt
         <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
           <span v-if="aa.id==item.secscreens.review" > 
           <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
         </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.secscreens.status_id =='0' || item.secscreens.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.secscreens)" >QUD
+       <v-btn v-on="on" ripple x-small v-else-if="item.secscreens.status_id =='0' || item.secscreens.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.secscreens)" >QUD
         <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
           <span v-if="aa.id==item.secscreens.review">  
           <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
         </span>
        </v-btn>
-       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-
+       <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+             </template>
+      <span v-if="item.secscreens.comments !=null">{{item.secscreens.comments}}</span>
+      <span  ></span>
+    </v-tooltip>
       </template><!------------------------------->
   
 

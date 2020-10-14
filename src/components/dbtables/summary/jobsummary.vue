@@ -352,13 +352,13 @@ export default
             //  { text: 'quote_ID', align: 'left',  value: 'quote_ID',width:"1%"},
               { text: 'ADSash', align: 'left',  value: 'slidsash1',width:"1%"},
               { text: 'ADFrame', align: 'left',  value: 'slidframe1',width:"1%"},
-              { text: 'DSW', align: 'left',  value: 'dsw1',width:"1%"},
-              { text: 'WinSash', align: 'left',  value: 'windows1',width:"1%"},
+              { text: 'WinSash', align: 'left',  value: 'dsw1',width:"1%"},
+              { text: 'WINDOWS', align: 'left',  value: 'windows1',width:"1%"},
               { text: 'EaSash', align: 'left',  value: 'easash1',width:"1%"},
               { text: 'Awnings', align: 'left',  value: 'eadfl1',width:"1%"},
-              { text: 'BFHD', align: 'left',  value: 'bfhd1',width:"1%"},
-              { text: 'Comrcial', align: 'left',  value: 'commercial1',width:"1%"},
-              { text: 'Transfr', align: 'left',  value: 'transfer1',width:"1%"},
+              { text: 'BFHD', align: 'center',  value: 'bfhd1',width:"1%"},
+              { text: 'Commercial', align: 'center',  value: 'commercial1',width:"1%"},
+              { text: 'Transfer', align: 'center',  value: 'transfer1',width:"1%"},
              //  { text: 'Timber', align: 'left',  value: 'timber1',width:"1%"},
 
 

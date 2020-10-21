@@ -79,6 +79,11 @@
       <v-icon medium color="blue darken-2" class="mr-2" @click="editItem(item)" >mdi-pencil</v-icon>
       <v-icon medium color="red" @click="deleteItem(item)" >mdi-delete</v-icon>
     </template>
+    <template v-slot:item.mobile1="{ item }">
+       <span v-if="item.mobile ==1">Admin User</span>
+       <span v-if="item.mobile ==3">View User</span>
+       <span v-if="item.mobile ==2 || item.mobile ==''" >Saw User</span>
+    </template>
     <template v-slot:no-data>
       <div></div> <!----show nothing when no data -->
     </template>
@@ -96,7 +101,7 @@
                       //  { text: "ID", value: "id", width: "6%" },
                         { text: "NAME", align: "left", sortable: true, value: "name" },
                         { text: "EMAIL", align: "left", sortable: true, value: "email" },
-                        { text: "TYPE", align: "left", sortable: true, value: "mobile" },
+                        { text: "TYPE", align: "left", sortable: true, value: "mobile1" },
                        // { text: "TYPE", align: "left", sortable: true, value: "type" },
                        // { text: "CREATEDBY", align: "left", sortable: true, value: "created_by.name" },
                        // { text: "UPDATEDBY", align: "left", sortable: true, value: "updated_by" },
@@ -107,7 +112,7 @@
       desserts: [],categories: [],
       editedItem: { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:''},
       editedIndex: -1,
-      typeOptions: [ "Admin",  "Normal" , "View"],
+      typeOptions: [ "Admin",  "Saw" , "View"],
       requiredRules: [ v => !!v || 'This field is required'        ],
       emailRules:[ v => !!v || 'The Email is required',
                     v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -163,7 +168,7 @@
               {  console.log('save--edit=',this.editedItem)
                     //edit api here
                       if(this.editedItem.type=="Admin") this.editedItem.type=1;
-                      else if(this.editedItem.type=="Normal") this.editedItem.type=2;
+                      else if(this.editedItem.type=="Saw") this.editedItem.type=2;
                       else if(this.editedItem.type=="View") this.editedItem.type=3;
                     if (!this.$refs.userform.validate()) 
                     {   
@@ -179,7 +184,7 @@
         else {  console.log('add-item',this.editedItem)
                     //adduser api here
                       if(this.editedItem.type=="Admin") this.editedItem.type=1;
-                      else if(this.editedItem.type=="Normal") this.editedItem.type=2;
+                      else if(this.editedItem.type=="Saw") this.editedItem.type=2;
                       else if(this.editedItem.type=="View") this.editedItem.type=3;
                      if (!this.$refs.userform.validate()) 
                     {   

@@ -126,7 +126,8 @@
                     usertype(){
                      console.log('utype-user=',this.user)
                         if(this.user.admin==1){ return "Admin User"; }
-                        else if (this.user.admin==3) {return "View Only User";}
+                        else if (this.user.admin==3) {return "View User";}
+                        else if (this.user.admin==4) {return "Super User";}
                         else{ return "Saw User"}
                       },
      },

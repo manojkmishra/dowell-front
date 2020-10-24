@@ -83,6 +83,7 @@
        <span v-if="item.mobile ==1">Admin User</span>
        <span v-if="item.mobile ==3">View User</span>
        <span v-if="item.mobile ==2 || item.mobile ==''" >Saw User</span>
+       <span v-if="item.mobile ==4" >Super User</span>
     </template>
     <template v-slot:no-data>
       <div></div> <!----show nothing when no data -->
@@ -112,7 +113,7 @@
       desserts: [],categories: [],
       editedItem: { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:''},
       editedIndex: -1,
-      typeOptions: [ "Admin",  "Saw" , "View"],
+      typeOptions: [ "Admin",  "Saw" , "View", "Super"],
       requiredRules: [ v => !!v || 'This field is required'        ],
       emailRules:[ v => !!v || 'The Email is required',
                     v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -135,8 +136,10 @@
                     else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
                                         return "New User"; }
                     else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
-                                return "Edit User";  }  
-                              },
+                                return "Edit User";  
+                                
+                                }  
+                  },
          ...mapState({  sawstatus:state => state.user.userlist}),
           ...mapGetters({authenticated:'auth/authenticated',
                           user:'auth/user'
@@ -155,10 +158,16 @@
         this.editedItem= { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:''}
       },
 
-      editItem (item) { console.log('edit-item',item)
+      editItem (item) 
+      { console.log('edit-item',item)
         this.dialogDelete = false;
         this.editedIndex = this.sawstatus.indexOf(item); console.log('editedIndex',this.editedIndex)
         this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
+
+        if(this.editedItem.mobile==1) this.editedItem.type="Admin";
+        else if(this.editedItem.mobile==2) this.editedItem.type="Saw";
+        else if(this.editedItem.mobile==3) this.editedItem.type="View";
+        else if(this.editedItem.mobile==4) this.editedItem.type="Super";
       //  this.editedItem=item;
         this.dialog = true
         },
@@ -167,9 +176,10 @@
         if (this.editedIndex > -1) //save clicked when editing
               {  console.log('save--edit=',this.editedItem)
                     //edit api here
-                      if(this.editedItem.type=="Admin") this.editedItem.type=1;
-                      else if(this.editedItem.type=="Saw") this.editedItem.type=2;
-                      else if(this.editedItem.type=="View") this.editedItem.type=3;
+                      if(this.editedItem.type=="Admin") this.editedItem.mobile=1;
+                      else if(this.editedItem.type=="Saw") this.editedItem.mobile=2;
+                      else if(this.editedItem.type=="View") this.editedItem.mobile=3;
+                      else if(this.editedItem.type=="Super") this.editedItem.mobile=4;
                     if (!this.$refs.userform.validate()) 
                     {   
                       console.log('edit-item- form validation wrong',this.editedItem)
@@ -183,9 +193,10 @@
            //--------save clicked when adding new
         else {  console.log('add-item',this.editedItem)
                     //adduser api here
-                      if(this.editedItem.type=="Admin") this.editedItem.type=1;
-                      else if(this.editedItem.type=="Saw") this.editedItem.type=2;
-                      else if(this.editedItem.type=="View") this.editedItem.type=3;
+                      if(this.editedItem.type=="Admin") this.editedItem.mobile=1;
+                      else if(this.editedItem.type=="Saw") this.editedItem.mobile=2;
+                      else if(this.editedItem.type=="View") this.editedItem.mobile=3;
+                      else if(this.editedItem.type=="Super") this.editedItem.mobile=4;
                      if (!this.$refs.userform.validate()) 
                     {   
                       console.log('add-item- form validation wrong',this.editedItem)

@@ -1,6 +1,6 @@
 <template>
   <v-data-table :headers="computedHeaders" :items="joblist"  class="elevation-1" :search="search" v-model="selected" show-select
-       :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [10,20,40,-1], }">
+       :footer-props="{showFirstLastPage: true, itemsPerPageOptions: [20,40,80,-1], }">
     <template v-slot:top>
         <v-toolbar  color="light-blue darken-3" dark dense>
           <v-toolbar-title>JobList</v-toolbar-title>

@@ -152,15 +152,31 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               sawpr()
               {    
                   let aa=this.sawlist
+                  let bb=this.selectedSaw
                  // let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
                  // console.log('bb=',bb)
-                    var newArray = this.sawlist.filter(function (el) { 
-                        if( el.SawCode =="DSW_DH_Sashes" || el.SawCode =="EA_Sashes"
+                 if(bb=="General")
+                 {
+                        var newArray = this.sawlist.filter(function (el) { 
+                        if( //el.SawCode =="DSW_DH_Sashes" || el.SawCode =="EA_Sashes"
                          //|| el.SawCode =="EA_DFL_LVR" || el.SawCode =="Timber"|| el.SawCode =="BF_HD" 
-                        || el.SawCode =="General" || el.SawCode =="transfer_saw")
+                        //|| el.SawCode =="General" || el.SawCode =="transfer_saw"
+                        el.SawCode !=bb
+                        )
                       return el;
                     });
-                  console.log('sawlist=',this.sawlist)
+                 }
+                 else{
+                    var newArray = this.sawlist.filter(function (el) { 
+                        if( (el.SawCode =="DSW_DH_Sashes" || el.SawCode =="EA_Sashes"
+                         //|| el.SawCode =="EA_DFL_LVR" || el.SawCode =="Timber"|| el.SawCode =="BF_HD" 
+                        || el.SawCode =="General" || el.SawCode =="transfer_saw")&&(el.SawCode !=bb)
+                        )
+                      return el;
+                    });
+                  }
+                  //console.log('sawlist=',this.sawlist)
+                  console.log('selected saw=',this.selectedSaw)
                   console.log('newArray=',newArray) 
                   return newArray;
               },

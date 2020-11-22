@@ -312,10 +312,12 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           },
           //------------------------------------
       selectjob(data)
-          {    console.log('chstatus-',data.Status);
+          {    console.log('selectjob-',data);
               console.log('this.user.admin-',this.user.admin);
-              
-              if(data.Status !="Queued" || this.user.admin =='1'|| this.user.admin =='3')
+              console.log('data.review-',data.review);
+              if(data.Status !="Queued" || this.user.admin =='1'|| this.user.admin =='3' 
+              || (data.review !=0 && data.review !=6 && data.review !=9)
+              )
                {
                this.formSearchData.SawCode = this.selectedSaw;
                this.formSearchData.QuoteID = data.quote_ID;

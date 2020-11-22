@@ -125,6 +125,7 @@ export default
              { text: 'cut_date', align: 'left',  value: 'cutday',width:"1%"},
              { text: 'TrkNo', align: 'left',  value: 'truck_no',width:"1%"},
               { text: 'orderID', align: 'left',  value: 'order_ID',width:"1%"},
+               { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
               { text: 'CUSTOMER', align: 'left',  value: 'cust_name',width:"5%"},
 
               

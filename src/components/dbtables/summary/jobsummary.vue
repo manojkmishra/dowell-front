@@ -40,7 +40,8 @@
     </template>
     <!------------------------>
     <template v-slot:item.slidsash1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-      <v-tooltip bottom :disabled="item.slidframe.comments==null">
+    <!--  <v-tooltip bottom :disabled="item.slidsash.comments==null"> -->
+      <v-tooltip bottom >
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.slidsash.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >InPrg
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -66,13 +67,15 @@
        <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
 
         </template>
+      <span >{{item.slidsash.cut_color}}</span>
       <span v-if="item.slidsash.comments !=null">{{item.slidsash.comments}}</span>
       <span  ></span>
       </v-tooltip>
     </template>
     <!------------------------------->
     <template v-slot:item.slidframe1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-     <v-tooltip bottom :disabled="item.slidframe.comments==null">
+     <!--<v-tooltip bottom :disabled="item.slidframe.comments==null">-->
+       <v-tooltip bottom >
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.slidframe.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >InPrg
          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -98,12 +101,13 @@
        <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
         </template>
       <span v-if="item.slidframe.comments !=null">{{item.slidframe.comments}}</span>
+       <span >{{item.slidframe.cut_color}}</span>
       <span  ></span>
     </v-tooltip>
       </template>
       <!------------------------------->
     <template v-slot:item.dsw1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-     <v-tooltip bottom :disabled="item.dsw.comments==null">
+     <v-tooltip bottom >
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.dsw.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >InPrg
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -129,13 +133,15 @@
        <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
 
              </template>
+      <span >{{item.dsw.cut_color}}</span><br>
       <span v-if="item.dsw.comments !=null">{{item.dsw.comments}}</span>
       <span  ></span>
     </v-tooltip>
     </template>
     <!------------------------------->
     <template v-slot:item.windows1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-     <v-tooltip bottom :disabled="item.windows.comments==null">
+    <!-- <v-tooltip bottom :disabled="item.windows.comments==null"> -->
+       <v-tooltip bottom >
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.windows.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >InPrg
         <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -160,14 +166,17 @@
        </v-btn>
        <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
              </template>
+      <span >{{item.windows.cut_color}}</span><br>
       <span v-if="item.windows.comments !=null">{{item.windows.comments}}</span>
+
       <span  ></span>
     </v-tooltip>
       </template>
       <!------------------------------->
 
       <template v-slot:item.easash1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-      <v-tooltip bottom :disabled="item.easash.comments==null">
+     <!-- <v-tooltip bottom :disabled="item.easash.comments==null"> -->
+       <v-tooltip bottom >
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.easash.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >InPrg
         <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -192,13 +201,16 @@
        </v-btn>
        <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
              </template>
+      <span >{{item.easash.cut_color}}</span><br>
       <span v-if="item.easash.comments !=null">{{item.easash.comments}}</span>
+       
       <span  ></span>
     </v-tooltip>
     </template>
     <!---------------->
     <template v-slot:item.eadfl1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-      <v-tooltip bottom :disabled="item.eadfl.comments==null">
+    <!--  <v-tooltip bottom :disabled="item.eadfl.comments==null"> -->
+        <v-tooltip bottom >
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.eadfl.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >InPrg
         <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -223,13 +235,15 @@
        </v-btn>
        <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
              </template>
+      <span >{{item.eadfl.cut_color}}</span>
       <span v-if="item.eadfl.comments !=null">{{item.eadfl.comments}}</span>
       <span  ></span>
     </v-tooltip>
     </template>
 <!------>
         <template v-slot:item.bfhd1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-      <v-tooltip bottom :disabled="item.bfhd.comments==null">
+     <!-- <v-tooltip bottom :disabled="item.bfhd.comments==null">-->
+         <v-tooltip bottom >
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.bfhd.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >InPrg
         <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -254,13 +268,15 @@
        </v-btn>
        <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
              </template>
+      <span>{{item.bfhd.cut_color}}</span>
       <span v-if="item.bfhd.comments !=null">{{item.bfhd.comments}}</span>
       <span  ></span>
     </v-tooltip>
     </template>
     <!------>
     <template v-slot:item.commercial1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-      <v-tooltip bottom :disabled="item.commercial.comments==null">
+      <!--<v-tooltip bottom :disabled="item.commercial.comments==null">-->
+         <v-tooltip bottom >
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.commercial.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >InPrg
         <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -286,13 +302,15 @@
        
        <v-btn v-on="on" ripple x-small disabled  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
              </template>
+      <span>{{item.commercial.cut_color}}</span>
       <span v-if="item.commercial.comments !=null">{{item.commercial.comments}}</span>
       <span  ></span>
     </v-tooltip>
     </template>
 <!------>
         <template v-slot:item.transfer1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-      <v-tooltip bottom :disabled="item.transfer.comments==null">
+     <!-- <v-tooltip bottom :disabled="item.transfer.comments==null">-->
+        <v-tooltip bottom >
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.transfer.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.transfer)" >InPrg
         <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -318,9 +336,11 @@
        
        <v-btn v-on="on" ripple x-small disabled  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
              </template>
+      <span >{{item.transfer.cut_color}}</span>
       <span v-if="item.transfer.comments !=null">{{item.transfer.comments}}</span>
       <span  ></span>
     </v-tooltip>
+
     </template>
 
     <template slot="no-data">
@@ -348,7 +368,7 @@ export default
              { text: 'cut_date', align: 'left',  value: 'cutday',width:"5%"},
              { text: 'TrkNo', align: 'left',  value: 'truck_no',width:"1%"},
               { text: 'orderID', align: 'left',  value: 'order_ID',width:"1%"},
-               { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
+             //  { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
               { text: 'Customer', align: 'left',  value: 'cust_name',width:"10%"},
             //  { text: 'quote_ID', align: 'left',  value: 'quote_ID',width:"1%"},
               { text: 'ADSash', align: 'left',  value: 'slidsash1',width:"1%"},

@@ -7,13 +7,10 @@
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
           <v-btn v-if="user.admin =='1' || user.admin =='3'" id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="cutselectloading"  @click.prevent="cutselcted">CutSelected</v-btn>
+         
          <!----->
           
-          <!-----------------dialog for transfer-start---------------------------->
-      <!--    <v-btn v-if="user.admin =='1' && (selectedSaw =='BF_HD' || selectedSaw =='Timber'
-          || selectedSaw =='EA_DFL_LVR' || selectedSaw =='General') " id="btn-cutselected" small  color="red" rounded dark :loading="cutselectloading"  @click.prevent="transferjob">TrnsfrJob</v-btn>  
- -->
-
+<!-----=============------------dialog for transfer-start---------------------------->
 <v-dialog v-model="printdialog" v-if="(user.admin =='1' ||user.admin =='3' ||user.admin =='4' )&& 
               (selectedSaw =='DSW_DH_Sashes' || selectedSaw =='EA_Sashes'
               ||selectedSaw =='Security_Screens' || selectedSaw =='Fly_Screens'
@@ -46,6 +43,37 @@
 </v-dialog>
 
 <!-------------dialog for transfer stop--------------------------------->
+<!----------------------dialog for print start------------------------>
+<v-dialog v-model="printdialog1" v-if="(user.admin =='1' ||user.admin =='3' ||user.admin =='4')" max-width="500px">
+          <template v-slot:activator="{ on }">
+            <v-btn id="flag-btn" ripple small color="orange darken-2" :loading="printloading" rounded dark  v-on="on">
+            <v-icon>mdi-printer</v-icon>Print Jobs</v-btn> 
+
+          </template>
+         <!---popup--->
+          <v-card>
+            <v-card-title><span class="headline" >Print Jobs</span></v-card-title>
+            <v-card-text>
+              <v-container>
+                <div v-for="(stateNode,index) in sawpr1">
+                  <template>
+                   <v-btn block rounded class="mx-2 mb-2 "  outlined  v-bind:style="{  'border-color':'blue !important'}"
+                    color="blue" @click="OnSavePrint(stateNode)">
+                      Report:{{ stateNode.name }} <BR/>Printer:{{ stateNode.printer }}
+                  </v-btn>
+                  </template>
+                </div>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+                  <v-btn color="blue darken-1" text @click="closeprint1">Cancel</v-btn>
+              </v-card-actions>
+          </v-card>
+</v-dialog>
+
+
+<!---------------dialog for print stop------------------------------>
           <!----->
           <v-spacer></v-spacer>
                 <v-text-field v-model="search" class="serc" append-icon="mdi-magnify" label="Search" single-line hide-details
@@ -121,7 +149,8 @@
 import { mapGetters, mapState, mapActions} from 'vuex';
   export default 
   {   data: () => (
-        { dialog: false,search: '',selected: [],cutselectloading:false,printdialog: false,transferloading:false,
+        { dialog: false,search: '',selected: [],cutselectloading:false,printdialog: false,
+        transferloading:false,printdialog1: false,printloading:false,
           headers: [
               { text: 'Cut Date', align: 'left', sortable: false, value: 'cut_date', width:"12%"},
               { text: 'Order No', value: 'Order_Number',sortable: false },
@@ -143,13 +172,21 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         joblist:state =>state.saw.joblist,
                         selectedSaw: state => state.saw.selectedSaw,
                         user: state => state.auth.user,
-                        sawflags:state => state.saw.sawflags
+                        sawflags:state => state.saw.sawflags,
+                        sawprints:state => state.saw.sawprints,
                    }),
               computedHeaders () 
               { if(this.user.admin !='1' && this.user.admin !='3'){
                     return this.headers.filter(header => header.text !== "CutJob")
                   }
                   return this.headers;
+              },
+              sawpr1(){
+                    let aa=this.selectedSaw
+                    console.log('this.sawprints',this.sawprints)
+                    let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
+                    console.log('bb=',bb)
+                    return bb;
               },
               sawpr()
               {    
@@ -207,6 +244,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               },
     methods: 
     {   closeprint(){ this.printdialog=false;},
+    closeprint1(){ this.printdialog1=false;},
       transferjob(y){
 
 //-----------view only user-------

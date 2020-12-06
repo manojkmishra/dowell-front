@@ -124,7 +124,8 @@ export default {
                     console.log('.filter(this.selectedSaw)',aa)
                     console.log('this.sawprints',this.sawprints)
                     //return this.sawprints.name.filter(aa)
-                    let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
+                    let bb= this.sawprints.filter( x => (x.saw ==  this.selectedSaw 
+                    && x.instruct ==  'JobDetails'));
                     console.log('bb=',bb)
                     /* var newArray = this.sawprints.filter(function (el) { return el.saw == aa });
                     console.log('newArray=',newArray) */

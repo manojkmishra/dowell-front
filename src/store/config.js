@@ -26,6 +26,7 @@ export const updateScrapList = apiDomain + '/saw/updateScrapList';
 export const cutallself = apiDomain + '/saw/cutallself';
 export const updateFlag = apiDomain + '/saw/updateFlag';
 export const sawprint = apiDomain + '/saw/sawprint';
+export const printjoblist = apiDomain + '/saw/printjoblist';
 export const getsawprint = apiDomain + '/saw/getsawprint';
 export const addsawprint = apiDomain + '/saw/addsawprint';
 export const editsawprint = apiDomain + '/saw/editsawprint';

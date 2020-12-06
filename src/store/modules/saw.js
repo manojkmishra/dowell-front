@@ -253,7 +253,7 @@ async updateOptCut({dispatch}, formData)
      },
 
      //------------------------------------------
-     async sawprint ({dispatch}, formData)
+     async sawprint ({dispatch}, formData) //job details page print
      {   console.log('sawprint-- formData=', formData);
           let res= await axios.post(api.sawprint, formData)  
           .then((response) => {  
@@ -274,6 +274,26 @@ async updateOptCut({dispatch}, formData)
                               return res;  
 
      },
+     async printjoblist ({dispatch}, formData) //job details page print
+     {   console.log('sawprint-- formData=', formData);
+          let res= await axios.post(api.printjoblist, formData)  
+          .then((response) => {  
+                            var aa=`${response.data[0].flag}:${response.data[0].message}`
+                                if(response.data[0].flag=="Success")
+                                { swal.fire({ position: 'top-right',
+                                 html:'<span style="color:white">'+`${aa}`+'</span>',
+                                 timer: 2000, toast: true,background: 'green',});
+                              }else{
+                                swal.fire({ position: 'top-right',
+                                 html:'<span style="color:white">'+`OrderNo-${aa}`+'</span>',
+                                 timer: 2000, toast: true,background: 'red',});
+                              }
+                            })
+              .catch((error) => {console.log('joblistprint-error',error)
+            
+            });
+                              return res;  
+    },
    async  reOptimiseCut({dispatch}, formData)  
       {  console.log('reOptimiseCut-- formData=', formData);
         let res= await axios.post(api.reoptimisecut, formData) 

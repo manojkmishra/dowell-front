@@ -37,6 +37,13 @@
                   <v-col cols="4" sm="6" md="6">
                     <v-text-field v-model="editedItem.location" label="Location"></v-text-field>
                   </v-col>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-select single-line bottom label="Type" 
+                      v-model="editedItem.instruct" :items="typeOptions"    
+                      required
+                    >
+                  </v-select>
+                  </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -76,6 +83,7 @@
     export default 
     {  data: () => ({
       dialog: false,dialogDelete: false, loading:false,
+      typeOptions: [ "JobList",  "JobDetails"],
       headers: [
                         { text: "ID", value: "id", width: "6%" },
                         { text: "NAME", align: "left", sortable: true, value: "name" },
@@ -83,6 +91,7 @@
                         { text: "Alias", align: "left", sortable: true, value: "alias" },
                         { text: "Printer", align: "left", sortable: false, value: "printer" },
                         { text: "Location", align: "left", sortable: false, value: "location" },
+                        { text: "Type", align: "left", sortable: false, value: "instruct" },
                         //{ text: "CREATEDBY", align: "left", sortable: true, value: "createdby.name" },
                         { text: "UPDATEDBY", align: "left", sortable: true, value: "updatedby.name" },
                         { text: "UPDATEDAT", align: "left", sortable: true, value: "updated_at" },
@@ -91,7 +100,7 @@
       ],
     //  categories: [],
       //sawflags:[],
-      editedItem: { name: '', saw: '', printer:'', location:'',alias:''},
+      editedItem: { name: '', saw: '', printer:'', location:'',alias:'',instruct:''},
       editedIndex: -1,
      // typeOptions: [ "saw_schedules",  "optimised_bars", "optimised_cuts", "Flag" ],
      // formData: {     id: '',    STATUS: '', TYPE:'',   comment: '', }

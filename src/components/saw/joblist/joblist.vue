@@ -58,7 +58,7 @@
                 <div v-for="(stateNode,index) in sawpr1">
                   <template>
                    <v-btn block rounded class="mx-2 mb-2 "  outlined  v-bind:style="{  'border-color':'blue !important'}"
-                    color="blue" @click="OnSavePrint(stateNode)">
+                    color="blue" @click="printselected(stateNode)">
                       Report:{{ stateNode.name }} <BR/>Printer:{{ stateNode.printer }}
                   </v-btn>
                   </template>
@@ -184,11 +184,12 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               sawpr1(){
                     let aa=this.selectedSaw
                     console.log('this.sawprints',this.sawprints)
-                    let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
+                    let bb= this.sawprints.filter( x => (x.saw ==  this.selectedSaw && 
+                                                          x.instruct ==  'JobList' ) );
                     console.log('bb=',bb)
                     return bb;
               },
-              sawpr()
+              sawpr()//transfer jobs
               {    
                   let aa=this.sawlist
                   let bb=this.selectedSaw
@@ -305,6 +306,60 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 
         //--------------------------
       },
+      //================================print selected====
+        printselected(data)
+          {  //this.formSearchData.SawCode=this.selectedSaw; 
+//------------------print--view only users cant
+                if(this.user.admin =='3')
+                            {   swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Access denied: View only user</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+                                                
+                              return;
+                            }
+//-------------------if no jobs selected--------
+            this.formSearchData.SawCode=this.selectedSaw; 
+            console.log('cutselected- this.selected=',this.selected)
+            console.log('cutselected- this.formSearchData.selected1=',this.formSearchData.selected1)
+            if(this.selected.length==0)
+                    {
+                        swal.fire({ position: 'top-right',
+                          title:'<span style="color:white">Please select jobs to print</span>',
+                          timer: 2000, toast: true, background: 'purple',
+                          });
+                    }
+            else{ this.formSearchData.selected1=[];
+                  var i = 0;
+                while ( i < this.selected.length ) 
+                { var x = this.selected[i];
+                  console.log('hehe',x);
+                   
+                  if (x){ this.selected.splice(i,1);
+                            console.log('printselected-x=',x);
+                            //this.formSearchData.selected1.push(x.id);
+                            this.formSearchData.selected1.push(x.quote_ID);
+                        }
+                      else i++;
+                }
+              //console.log('cutselected- this.selected=',this.selected)
+              console.log('printselected-data=',data)
+              this.formSearchData.report=data.name;
+              console.log('printloading- this.formSearchData=',this.formSearchData)
+                if(this.formSearchData.selected1.length>0)
+                { this.printloading=true; 
+
+                        this.$store.dispatch('printjoblist', this.formSearchData)
+                        .then((response) =>  { console.log('updatecutselectjob---response=',response);  
+                                this.printloading=false;   })     
+                        .catch((error) => {   this.printloading=false;      });
+                }
+              this.selected=[];this.selected1=[];
+              this.resetformSearchData();    
+               this.printdialog1=false; 
+            }//length>0                       
+          },
+      //==========================cut selected==============
       cutselcted()
           {  //this.formSearchData.SawCode=this.selectedSaw; 
 //------------------

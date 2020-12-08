@@ -427,7 +427,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           {    console.log('selectjob-',data);
               console.log('this.user.admin-',this.user.admin);
               console.log('data.review-',data.review);
-              if(data.Status !="Queued" || this.user.admin =='1'|| this.user.admin =='3' 
+              if(data.Status !="Queued" || this.user.admin =='1'|| this.user.admin =='3' || this.user.admin =='4'
               || (data.review !=0 && data.review !=6 && data.review !=9)
               )
                {

@@ -64,7 +64,7 @@
                   <template>
                    <v-btn block rounded class="mx-2 mb-2 "  outlined  v-bind:style="{  'border-color':'blue !important'}"
                     color="blue" @click="OnSavePrint(stateNode)">
-                      Report:{{ stateNode.name }} <BR/>Printer:{{ stateNode.printer }}
+                      Report:{{ stateNode.name }} <!-- <BR/>Printer:{{ stateNode.printer }} -->
                   </v-btn>
                   </template>
                 </div>

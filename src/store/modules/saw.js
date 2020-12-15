@@ -257,14 +257,22 @@ async updateOptCut({dispatch}, formData)
      {   console.log('sawprint-- formData=', formData);
           let res= await axios.post(api.sawprint, formData)  
           .then((response) => {  
-                            var aa=`${response.data[0].flag}:${response.data[0].message}`
-                                if(response.data[0].flag=="Success")
-                                { swal.fire({ position: 'top-right',
+                           console.log('sawprint-res',response)
+                                if( response.data[0] !=null )
+                                { if(response.data[0].flag=="Success"){
+                                  var aa=`${response.data[0].flag}:${response.data[0].message}`
+                                  
+                                  swal.fire({ position: 'top-right',
                                  html:'<span style="color:white">'+`${aa}`+'</span>',
                                  timer: 2000, toast: true,background: 'green',});
-                              }else{
+                                } 
+
+                              }
+                              else{
                                 swal.fire({ position: 'top-right',
-                                 html:'<span style="color:white">'+`OrderNo-${aa}`+'</span>',
+                                // html:'<span style="color:white">'+`OrderNo-${aa}`+'</span>',
+                                 //html:'<span style="color:white">'+`Print Error`+'</span>',
+                                 html:'<span style="color:white">'+`No Flag`+'</span>',
                                  timer: 2000, toast: true,background: 'red',});
                               }
                             })
@@ -278,14 +286,19 @@ async updateOptCut({dispatch}, formData)
      {   console.log('sawprint-- formData=', formData);
           let res= await axios.post(api.printjoblist, formData)  
           .then((response) => {  
-                            var aa=`${response.data[0].flag}:${response.data[0].message}`
-                                if(response.data[0].flag=="Success")
-                                { swal.fire({ position: 'top-right',
-                                 html:'<span style="color:white">'+`${aa}`+'</span>',
-                                 timer: 2000, toast: true,background: 'green',});
+                           
+                                if( response.data[0] !=null )
+                                { if(response.data[0].flag=="Success"){
+                                  var aa=`${response.data[0].flag}:${response.data[0].message}`
+                                      swal.fire({ position: 'top-right',
+                                    html:'<span style="color:white">'+`${aa}`+'</span>',
+                                    timer: 2000, toast: true,background: 'green',});
+                                } 
                               }else{
                                 swal.fire({ position: 'top-right',
-                                 html:'<span style="color:white">'+`OrderNo-${aa}`+'</span>',
+                                 //html:'<span style="color:white">'+`OrderNo-${aa}`+'</span>',
+                                // html:'<span style="color:white">'+`Print Error`+'</span>',
+                                 html:'<span style="color:white">'+`No Flag`+'</span>',
                                  timer: 2000, toast: true,background: 'red',});
                               }
                             })

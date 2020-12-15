@@ -52,14 +52,14 @@
           </template>
          <!---popup--->
           <v-card>
-            <v-card-title><span class="headline" >Print Jobs</span></v-card-title>
+            <v-card-title><span class="headline" >Print All: SAW - {{selectedSaw.replace(/_/g, " ")}}</span></v-card-title>
             <v-card-text>
               <v-container>
                 <div v-for="(stateNode,index) in sawpr1">
                   <template>
                    <v-btn block rounded class="mx-2 mb-2 "  outlined  v-bind:style="{  'border-color':'blue !important'}"
                     color="blue" @click="printselected(stateNode)">
-                      Report:{{ stateNode.name }} <BR/>Printer:{{ stateNode.printer }}
+                      Report:{{ stateNode.name }} <!-- <BR/> Printer:{{ stateNode.printer }} -->
                   </v-btn>
                   </template>
                 </div>

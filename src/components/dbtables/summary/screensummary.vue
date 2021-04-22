@@ -69,7 +69,7 @@
     </v-tooltip>
     </template><!------------------------------->
     <template v-slot:item.sec1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-      <v-tooltip bottom :disabled="item.secscreens.comments==null">
+      <v-tooltip bottom>
       <template v-slot:activator="{ on }">
        <v-btn v-on="on" ripple x-small v-if="item.secscreens.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.secscreens)" >InPrg
          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
@@ -94,6 +94,7 @@
        </v-btn>
        <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
              </template>
+      <span v-if="item.secscreens.cut_color !=null">{{item.secscreens.cut_color}}</span>
       <span v-if="item.secscreens.comments !=null">{{item.secscreens.comments}}</span>
       <span  ></span>
     </v-tooltip>
@@ -125,7 +126,7 @@ export default
              { text: 'cut_date', align: 'left',  value: 'cutday',width:"1%"},
              { text: 'TrkNo', align: 'left',  value: 'truck_no',width:"1%"},
               { text: 'orderID', align: 'left',  value: 'order_ID',width:"1%"},
-               { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
+              // { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
               { text: 'CUSTOMER', align: 'left',  value: 'cust_name',width:"5%"},
 
               

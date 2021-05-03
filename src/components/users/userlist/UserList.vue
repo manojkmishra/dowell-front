@@ -45,8 +45,16 @@
                   <v-col cols="12" sm="6" md="6">
                     <v-select single-line bottom label="Type" 
                       v-model="editedItem.type" :items="typeOptions"    
-                      :rules="[(v) => !!v || 'You must agree to continue!']"
+                      :rules="[(v) => !!v || 'Type is required!']"
                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="6">
+                    <v-select single-line bottom label="Location" 
+                      v-model="editedItem.location_id" :items="locOptions"   
+                      item-text="label" item-value="value" 
+                      :rules="[(v) => !!v || 'Location is required!']"
+                      required
                     ></v-select>
                   </v-col>
                 </v-row>
@@ -95,6 +103,7 @@
 </template>
 <script>
     import { mapGetters, mapState, mapActions} from 'vuex'
+    import axios from "axios";
   export default {
     data: () => ({
       dialog: false,dialogDelete: false,search: '',
@@ -111,9 +120,10 @@
                         { text: 'Actions', value: 'actions', sortable: false,width: "10%" },
       ],
       desserts: [],categories: [],
-      editedItem: { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:''},
+      editedItem: { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:'',location_id:''},
       editedIndex: -1,
       typeOptions: [ "Admin",  "Saw" , "View", "Super"],
+      locOptions:[],
       requiredRules: [ v => !!v || 'This field is required'        ],
       emailRules:[ v => !!v || 'The Email is required',
                     v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -131,6 +141,14 @@
                         }) 
         },
         */
+    created(){
+                     axios.get(`${axios.defaults.baseURL}/saw/locations`)
+               // this.$store.dispatch(`getsawschedules?page='+${e.page}`,{})
+                    .then((res) => { console.log('user-locations',res.data)  
+                                    this.locationOptions(res.data);
+                                        })
+                   // .catch((err)=>{ console.log('user-locations-err=', err.data) })
+    },
     computed: {
       formTitle() {  if (this.dialogDelete) { return "Delete User";} 
                     else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
@@ -149,7 +167,17 @@
     watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
                           val || this.close()  },    
         },
-    methods: { 
+    methods: {    locationOptions(locations) 
+                    {   console.log('fn locations=',locations);
+                        let options = [];
+                        for (let location in locations) 
+                        {  options.push({ value: locations[location].id, label: locations[location].name,
+                                          abbr: locations[location].abbreviation,
+                                        });
+                        }
+                        this.locOptions = options;
+                        console.log('this.locOptions=',this.locOptions);
+                    },
                   passwordValidator() 
                   { return (this.editedItem.confirm_password === this.editedItem.password) || 
                       'Password not matching';                    
@@ -164,6 +192,17 @@
         this.editedIndex = this.sawstatus.indexOf(item); console.log('editedIndex',this.editedIndex)
         this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
 
+        //var loc = this.locOptions.filter(function(v,i) { return v[0] === item.location_id;   });
+        //var loc = this.locOptions.filter(item1 => item1.value.indexOf(item.location_id) > -1);
+        var loc,locid;
+        for( var i = 0, len = this.locOptions.length; i < len; i++ ) {
+            if(this.locOptions[i].value == item.location_id) 
+              {loc=this.locOptions[i].label; locid=i;    }
+          }
+         // console.log('loc-',loc,locid,item.location_id)
+          //console.log('this.locoptions-',this.locOptions)
+        if(locid !=null)
+          this.editedItem.location_id = Object.assign({label: this.locOptions[locid].value})
         if(this.editedItem.mobile==1) this.editedItem.type="Admin";
         else if(this.editedItem.mobile==2) this.editedItem.type="Saw";
         else if(this.editedItem.mobile==3) this.editedItem.type="View";
@@ -191,12 +230,13 @@
                     }
                 } 
            //--------save clicked when adding new
-        else {  console.log('add-item',this.editedItem)
-                    //adduser api here
+        else {       //adduser api here
                       if(this.editedItem.type=="Admin") this.editedItem.mobile=1;
                       else if(this.editedItem.type=="Saw") this.editedItem.mobile=2;
                       else if(this.editedItem.type=="View") this.editedItem.mobile=3;
                       else if(this.editedItem.type=="Super") this.editedItem.mobile=4;
+                      console.log('add-item',this.editedItem)
+                     // return;
                      if (!this.$refs.userform.validate()) 
                     {   
                       console.log('add-item- form validation wrong',this.editedItem)

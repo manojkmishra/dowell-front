@@ -10,7 +10,9 @@
     import UserList from './userlist.vue'
     export default 
     {   components: { 'UserList': UserList, },
-    created(){  this.$store.dispatch('getusers')}
+    created(){  this.$store.dispatch('getusers')
+    
+    }
 
     }
 

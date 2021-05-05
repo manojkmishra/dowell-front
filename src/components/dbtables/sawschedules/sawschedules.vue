@@ -16,10 +16,19 @@
        :search="search">
  <template v-slot:top >
         <v-toolbar flat color="blue darken-4" dense dark>
-          <v-toolbar-title>SAW</v-toolbar-title>
-          <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title>SCHEDULED JOBS </v-toolbar-title>
+          <v-divider class="mx-4" inset vertical ></v-divider>
+                    <v-menu max-width="290">
+                      <template v-slot:activator="{ on }">
+                            <v-text-field :value="formattedDate" label="Cut Date" class="mx-2"
+                            append-icon="mdi-calendar-range" v-on="on" single-line hide-details></v-text-field>
+                      </template>
+                      <v-date-picker v-model="due"></v-date-picker>
+                    </v-menu>
+                  <v-btn v-if="user.admin =='1' || user.admin =='3'" id="btn-cutselected" small  color="amber darken-4" 
+                    rounded dark   @click.prevent="pushjobs" >PUSH</v-btn>
           <v-spacer></v-spacer>
+          <v-divider class="mx-4" inset vertical ></v-divider>
                 <v-text-field v-model="search" append-icon="mdi-magnify" label="Search"
                               @input="searchit" single-line hide-details></v-text-field>
         </v-toolbar>
@@ -92,17 +101,19 @@
 import Vue from 'vue'
 import { mapGetters, mapState, mapActions} from 'vuex';
 import axios from "axios";
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
 export default
-{      computed: 
-  {  ...mapState({ 
+{      computed:{  ...mapState({ 
                         joblist:state =>state.saw.joblist,
                        // selectedSaw: state => state.saw.selectedSaw,
                         user: state => state.auth.user,
                         sawflags:state => state.saw.sawflags,
             }),
-  },
+        formattedDate(){return this.due ? format(parseISO(this.due),'yyyy-MM-dd') : ''}
+      },
   props:{bb:Array},
-  data() { return {dialog: false,search: '',aa:[],loading:false,//paginate1: {},
+  data() { return {dialog: false,search: '',aa:[],loading:false,due:'',//paginate1: {},
           headers: [
             //  { text: 'created_at', align: 'left', value: 'created_at', },
             //  { text: 'created_by', align: 'left',  value: 'created_by.name'},
@@ -113,7 +124,7 @@ export default
               { text: 'cut_date', align: 'left',  value: 'cutday',width:"2%"},
               { text: 'quote_ID', value: 'quote_ID',sortable: false,width:"1%" },
               { text: 'order_ID', value: 'order_ID' ,sortable: false,width:"1%"},
-               { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
+              { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
               { text: 'Customer', align: 'left',  value: 'cust_name',width:"2%"},
               
              // { text: 'cut_time', align: 'left',  value: 'cut_time'},
@@ -133,12 +144,22 @@ export default
       created(){  //this.paginate();
         },
         methods:{ 
-
-            paginate1(e){
-              
+          pushjobs(){
+            if(this.due!="")
+            {
+              console.log('date=',this.due)
+              axios.post(`${axios.defaults.baseURL}/saw/pushjobs`,{dat:this.due})
+            }
+            else{
+               swal.fire({ position: 'top-right',
+                                                title:'<span style="color:white">Please select the date</span>',
+                                                timer: 2000, toast: true, background: 'red',
+                                                });
+            }
+          },
+          paginate1(e){
               console.log('paginate-$event',e); this.loading=true;
             //axios.get(`http://127.0.0.1:8000/api/saw/getsawschedules?page='+${e.page}`,{})
-
             if(this.search =='')
                 { console.log('paginate-not search-e',e)
                 axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=${e.page}`,
@@ -151,7 +172,7 @@ export default
               else{
                 //this.searchit(e)
                 console.log('paginate-search-e=',e)
-                 console.log('paginate-search=',this.search)
+                console.log('paginate-search=',this.search)
               //--------------
                   let x=this.search;
                   if(x.length>3){ this.loading=true;
@@ -168,11 +189,8 @@ export default
                         .then((res) => { console.log('sawsc search res less<=0 =',res.data.response)  
                                           this.aa=res.data.response; this.loading=false;  })
                         .catch(err=>{ console.log('sawsc search err=', err) ; this.loading=false; })
-
                   }
-
               //-----------------
-
               }
             },
             searchit(e){ this.search=e;

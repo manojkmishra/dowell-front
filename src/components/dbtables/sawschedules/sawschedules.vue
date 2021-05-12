@@ -26,7 +26,7 @@
                       <v-date-picker v-model="due"></v-date-picker>
                     </v-menu>
                   <v-btn v-if="user.admin =='1' || user.admin =='3'" id="btn-cutselected" small  color="amber darken-4" 
-                    rounded dark   @click.prevent="pushjobs" >PUSH</v-btn>
+                    rounded dark  :loading="pushloading" @click.prevent="pushjobs" >PUSH</v-btn>
           <v-spacer></v-spacer>
           <v-divider class="mx-4" inset vertical ></v-divider>
                 <v-text-field v-model="search" append-icon="mdi-magnify" label="Search"
@@ -113,7 +113,7 @@ export default
         formattedDate(){return this.due ? format(parseISO(this.due),'yyyy-MM-dd') : ''}
       },
   props:{bb:Array},
-  data() { return {dialog: false,search: '',aa:[],loading:false,due:'',//paginate1: {},
+  data() { return {dialog: false,search: '',aa:[],loading:false,pushloading:false,due:'',//paginate1: {},
           headers: [
             //  { text: 'created_at', align: 'left', value: 'created_at', },
             //  { text: 'created_by', align: 'left',  value: 'created_by.name'},
@@ -146,15 +146,36 @@ export default
         methods:{ 
           pushjobs(){
             if(this.due!="")
-            {
+            {this.pushloading=true;
               console.log('date=',this.due)
               axios.post(`${axios.defaults.baseURL}/saw/pushjobs`,{dat:this.due})
+              .then(res=>{
+                    console.log('push-res',res)
+                    console.log('push-res flag',res.data[0].Flag)
+                    console.log('push-res message',res.data[0].Message)
+                   // console.log('push-res json',res.data[0].JSONdata)
+                    //let obj1=res.data[0].JSONdata;
+                    //let aa=Object.keys(obj1).length
+                    //let ab=Object.entries(obj1).length
+                    //console.log('len aa=',aa)
+                  // $aa=`${res.data[0].Flag}:${res.data[0].Message}`;
+                    swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">'+ `${res.data[0].Flag}:${res.data[0].Message}`+'</span>',
+                                timer: 3000, toast: true, background: 'green',
+                              });
+                      this.pushloading=false;
+                      //window.location.reload();
+                      let e1={page:1,itemsPerPage:20,page:1,pageCount:0,pageStart:0,pageStop:0}
+                      this.paginate1(e1)
+                  
+                  }).catch(err=>{this.pushloading=false;})
             }
             else{
                swal.fire({ position: 'top-right',
-                                                title:'<span style="color:white">Please select the date</span>',
-                                                timer: 2000, toast: true, background: 'red',
-                                                });
+                            title:'<span style="color:white">Please select the date</span>',
+                            timer: 2000, toast: true, background: 'red',
+                          });
+                          //this.pushloading=false;
             }
           },
           paginate1(e){

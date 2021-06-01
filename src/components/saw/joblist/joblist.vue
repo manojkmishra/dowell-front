@@ -163,7 +163,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Status', value: 'action', sortable: false },
               { text: 'CutJob', value: 'cutall', sortable: false },
             ],
-           formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[], cut_saw:'' ,'selerr':false }, 
+           formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[], cut_saw:'' ,'status_id':'' }, 
            loading:false,loadingcut:false,
         }),
 
@@ -484,18 +484,18 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 this.formSearchData.QuoteID = data.quote_ID;
                 this.formSearchData.order_ID = data.Order_Number;
                 this.formSearchData.cut_saw = data.cut_saw;
+                this.formSearchData.id = data.id;
                 this.formSearchData.SawCode = this.selectedSaw;
-                this.formSearchData.loc = "GBG";
+                this.formSearchData.status_id = data.Status_id;
                 console.log('cutall formSearchData=',this.formSearchData); 
                 this.loadingcut=true;              
                 this.$store.dispatch('jobcutall', this.formSearchData)
-                 .then((res) => 
-                          { this.loadingcut=false;})
+                 .then((res) =>{ this.loadingcut=false;})
                 this.resetformSearchData();
             // }
            },
             resetformSearchData(){
-                           this.formSearchData= {  SawCode: '',QuoteID: '',order_ID:'',selected1:[], cut_saw:''}
+                           this.formSearchData= {  SawCode: '',QuoteID: '',order_ID:'',selected1:[], cut_saw:'', status_id:''}
                        }
     },
   }

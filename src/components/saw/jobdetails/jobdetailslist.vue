@@ -12,15 +12,16 @@
             Order Number - {{selectedJob.Order_Number}}
             <v-divider class="mx-4" inset vertical ></v-divider>
 <!----->
- <v-tooltip bottom :disabled="selectedJob.comments==null">
+ <v-tooltip v-if="showflag1" bottom :disabled="flagcolor.name==null">
    <template v-slot:activator="{ on }">
-            <v-btn v-on="on"  v-if="showflag1" small  rounded dark color="pink" 
-                 ><v-icon >mdi-flag-outline</v-icon>Flagged Job</v-btn> 
+            <v-btn v-on="on"  v-if="showflag1" small  rounded dark 
+              v-bind:style="{ 'background-color': 'rgb('+flagcolor.red+','+flagcolor.green+','+flagcolor.blue+')' }">
+                <v-icon >mdi-flag-outline</v-icon>
+                Flagged Job</v-btn> 
     </template>
-    <span v-if="selectedJob.comments !=null">{{cmt1.val}}</span>
-    <span :disabled="selectedJob.comments ==null" ></span>
-  </v-tooltip> <!--<span v-if="showflag1" class="ml-1"> {{cmt1.val}} </span>-->
-   <!----->
+    <span>{{flagcolor.name+"-"+flaggedjob.comments}}</span>
+  </v-tooltip> 
+  
 </v-toolbar-title>
 
         </v-toolbar>
@@ -40,52 +41,35 @@ import { mapGetters, mapState, mapActions} from 'vuex';
   {  
 
     computed: 
-      {  ...mapState({ sawlist: state => state.saw.sawlist, 
+      {  ...mapState({  sawlist: state => state.saw.sawlist, 
                         jobdetailslist:state =>state.saw.jobdetailslist,
                         selectedSaw: state => state.saw.selectedSaw,
                         selectedJob: state => state.saw.selectedJob,
-                        flaggedjob:state => state.saw.flaggedjob
+                        flaggedjob:state => state.saw.flaggedjob,
+                        sawflags:state => state.saw.sawflags
                     }),
-                    cmt1(){
-                                if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                                  && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                                  && this.flaggedjob.cut_saw==this.selectedJob.cut_saw )
-                              {    
-                                      this.cmt.val=this.flaggedjob.comments
-                                      //console.log('thiscmt1 flaggedjob-',this.cmt)
-                                          return this.cmt ;
-                                  
-                              }
-                              else if(this.selectedJob.comments !='')   
-                             // if(this.selectedJob.comments !='') 
-                              {
-                                  this.cmt.val=this.selectedJob.comments
-                                      console.log('thiscmt.val selectedjob-',this.cmt)
-                                          return this.cmt ;
-                              }
-                              else{
-                                  this.cmt.val='';
-                              }
-                    },
-          showflag1(){
-           
+          showflag1()
+          {//show flag on table header
             if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                 && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                 && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                 && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                && this.flaggedjob.review !=6)
-                  {     this.showflag=true;
-                          console.log('showflag-',this.showflag);
+                && this.flaggedjob.review !=6)//show flag in this case
+                  {     this.showflag=true;this.flagcolor=this.flaggedjob;
+                          console.log('jobdetailslist.vue->same job-showflag-',this.showflag,'this.flaggedjob.review-',this.flaggedjob.review,
+                                        'this.flaggedjob-',this.flaggedjob);
+                          let bb= this.sawflags.filter( x => x.id ==  this.flaggedjob.review );
+                          this.flagcolor=bb[0];
+                          console.log('jobdetailslist.vue-flag=',this.flagcolor)
                           return this.showflag;
                         
                   }
-                else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
-                {  this.showflag=true;
-                    console.log('showflag-',this.showflag);
+                else {
+                  this.showflag=false;this.flagcolor=null;
+                  console.log('jobdetailslist.vue-dont show flag->this.flaggedjob.review-',this.flaggedjob.review);
+                  console.log('jobdetailslist.vue-showflag=-',this.showflag);
                   return this.showflag;
-
-                }
-                else return;
+                };
           }
       },
       created () {  },
@@ -103,17 +87,14 @@ import { mapGetters, mapState, mapActions} from 'vuex';
             ],
             formSearchData: {  SawCode: '', QuoteID: '', extn_id: '', loc:''  }, loading:false,
             showflag:false, cmt:{val:''},
+            flagcolor:null
         }),
    
     mounted() { console.log('joblist.vue-this.sawlist=',this.sawlist)
                 console.log('joblist.vue-this.joblist=',this.jobdetailslist)    
               },
     methods: 
-    { showcmt(){ 
-     // console.log('showcmt clicked- showcmt1 val',cmt.val)
-     // showcmt11=1;
-     // console.log('showcmt clicked- showcmt1 val1',showcmt11)
-      },  
+    {  
       chstatus(data)
           {    console.log('chstatus-',data);
               if(this.selectedJob.cut_saw != null) 
@@ -128,16 +109,10 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               this.$store.dispatch('getprofilecutting', this.formSearchData)
                   .then((response) => { this.loading=false;
                       console.log('jdlist.vue-getprofilecutting response',response.data);  
-                      this.$router.push({
-                          name: 'profilecutting'
-                      });
+                      this.$router.push({ name: 'profilecutting' });
                   })
                   .catch((error) => {});
-                      
            },
-      
-
-
     },
   }
 </script>

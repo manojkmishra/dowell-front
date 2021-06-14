@@ -30,7 +30,6 @@ export default {
             let bb= this.sawflags.filter( x => (x.id !=  6, x.id !=  9)  );
             console.log('flags bb-',bb)
             return bb;
-
         },
       },
       components: { 

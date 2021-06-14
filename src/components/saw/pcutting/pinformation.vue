@@ -62,64 +62,23 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           order() {    return stateNode[0].Profile_Section;
           }
           ,
-                   showflag1(){
-           
-            if(this.flaggedjob)
-            {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+          showflag1()
+          {//show flag on table header
+            if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                 && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                 && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
                 && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                && this.flaggedjob.review !=6)
-                {   this.showflag=true;
-                    console.log('showflag-',this.showflag);
-                    return this.showflag;
-                    }
-            }
-                else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
-                {  this.showflag=true;
-                    console.log('showflag-',this.showflag);
+                && this.flaggedjob.review !=6)//show flag in this case
+                  {     this.showflag=true;
+                          return this.showflag;
+                  }
+                else {
+                  this.showflag=false;
                   return this.showflag;
-
-                }
-                else return;
-          }
-      },
-    watch: {   },
-    created () {  },
-    mounted() {    
-              },
-    methods: 
-          {              
-              onClickSChange(action, data, index)
-              {   console.log('pcuttinglist.vue--change status clicked');  // actin=edit  then follow below
-                  console.log('pcuttinglist.vue-itemAction: ' + action, data, index);
-                  console.log('pcuttinglist.vue-cut profilecutting',this.stateNodes3);
-                  console.log('pcuttinglist.vue-selectedjob',this.selectedJob);
-                  console.log('pcuttinglist.vue-selectedJobDetail',this.selectedJobDetail);
-                  console.log('pcuttinglist.vue-jobdetails1',this.jobdetails1);
-                  //---for cut status
-                 // if( this.selectedJob.AllowEdit==0 && this.selectedJob.review ==0 )
-                   if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
-                     {  this.formData.ID= data.ID;
-                       this.formData.SawCode=this.selectedSaw;
-                       this.formData.status=data.Status_id;
-                      //--------------------------
-                      console.log('pcuttinglist---this.formdata=',this.formData);
-                      this.$store.dispatch('updateCutList', this.formData)
-                             .then((response) =>  { console.log('pcuttinglist---response=',response);  })     
-                             .catch((error) => {         });
-                      this.resetFormData();
-                    }
-                  else 
-                         {
-                            // this.$store.dispatch('showErrorNotification', 'Only Unflagged InProgress and UpNext Jobs can be Cut');
-                             this.$store.dispatch('showErrorNotification', 'This Job is not allowed to be cut');
-                             return;
-
-                        }
-              },
-              resetFormData() {  this.formData = {  ID: '', status:'',SawCode:'', Location:''  }; },
+                };
           },
+      },
+
 
   }
 </script>

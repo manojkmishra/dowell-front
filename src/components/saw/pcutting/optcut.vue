@@ -27,12 +27,10 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           headers: [
               { text: 'S.No', align: 'left', sortable: false, value: 'opt_cut',},
               { text: 'Status', value: 'action', sortable: false },
-
             ],
             seen: true , loading:false,
             formData: {    ID:'', name: '',  QuoteID:'',  title: '',   qt_id: '',SawCode:'',status:'',location:'', extn_id:'' },
         }),
-
     computed: 
       {  ...mapState({  stateNodes3: state => state.saw.profilecutting[1],
                             selectedJob: state => state.saw.selectedJob,
@@ -42,14 +40,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             joblist: state => state.saw.joblist,
                             optcutlist: state => state.saw.optcutlist,
                             flaggedjob:state => state.saw.flaggedjob,
-                             user: state => state.auth.user,
+                            user: state => state.auth.user,
                     }),
-                   
       },
-    watch: {   },
-    created () {  },
-    mounted() {    
-              },
     methods: 
           {   onClickSChange(data)
               { console.log('optcut selected')
@@ -60,17 +53,16 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                                 title:'<span style="color:white">Access denied: View only user</span>',
                                                 timer: 2000, toast: true, background: 'red',
                                                 });
-                                                
                               return;
                             }
 //------------------------------  
-                console.log('optcut.vue--change status clicked');  // actin=edit  then follow below
+                 /*console.log('optcut.vue--change status clicked');  // actin=edit  then follow below
                   console.log('optcut.vue-item: ',data);
                   console.log('optcut.vue-cut profilecutting',this.stateNodes3);
                   console.log('optcut.vue-selectedjob',this.selectedJob);
                   console.log('optcut.vue-selectedJobDetail',this.selectedJobDetail);
                   console.log('optcut.vue-jobdetails1',this.jobdetails1);
-                 /* if(this.flaggedjob)
+                 if(this.flaggedjob)
                     {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                         && this.flaggedjob.cut_saw==this.selectedJob.cut_saw

@@ -5,6 +5,8 @@
        <v-flex xs12>
          <v-btn  text  color="grey" @click="backToJob">
             <v-icon  mr-3>mdi-keyboard-backspace</v-icon>RETURN TO JOB</v-btn>
+
+            
      <!----popup---------------->       
     <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
@@ -92,7 +94,11 @@
     
             
        </v-flex>
- 
+          <span v-if="showflag1" v-for="(item,index) in sawflags2" class="ml-4" >
+             <v-icon v-bind:style="{ color: 'rgb('+item.red+','+item.green+','+item.blue+')' }" >
+        mdi-flag</v-icon> 
+            - {{ item.name }}
+         </span>
    <v-flex xs12 pt-0>
          <job-details-list ></job-details-list>
     </v-flex> 
@@ -117,8 +123,26 @@ export default {
         sawflags1(){
             let bb= this.sawflags.filter( x => x.id !=  6 );
             return bb;
-
         },
+        sawflags2(){
+             let bb= this.sawflags.filter( x => (x.id !=  6, x.id !=  9)  );
+            return bb;
+        },
+        showflag1()
+          {//show flag on table header
+            if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
+                && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
+                && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
+                && this.flaggedjob.review !=6)//show flag in this case
+                  {     this.showflag=true;
+                          return this.showflag;
+                  }
+                else {
+                  this.showflag=false;
+                  return this.showflag;
+                };
+          },
         sawpr(){    console.log('filter')
                     let aa=this.selectedSaw
                     console.log('.filter(this.selectedSaw)',aa)
@@ -131,52 +155,29 @@ export default {
                     console.log('newArray=',newArray) */
                     return bb;
                 },
-        cmt1(){ console.log('cmt1 selectedjob-',this.selectedJob)
-            console.log('cmt1-flaggedjob-',this.flaggedjob)
+        cmt1()
+        {   //console.log('flag check-> selectedjob=',this.selectedJob,'flaggedjob=',this.flaggedjob)
            if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw)
-                    {   console.log('thiscmt1 flaggedjob-',this.cmt)
-                            this.cmt.val=this.flaggedjob.comments
+                    && this.flaggedjob.order_ID==this.selectedJob.Order_Number
+                    && this.flaggedjob.cut_saw==this.selectedJob.cut_saw)
+                    {   this.cmt.val=this.flaggedjob.comments
+                            //console.log('jobdetails.vue, same job-flag=',this.flaggedjob.review)
                             //console.log('thiscmt1 flaggedjob-',this.cmt)
                                 return this.cmt ;
-                       
                     }
-                    else //if(this.selectedJob.comments !=null)   
-                    //if(this.selectedJob.comments !='') 
-                    {   console.log('thiscmt1.val selectedjob-',this.selectedJob)
+                    else 
+                    {   //console.log('thiscmt1.val selectedjob-',this.selectedJob)
                         this.cmt.val=this.selectedJob.comments
                            // console.log('thiscmt.val selectedjob-',this.cmt)
                                 return this.cmt ;
                     }
-                   // else{ console.log('thiscmt1 empty this.selectedJob-',this.selectedJob)
-                        //this.cmt.val='';
-                    //}
         },
-        /*cmt(){   if(this.flaggedjob)
-                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                        && this.flaggedjob.review !=6)
-                        {   //this.showflag=true;
-                            //console.log('showflag-',this.showflag);
-                            return this.flaggedjob.comments;
-                        }
-                    }
-                    else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
-                    {  this.showflag=true;
-                        console.log('showflag-',this.showflag);
-                    return this.showflag;
-                    }
-                    else return;
-            } */
         },
     created(){console.log('jd--sawflags',this.sawflags)    },
     data() {  return { seen: true,dialog: false,printdialog: false,loadingexttosaw:false, 
                         loadingcutall:false,loadingcutlist:false,cmt:{val:''},
                     formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:'',cmt:''  },
-                    loadingprint:false, loadingfixstatus:false, 
+                    loadingprint:false, loadingfixstatus:false, showflag:false,
                     }
             },
 components: {   'job-details-list': JobDetailsList,  },

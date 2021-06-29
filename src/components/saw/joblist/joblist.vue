@@ -434,7 +434,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                this.formSearchData.SawCode = this.selectedSaw;
                this.formSearchData.QuoteID = data.quote_ID;
                this.loading=true;
-               this.$store.dispatch('selectedJob', data);
+               
                if(data.cut_saw==null)
                       { this.formSearchData.status=data.Status_id;
                         this.formSearchData.id = data.id;
@@ -442,7 +442,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         this.$store.dispatch('updateJobList', this.formSearchData)
                         //this.loading=false;
                       }
-                      
+                      this.$store.dispatch('selectedJob', data);
                     this.$store.dispatch('getjobdetails', this.formSearchData)
                       .then((res) => 
                           { this.loading=false;

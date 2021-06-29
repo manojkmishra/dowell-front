@@ -94,14 +94,14 @@
     
             
        </v-flex>
-          <span v-if="showflag1" v-for="(item,index) in sawflags2" class="ml-4" >
+       <!--   <span v-if="showflag1" v-for="(item,index) in sawflags2" class="ml-4" >
              <v-icon v-bind:style="{ color: 'rgb('+item.red+','+item.green+','+item.blue+')' }" >
         mdi-flag</v-icon> 
             - {{ item.name }}
-         </span>
-   <v-flex xs12 pt-0>
-         <job-details-list ></job-details-list>
-    </v-flex> 
+         </span>-->
+        <v-flex xs12 pt-0>
+              <job-details-list ></job-details-list>
+          </v-flex> 
   </v-layout>
  </v-container>
  </div>
@@ -143,16 +143,13 @@ export default {
                   return this.showflag;
                 };
           },
-        sawpr(){    console.log('filter')
+        sawpr(){    
                     let aa=this.selectedSaw
-                    console.log('.filter(this.selectedSaw)',aa)
-                    console.log('this.sawprints',this.sawprints)
+                    //console.log('this.sawprints',this.sawprints)
                     //return this.sawprints.name.filter(aa)
                     let bb= this.sawprints.filter( x => (x.saw ==  this.selectedSaw 
                     && x.instruct ==  'JobDetails'));
-                    console.log('bb=',bb)
-                    /* var newArray = this.sawprints.filter(function (el) { return el.saw == aa });
-                    console.log('newArray=',newArray) */
+                    console.log('jobdetails-sawprints-=',bb)
                     return bb;
                 },
         cmt1()
@@ -173,7 +170,7 @@ export default {
                     }
         },
         },
-    created(){console.log('jd--sawflags',this.sawflags)    },
+    created(){   },
     data() {  return { seen: true,dialog: false,printdialog: false,loadingexttosaw:false, 
                         loadingcutall:false,loadingcutlist:false,cmt:{val:''},
                     formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:'',cmt:''  },

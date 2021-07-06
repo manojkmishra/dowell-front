@@ -363,7 +363,8 @@ async updateselectedcutlist({dispatch}, formData)
   async updateFlag ({commit,dispatch}, formData) 
   { console.log('updateflag--- formData',formData); 
     let res= await axios.post(api.updateFlag, formData)  
-    .then(res => { commit({type:types.GET_FLAGGED_JOB ,  flaggedjob: res.data} ); 
+    .then(res => { 
+                     // commit({type:types.GET_FLAGGED_JOB ,  flaggedjob: res.data} ); 
                         dispatch('getJobs',formData);
                     })
     .catch(error => { console.log('updateFlag-error',error); reject();   });

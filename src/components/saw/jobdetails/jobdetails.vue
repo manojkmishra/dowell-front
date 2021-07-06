@@ -33,7 +33,7 @@
                   </template>
                 </div>
                 <div class="text-center">
-                    <v-text-field label="Comment" outlined v-model="cmt1.val" ></v-text-field>
+                    <v-text-field label="Comment" outlined v-model="selectedJob.comments" ></v-text-field>
                 </div>
               </v-container>
             </v-card-text>
@@ -88,11 +88,6 @@
                   @click.prevent="reoptimise" ><v-icon  >mdi-cog-clockwise</v-icon>Re-Optimise</v-btn> 
         <v-btn id="flag-btn" ripple small color="blue accent-4"  rounded dark   :loading="loadingfixstatus"
                   @click.prevent="fixstatus" ><v-icon  >mdi-cog-clockwise</v-icon>fix-status</v-btn> -->
-                  
- 
-
-    
-            
        </v-flex>
        <!--   <span v-if="showflag1" v-for="(item,index) in sawflags2" class="ml-4" >
              <v-icon v-bind:style="{ color: 'rgb('+item.red+','+item.green+','+item.blue+')' }" >
@@ -109,6 +104,7 @@
 <script>
  import JobDetailsList from './jobdetailslist.vue'
  import { mapGetters, mapState, mapActions} from 'vuex';
+ import * as types from '@/store/types';
 export default {
     computed: { ...mapGetters({}),
         ...mapState({ user: state => state.auth.user,
@@ -118,7 +114,7 @@ export default {
             joblist1: state => state.saw.joblist,
             sawflags:state => state.saw.sawflags,
             sawprints:state => state.saw.sawprints,
-            flaggedjob:state => state.saw.flaggedjob
+            //flaggedjob:state => state.saw.flaggedjob
             }),
         sawflags1(){
             let bb= this.sawflags.filter( x => x.id !=  6 );
@@ -128,21 +124,7 @@ export default {
              let bb= this.sawflags.filter( x => (x.id !=  6, x.id !=  9)  );
             return bb;
         },
-        showflag1()
-          {//show flag on table header
-            if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                && this.flaggedjob.review !=6)//show flag in this case
-                  {     this.showflag=true;
-                          return this.showflag;
-                  }
-                else {
-                  this.showflag=false;
-                  return this.showflag;
-                };
-          },
+      
         sawpr(){    
                     let aa=this.selectedSaw
                     //console.log('this.sawprints',this.sawprints)
@@ -152,23 +134,6 @@ export default {
                     console.log('jobdetails-sawprints-=',bb)
                     return bb;
                 },
-        cmt1()
-        {   //console.log('flag check-> selectedjob=',this.selectedJob,'flaggedjob=',this.flaggedjob)
-           if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                    && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                    && this.flaggedjob.cut_saw==this.selectedJob.cut_saw)
-                    {   this.cmt.val=this.flaggedjob.comments
-                            //console.log('jobdetails.vue, same job-flag=',this.flaggedjob.review)
-                            //console.log('thiscmt1 flaggedjob-',this.cmt)
-                                return this.cmt ;
-                    }
-                    else 
-                    {   //console.log('thiscmt1.val selectedjob-',this.selectedJob)
-                        this.cmt.val=this.selectedJob.comments
-                           // console.log('thiscmt.val selectedjob-',this.cmt)
-                                return this.cmt ;
-                    }
-        },
         },
     created(){   },
     data() {  return { seen: true,dialog: false,printdialog: false,loadingexttosaw:false, 
@@ -180,7 +145,7 @@ export default {
 components: {   'job-details-list': JobDetailsList,  },
 methods: {   close(){ this.dialog=false;}, 
             closeprint(){ this.printdialog=false;},
-    OnSave(x){  console.log('flag selected',x); 
+    OnSave(x){  console.log('flag selected',x); //method for flagging
                 console.log('cmt',this.cmt);
 //------------------
                 if(this.user.admin =='3')
@@ -208,6 +173,13 @@ methods: {   close(){ this.dialog=false;},
                                         return;
                                         })
                     .catch((error) => {       });
+                //--------------
+                  this.selectedJob.review=x;
+                  let bb= this.sawflags.filter( y => y.id ==  x );
+                  console.log('flag info-',bb[0])
+                  this.selectedJob.flagBlue=bb[0].blue;this.selectedJob.flagRed=bb[0].red;this.selectedJob.flagGreen=bb[0].green;
+                  this.$store.commit({type:types.SET_SELECTED_JOB ,  selectedJob: this.selectedJob} ); 
+                //--------------
                 this.dialog=false;
                // this.cmt='';
             },
@@ -254,11 +226,16 @@ methods: {   close(){ this.dialog=false;},
                 this.printdialog=false;
         },
         backToJob() { //this.$router.push({name: 'joblist'});  
+                
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.formSearchData.Location = "GBG";               
                 this.$store.dispatch('getJobs', this.formSearchData)
-                .then((response) => { this.$router.push({name: 'joblist'});
+                .then((response) => { 
+
+                  this.$router.push({name: 'joblist'});
+                 // this.$store.commit({type:types.GET_FLAGGED_JOB ,  flaggedjob: ""} ); 
                                     })
+                  //this.$store.dispatch('getJobs', this.formSearchData)
                 },
         scrap() 
                 {   console.log('scrap clicked selectedjob-=',this.selectedJob);

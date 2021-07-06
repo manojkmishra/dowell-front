@@ -5,8 +5,15 @@
           <v-toolbar-title>CUTS INFO</v-toolbar-title>
           <v-divider class="mx-4" inset vertical ></v-divider>
           <v-toolbar-title class="mx-4">SAW - {{selectedSaw.replace(/_/g, " ")}}</v-toolbar-title>
-          <v-btn v-if="showflag1" small  rounded dark color="pink" class="disable-events"
-          ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
+    <template>
+            <v-btn v-if="selectedJob.review !=9 && selectedJob.review !=6 && selectedJob.review !=0" small  rounded dark 
+              v-bind:style="{ 'background-color': 'rgb('+selectedJob.flagRed+','+selectedJob.flagGreen+','+selectedJob.flagBlue+')' }">
+                <v-icon >mdi-flag-outline</v-icon>
+                <span v-for="aa in sawflags" :key="aa.id" >
+                  <span v-if="aa.id==selectedJob.review">{{aa.name}}</span>
+                </span>
+            </v-btn> 
+    </template>
         </v-toolbar>
     </template> 
     <template v-slot:default>
@@ -57,26 +64,11 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                          selectedSaw: state => state.saw.selectedSaw,
                            stateNodes3: state => state.saw.jobdetails,
                           selectedJobDetail: state => state.saw.selectedJobDetail,
-                          flaggedjob:state => state.saw.flaggedjob
+                          //flaggedjob:state => state.saw.flaggedjob
+                          sawflags:state => state.saw.sawflags
           }),
           order() {    return stateNode[0].Profile_Section;
           }
-          ,
-          showflag1()
-          {//show flag on table header
-            if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                && this.flaggedjob.review !=6)//show flag in this case
-                  {     this.showflag=true;
-                          return this.showflag;
-                  }
-                else {
-                  this.showflag=false;
-                  return this.showflag;
-                };
-          },
       },
 
 

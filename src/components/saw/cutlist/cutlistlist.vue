@@ -12,8 +12,15 @@
           <v-toolbar-title>SAW - {{selectedSaw.replace(/_/g, " ")}}
             <v-divider class="mx-4" inset vertical ></v-divider>
           Order No - {{selectedJob.Order_Number}}
-                      <v-btn v-if="showflag1" small  rounded dark color="pink" class="disable-events"
-                  ><v-icon  >mdi-flag-outline</v-icon>Flagged</v-btn>
+    <template>
+            <v-btn v-if="selectedJob.review !=9 && selectedJob.review !=6 && selectedJob.review !=0" small  rounded dark 
+              v-bind:style="{ 'background-color': 'rgb('+selectedJob.flagRed+','+selectedJob.flagGreen+','+selectedJob.flagBlue+')' }">
+                <v-icon >mdi-flag-outline</v-icon>
+                <span v-for="aa in sawflags" :key="aa.id" >
+                  <span v-if="aa.id==selectedJob.review">{{aa.name}}</span>
+                </span>
+            </v-btn> 
+    </template>
           </v-toolbar-title>
           <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading1"  @click.prevent="cutselected">CutSelect</v-btn>
           <v-btn id="btn-cutselected" small  color="blue darken-4" rounded dark :loading="loading2"  @click.prevent="uncutselect">UnCutSelect</v-btn>
@@ -96,14 +103,15 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         selectedJob: state => state.saw.selectedJob,
                         selectedJobDetail: state => state.saw.selectedJobDetail,
                         selectedSaw: state => state.saw.selectedSaw,
-                        flaggedjob:state => state.saw.flaggedjob,
+                        //flaggedjob:state => state.saw.flaggedjob,
                         joblist:state =>state.saw.joblist,
                         user: state => state.auth.user,
+                        sawflags:state => state.saw.sawflags
                    }),
               cutlist111(){
                 return this.cutlist.key1;
               },
-                   showflag1(){
+                   /*showflag1(){
            
             if(this.flaggedjob)
             {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
@@ -123,7 +131,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
 
                 }
                 else return;
-          }
+          }*/
            
        },
     methods: 

@@ -93,6 +93,13 @@
        <span v-if="item.mobile ==2 || item.mobile ==''" >Saw User</span>
        <span v-if="item.mobile ==4" >Super User</span>
     </template>
+    <template v-slot:item.location_id="{ item }">
+        <span v-for="aa in locOptions" :key="aa.value" >
+            <span v-if="aa.value==item.location_id">  <!-- {{aa.id}} -->
+              {{aa.label}}
+            </span>
+        </span>
+    </template>
     <template v-slot:no-data>
       <div></div> <!----show nothing when no data -->
     </template>
@@ -112,6 +119,7 @@
                         { text: "NAME", align: "left", sortable: true, value: "name" },
                         { text: "EMAIL", align: "left", sortable: true, value: "email" },
                         { text: "TYPE", align: "left", sortable: true, value: "mobile1" },
+                        { text: "LOCATION", align: "left", sortable: true, value: "location_id" },
                        // { text: "TYPE", align: "left", sortable: true, value: "type" },
                        // { text: "CREATEDBY", align: "left", sortable: true, value: "created_by.name" },
                        // { text: "UPDATEDBY", align: "left", sortable: true, value: "updated_by" },
@@ -161,7 +169,10 @@
          ...mapState({  sawstatus:state => state.user.userlist}),
           ...mapGetters({authenticated:'auth/authenticated',
                           user:'auth/user'
-                        })
+                        }),
+              loc(){
+
+              }
 
      },
     watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
@@ -195,10 +206,10 @@
         //var loc = this.locOptions.filter(function(v,i) { return v[0] === item.location_id;   });
         //var loc = this.locOptions.filter(item1 => item1.value.indexOf(item.location_id) > -1);
         var loc,locid;
-        for( var i = 0, len = this.locOptions.length; i < len; i++ ) {
-            if(this.locOptions[i].value == item.location_id) 
+        for( var i = 0, len = this.locOptions.length; i < len; i++ ) 
+        {    if(this.locOptions[i].value == item.location_id) 
               {loc=this.locOptions[i].label; locid=i;    }
-          }
+        }
          // console.log('loc-',loc,locid,item.location_id)
           //console.log('this.locoptions-',this.locOptions)
         if(locid !=null)

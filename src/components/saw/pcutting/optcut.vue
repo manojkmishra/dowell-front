@@ -39,7 +39,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             jobdetails1: state => state.saw.jobdetails,
                             joblist: state => state.saw.joblist,
                             optcutlist: state => state.saw.optcutlist,
-                            flaggedjob:state => state.saw.flaggedjob,
+                            //flaggedjob:state => state.saw.flaggedjob,
                             user: state => state.auth.user,
                     }),
       },

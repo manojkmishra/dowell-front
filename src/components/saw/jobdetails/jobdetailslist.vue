@@ -11,7 +11,7 @@
                <v-divider class="mx-4" inset vertical ></v-divider>
             Order Number - {{selectedJob.Order_Number}}
             <v-divider class="mx-4" inset vertical ></v-divider>
-<!----->
+<!--
  <v-tooltip v-if="showflag1" bottom :disabled="flagcolor.name==null">
    <template v-slot:activator="{ on }">
             <v-btn v-on="on"  v-if="showflag1" small  rounded dark 
@@ -21,6 +21,20 @@
     </template>
     <span>{{flagcolor.name+"-"+selectedJob.comments}}</span>
   </v-tooltip> 
+-->
+ <v-tooltip v-if="selectedJob.review !=9 && selectedJob.review !=6 && selectedJob.review !=0" bottom :disabled="selectedJob.comments==null">
+    <template v-slot:activator="{ on }">
+            <v-btn v-on="on" v-if="selectedJob.review !=9 && selectedJob.review !=6 && selectedJob.review !=0" small  rounded dark 
+              v-bind:style="{ 'background-color': 'rgb('+selectedJob.flagRed+','+selectedJob.flagGreen+','+selectedJob.flagBlue+')' }">
+                <v-icon >mdi-flag-outline</v-icon>
+                <span v-for="aa in sawflags" :key="aa.id" >
+                  <span v-if="aa.id==selectedJob.review">{{aa.name}}</span>
+                </span>
+            </v-btn> 
+    </template>
+    <span>{{selectedJob.comments}}</span>
+  </v-tooltip> 
+
   
 </v-toolbar-title>
 
@@ -45,60 +59,60 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         jobdetailslist:state =>state.saw.jobdetailslist,
                         selectedSaw: state => state.saw.selectedSaw,
                         selectedJob: state => state.saw.selectedJob,
-                        flaggedjob:state => state.saw.flaggedjob,
+                        //flaggedjob:state => state.saw.flaggedjob,
                         sawflags:state => state.saw.sawflags
-                    }),
-          showflag1()
-          {//show flag on table header
-          console.log('jobdetailslist-showflag1-selectedjob-',this.selectedJob,'flaggedjob-',this.flaggedjob)
-            if(this.flaggedjob)
-            {
-              if( this.flaggedjob.quote_ID==this.selectedJob.quote_ID//when flag changed
-                && (this.flaggedjob.cut_saw==this.selectedJob.cut_saw ||
-                this.flaggedjob.cut_saw==this.selectedSaw)
-                && this.flaggedjob.review != 9 && this.flaggedjob.review !=6
-                )
+                    })
+        // showflag1()
+         // {//show flag on table header
+         // console.log('jobdetailslist-showflag1-selectedjob-',this.selectedJob,'flaggedjob-',this.flaggedjob)
+         //   if(this.flaggedjob)
+         //   {
+         //     if( this.flaggedjob.quote_ID==this.selectedJob.quote_ID//when flag changed
+         //       && (this.flaggedjob.cut_saw==this.selectedJob.cut_saw ||
+         //       this.flaggedjob.cut_saw==this.selectedSaw)
+         //       && this.flaggedjob.review != 9 && this.flaggedjob.review !=6
+          //      )
              //show flag in this case
-                  {   console.log('1flag changed-old=',this.selectedJob.review,'new=',this.flaggedjob.review)
-                      this.showflag=true;this.flagcolor=this.flaggedjob;
+           //       {   console.log('1flag changed-old=',this.selectedJob.review,'new=',this.flaggedjob.review)
+             //         this.showflag=true;this.flagcolor=this.flaggedjob;
                           //console.log('jobdetailslist.vue->same job-showflag-',this.showflag,'this.flaggedjob.review-',this.flaggedjob.review,'this.flaggedjob-',this.flaggedjob);
-                          let bb= this.sawflags.filter( x => x.id ==  this.flaggedjob.review );
-                          this.flagcolor=bb[0];
-                          console.log('1jobdetailslist.vue-flag-true=',this.flagcolor)
-                          return this.showflag;
+              //            let bb= this.sawflags.filter( x => x.id ==  this.flaggedjob.review );
+              //            this.flagcolor=bb[0];
+              //            console.log('1jobdetailslist.vue-flag-true=',this.flagcolor)
+              //            return this.showflag;
                         
-                  }
-                  else{
-                    console.log('1flag changes but not present-old=',this.selectedJob.review,'new=',this.flaggedjob.review)
-                      this.showflag=false;this.flagcolor=null;
+              //    }
+              //    else{
+               //     console.log('1flag changes but not present-old=',this.selectedJob.review,'new=',this.flaggedjob.review)
+                //      this.showflag=false;this.flagcolor=null;
                     //console.log('jobdetailslist.vue-dont show flag->this.flaggedjob.review-',this.flaggedjob.review);
-                      console.log('1jobdetailslist.vue-showflag-false=',this.showflag);
-                      return this.showflag;
-                    }
-                  }
-                else {
+               //       console.log('1jobdetailslist.vue-showflag-false=',this.showflag);
+                //      return this.showflag;
+               //     }
+              //    }
+              //  else {
                   //console.log('jdlist- flag not changed-selectedjob',this.selectedJob)
                   
-                  if(this.selectedJob.review == 0 || this.selectedJob.review == 9 || this.selectedJob.review ==6 )
-                    {
-                      console.log('2flag not present-',this.selectedJob.review)
-                      this.showflag=false;this.flagcolor=null;
+                //  if(this.selectedJob.review == 0 || this.selectedJob.review == 9 || this.selectedJob.review ==6 )
+                //    {
+                 //     console.log('2flag not present-',this.selectedJob.review)
+                //      this.showflag=false;this.flagcolor=null;
                     //console.log('jobdetailslist.vue-dont show flag->this.flaggedjob.review-',this.flaggedjob.review);
-                      console.log('2jobdetailslist.vue-showflag-false=',this.showflag);
-                      return this.showflag;
-                    }
-                    else{
-                      console.log('2jdlist--flag not changed,but present-',this.selectedJob.review)
-                      this.showflag=true;//this.flagcolor=this.flaggedjob;
-                          //console.log('jobdetailslist.vue->same job-showflag-',this.showflag,'this.flaggedjob.review-',this.flaggedjob.review,'this.flaggedjob-',this.flaggedjob);
-                          let bb= this.sawflags.filter( x => x.id ==  this.selectedJob.review );
-                          this.flagcolor=bb[0];
-                          console.log('2jobdetailslist.vue-flag-true=',this.flagcolor)
-                          return this.showflag;
-                    }
+                  //    console.log('2jobdetailslist.vue-showflag-false=',this.showflag);
+                  //    return this.showflag;
+                  //  }
+                  //  else{
+                  //    console.log('2jdlist--flag not changed,but present-',this.selectedJob.review)
+                 //     this.showflag=true;//this.flagcolor=this.flaggedjob;
+                  //        //console.log('jobdetailslist.vue->same job-showflag-',this.showflag,'this.flaggedjob.review-',this.flaggedjob.review,'this.flaggedjob-',this.flaggedjob);
+                  //        let bb= this.sawflags.filter( x => x.id ==  this.selectedJob.review );
+                  //        this.flagcolor=bb[0];
+                  //        console.log('2jobdetailslist.vue-flag-true=',this.flagcolor)
+                  //        return this.showflag;
+                  //  }
                    
-                };
-          }
+                //};
+          //}
       },
       created () {  },
        data: () => (

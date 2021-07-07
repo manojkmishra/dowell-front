@@ -128,7 +128,7 @@
                         { text: 'Actions', value: 'actions', sortable: false,width: "10%" },
       ],
       desserts: [],categories: [],
-      editedItem: { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:'',location_id:''},
+      editedItem: { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:'',location_id:'',locationid:''},
       editedIndex: -1,
       typeOptions: [ "Admin",  "Saw" , "View", "Super"],
       locOptions:[],
@@ -194,7 +194,7 @@
                       'Password not matching';                    
                   },
       reseteditedItem(){
-        this.editedItem= { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:''}
+        this.editedItem= { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:'',location_id:'',locationid:''}
       },
 
       editItem (item) 
@@ -212,24 +212,31 @@
         }
          // console.log('loc-',loc,locid,item.location_id)
           //console.log('this.locoptions-',this.locOptions)
-        if(locid !=null)
-          this.editedItem.location_id = Object.assign({label: this.locOptions[locid].value})
+        if(locid !=null) //this is just to select the location on form dropdown
+          //this.editedItem.location_id = Object.assign({label: this.locOptions[locid].value})
+          this.editedItem.location_id = this.locOptions[locid].value;
+
         if(this.editedItem.mobile==1) this.editedItem.type="Admin";
         else if(this.editedItem.mobile==2) this.editedItem.type="Saw";
         else if(this.editedItem.mobile==3) this.editedItem.type="View";
         else if(this.editedItem.mobile==4) this.editedItem.type="Super";
       //  this.editedItem=item;
+        console.log('editItem=',this.editedItem)
         this.dialog = true
         },
       save () 
       {  //console.log('save-item=',item);
         if (this.editedIndex > -1) //save clicked when editing
-              {  console.log('save--edit=',this.editedItem)
+              {  console.log('save--edit1=',this.editedItem)
+               //console.log('save--edit1-location_id.label=',this.editedItem.location_id.label)
                     //edit api here
                       if(this.editedItem.type=="Admin") this.editedItem.mobile=1;
                       else if(this.editedItem.type=="Saw") this.editedItem.mobile=2;
                       else if(this.editedItem.type=="View") this.editedItem.mobile=3;
                       else if(this.editedItem.type=="Super") this.editedItem.mobile=4;
+                      //this.editedIem.locationid=this.editedItem.location_id.label;
+                      console.log('save--edit2=',this.editedItem)
+                      //return;
                     if (!this.$refs.userform.validate()) 
                     {   
                       console.log('edit-item- form validation wrong',this.editedItem)

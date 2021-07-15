@@ -102,7 +102,7 @@ export default {
                { title: 'Saw Flags', route:'/sawflags' },
                { title: 'Saw Prints', route:'/sawprints' },
                { title: 'Transfrd Jobs', route:'/transfrdjobs' },
-               { title: 'Transfr Saw', route:'/transfrsaw' },
+              // { title: 'Transfr Saw', route:'/transfrsaw' },
              ],
           },
            { action: 'mdi-chart-bar', title: 'Summary',hasMulSub: true, items: [ 

@@ -4,7 +4,7 @@ import * as types from '../types';
 import * as api from '../config';
 export default
 {
-  state: {sawflags:null,sawstatus:null,sawlist:null,joblist:null, selectedSaw:null,
+  state: {sawflags:null,locations:null,sawstatus:null,sawlist:null,joblist:null, selectedSaw:null,
           jobdetailslist:null,selectedJob:null,selectedJobDetail:null,profilecutting:null,
           cutlist:null,flaggedjob:null,sawprints:null, sawoptions:null,
         },
@@ -13,6 +13,10 @@ export default
   },
   mutations: 
   { 
+    [types.GET_LOCATIONS ] (state, payload) 
+    { state.locations = payload.locations;
+     console.log('/store/saw.js-types.GET_LOCATIONS state=', state);
+    },
     [types.GET_SAW_FLAGS ] (state, payload) 
     { state.sawflags = payload.sawflags;
      console.log('/store/saw.js-types.GET_SAW_FLAGS state=', state);
@@ -78,6 +82,7 @@ export default
           commit({type:types.GET_SAW_SAWLIST ,  sawlist: res.data} ); 
           return res;         
         },
+
       async getJobs ({commit,dispatch}, formData) 
         { 
           let res= await axios.post(api.getJobs, formData)
@@ -373,6 +378,11 @@ async updateselectedcutlist({dispatch}, formData)
   },
 
   //=========================Flag Table========================
+  async getlocations({commit}, dispatch)
+  { let res= await axios.get(api.getlocations);
+    commit({type:types.GET_LOCATIONS ,  locations: res.data} ); 
+    return res;         
+  },
   async getsawflags ({commit,dispatch}) 
   { let res= await axios.get(api.getsawflags);  
     commit({type:types.GET_SAW_FLAGS ,  sawflags: res.data} ); 

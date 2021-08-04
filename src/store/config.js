@@ -33,6 +33,7 @@ export const editsawprint = apiDomain + '/saw/editsawprint';
 export const deletesawprint = apiDomain + '/saw/deletesawprint';
 export const fixstatus = apiDomain + '/saw/fixstatus';
 //--------------------------------------------------
+export const getlocations = apiDomain+ '/saw/locations';
 export const getsawstatus = apiDomain+ '/saw/getsawstatus';
 export const getsawflags = apiDomain+ '/saw/getsawflags';
 export const addflag = apiDomain + '/saw/addflag';

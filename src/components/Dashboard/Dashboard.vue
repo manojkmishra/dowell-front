@@ -15,6 +15,7 @@
             this.$store.dispatch('getsawstatus')
             this.$store.dispatch('getusers')
             this.$store.dispatch('getsawprint')
+            this.$store.dispatch('getlocations')
    }
     }
 

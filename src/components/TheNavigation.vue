@@ -34,7 +34,11 @@
                          <p class="mt-2" style="text-align: center; color:rgb(6, 231, 125);"
                          >{{user.name}}</p>
                          <p style="text-align: center; color:rgb(6, 231, 125); margin-top: -1rem;"
-                         >{{usertype}}</p>
+                         >{{usertype}}
+                         <span v-if="showloc.length>0" style="text-align: center; color:rgb(6, 231, 125); margin-top: -1rem;"
+                         >[{{showloc[0].abbreviation}}]</span>
+                         </p>
+                      
                     </v-flex> <!--popup to add projects below -->
                </v-layout>            
       <!---multi leve finish ---------->
@@ -77,7 +81,7 @@
 
 <script>
 
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapActions,mapState} from 'vuex'
 
 export default {
   
@@ -127,15 +131,24 @@ export default {
         ...mapGetters({authenticated:'auth/authenticated',
                       user:'auth/user'
                       }),
-                   usertype(){
-                     console.log('utype-user=',this.user)
-                        if(this.user.admin==1){
-                          return "Admin User";
-                        }
+        ...mapState({  locations:state => state.saw.locations}),
+                  usertype()
+                   {
+                      console.log('nav utype-user=',this.user)
+                      console.log('nav locations=',this.locations)
+                      let bb= this.locations.filter( x => (x.id == this.user.location_id )  );
+                        console.log('nav - loc=',bb)
+                        if(this.user.admin==1){ return "Admin User"; }
                         else if (this.user.admin==3) {return "View User";}
                         else if (this.user.admin==4) {return "Super User";}
                         else{ return "Saw User"}
-                      }
+                    },
+                showloc()
+                   {   console.log('nav locations=',this.locations)
+                    let bb= this.locations.filter( x => (x.id == this.user.location_id )  );
+                        console.log('nav - loc=',bb)
+                        return bb;
+                    }
           
     },
     methods:{

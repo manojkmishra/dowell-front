@@ -135,21 +135,24 @@ export default {
                   usertype()
                    {
                       console.log('nav utype-user=',this.user)
-                      console.log('nav locations=',this.locations)
-                      let bb= this.locations.filter( x => (x.id == this.user.location_id )  );
-                        console.log('nav - loc=',bb)
+                      //console.log('nav locations=',this.locations)
+                      //let bb= this.locations.filter( x => (x.id == this.user.location_id )  );
+                        //console.log('nav - loc=',bb)
                         if(this.user.admin==1){ return "Admin User"; }
                         else if (this.user.admin==3) {return "View User";}
                         else if (this.user.admin==4) {return "Super User";}
                         else{ return "Saw User"}
                     },
                 showloc()
-                   {   console.log('nav locations=',this.locations)
+                   {   console.log('nav locations1=',this.locations)
                     let bb= this.locations.filter( x => (x.id == this.user.location_id )  );
                         console.log('nav - loc=',bb)
                         return bb;
                     }
           
+    },
+    created(){
+ this.$store.dispatch('getlocations');
     },
     methods:{
         ...mapActions({signOut1:'auth/signOut'}),

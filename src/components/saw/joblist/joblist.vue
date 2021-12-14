@@ -395,7 +395,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               console.log('this.user.admin-',this.user.admin);
               console.log('data.review-',data.review);
               if(data.Status !="Queued" || this.user.admin =='1'|| this.user.admin =='3' || this.user.admin =='4'
-              || (data.review !=0 && data.review !=6 && data.review !=9)
+              || (data.review !=0 && data.review !=6 && data.review !=9) || this.user.admin =='2' //2=sawuser
               )
                {
                this.formSearchData.SawCode = this.selectedSaw;

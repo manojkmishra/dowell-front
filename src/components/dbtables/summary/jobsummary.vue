@@ -38,216 +38,311 @@
     <template v-slot:item.cutday="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
        <span>{{moment(item.cut_date).format('DD-MM-YYYY')}}</span>
     </template>
-    <!-------------------------nosaw smt----------------------->
-    <template v-slot:item.NoSaw_SMT="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+    <!------------------------>
+    <template v-slot:item.slidsash1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
     <!--  <v-tooltip bottom :disabled="item.slidsash.comments==null"> -->
-      
-      <template >
-       <v-btn  ripple x-small v-if="item.NoSaw_SMT.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.NoSaw_SMT)" >InPrg
+      <v-tooltip bottom >
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.slidsash.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >InPrg
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.NoSaw_SMT.review">  <!-- {{aa.id}} -->
+            <span v-if="aa.id==item.slidsash.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
             </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.NoSaw_SMT.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.NoSaw_SMT)" >Cmplt
+       <v-btn v-on="on" ripple x-small v-else-if="item.slidsash.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >Cmplt
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.NoSaw_SMT.review">  <!-- {{aa.id}} -->
+            <span v-if="aa.id==item.slidsash.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.NoSaw_SMT.status_id =='0' || item.NoSaw_SMT.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.NoSaw_SMT)" >QUD
+       <v-btn v-on="on" ripple x-small v-else-if="item.slidsash.status_id =='0' || item.slidsash.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.slidsash)" >QUD
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.NoSaw_SMT.review">  <!-- {{aa.id}} -->
+            <span v-if="aa.id==item.slidsash.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+       <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+
         </template>
-      
+      <span >{{item.slidsash.cut_color}}</span>
+      <span v-if="item.slidsash.comments !=null">{{item.slidsash.comments}}</span>
+      <span  ></span>
+      </v-tooltip>
     </template>
-    <!-------------------------------dsw saw---------------->
-        <template v-slot:item.DSW_Saw="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-    <!--  <v-tooltip bottom :disabled="item.slidsash.comments==null"> -->
-     
-      <template >
-       <v-btn ripple x-small v-if="item.DSW_Saw.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.DSW_Saw)" >InPrg
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.DSW_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-            </span>
-          </span>
-       </v-btn>
-       <v-btn  ripple x-small v-else-if="item.DSW_Saw.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.DSW_Saw)" >Cmplt
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.DSW_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-          </span>
-          </span>
-       </v-btn>
-       <v-btn  ripple x-small v-else-if="item.DSW_Saw.status_id =='0' || item.DSW_Saw.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.DSW_Saw)" >QUD
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.DSW_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-          </span>
-          </span>
-       </v-btn>
-       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-        </template>
-      
-    </template>
-    <!---------------------->
-    <!-----------------------ea frame saw------------------------>
-        <template v-slot:item.EA_Frame_Saw="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-    <!--  <v-tooltip bottom :disabled="item.slidsash.comments==null"> -->
-     
-      <template >
-       <v-btn ripple x-small v-if="item.EA_Frame_Saw.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.EA_Frame_Saw)" >InPrg
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.EA_Frame_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-            </span>
-          </span>
-       </v-btn>
-       <v-btn  ripple x-small v-else-if="item.EA_Frame_Saw.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.EA_Frame_Saw)" >Cmplt
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.EA_Frame_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-          </span>
-          </span>
-       </v-btn>
-       <v-btn  ripple x-small v-else-if="item.EA_Frame_Saw.status_id =='0' || item.EA_Frame_Saw.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.EA_Frame_Saw)" >QUD
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.EA_Frame_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-          </span>
-          </span>
-       </v-btn>
-       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-        </template>
-      
-    </template>
-    <!---------------------ea sash saw----------------------->
     <!------------------------------->
-        <template v-slot:item.EA_Sash_Saw="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-        
-      <template >
-       <v-btn ripple x-small v-if="item.EA_Sash_Saw.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.EA_Sash_Saw)" >InPrg
+    <template v-slot:item.slidframe1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+     <!--<v-tooltip bottom :disabled="item.slidframe.comments==null">-->
+       <v-tooltip bottom >
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.slidframe.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >InPrg
+         <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.slidframe.review"> 
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small v-else-if="item.slidframe.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >Cmplt
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.slidframe.review" > 
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small v-else-if="item.slidframe.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.slidframe)" >QUD
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.slidframe.review">  
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+        </template>
+      <span v-if="item.slidframe.comments !=null">{{item.slidframe.comments}}</span>
+       <span >{{item.slidframe.cut_color}}</span>
+      <span  ></span>
+    </v-tooltip>
+      </template>
+      <!------------------------------->
+    <template v-slot:item.dsw1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+     <v-tooltip bottom >
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.dsw.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >InPrg
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.EA_Sash_Saw.review">  <!-- {{aa.id}} -->
+            <span v-if="aa.id==item.dsw.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
             </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.EA_Sash_Saw.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.EA_Sash_Saw)" >Cmplt
+       <v-btn v-on="on" ripple x-small v-else-if="item.dsw.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >Cmplt
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.EA_Sash_Saw.review">  <!-- {{aa.id}} -->
+            <span v-if="aa.id==item.dsw.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-          </span>
+            </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.EA_Sash_Saw.status_id =='0' || item.EA_Sash_Saw.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.EA_Sash_Saw)" >QUD
+       <v-btn v-on="on" ripple x-small v-else-if="item.dsw.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.dsw)" >QUD
           <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.EA_Sash_Saw.review">  <!-- {{aa.id}} -->
+            <span v-if="aa.id==item.dsw.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-          </span>
+            </span>
           </span>
        </v-btn>
-       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-        </template>
-      
+       <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+
+             </template>
+      <span >{{item.dsw.cut_color}}</span><br>
+      <span v-if="item.dsw.comments !=null">{{item.dsw.comments}}</span>
+      <span  ></span>
+    </v-tooltip>
     </template>
-    <!-------------------------------------------->
-    <!----------------Hinge_Doors_Saw--------------->
-        <template v-slot:item.Hinge_Doors_Saw="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-          <template >
-       <v-btn ripple x-small v-if="item.Hinge_Doors_Saw.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.Hinge_Doors_Saw)" >InPrg
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.Hinge_Doors_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-            </span>
+    <!------------------------------->
+    <template v-slot:item.windows1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+    <!-- <v-tooltip bottom :disabled="item.windows.comments==null"> -->
+       <v-tooltip bottom >
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.windows.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >InPrg
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.windows.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
+        </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.Hinge_Doors_Saw.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.Hinge_Doors_Saw)" >Cmplt
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.Hinge_Doors_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       <v-btn v-on="on" ripple x-small v-else-if="item.windows.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >Cmplt
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.windows.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
-          </span>
+        </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.Hinge_Doors_Saw.status_id =='0' || item.Hinge_Doors_Saw.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.Hinge_Doors_Saw)" >QUD
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.Hinge_Doors_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       <v-btn v-on="on" ripple x-small v-else-if="item.windows.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.windows)" >QUD
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.windows.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
-          </span>
+        </span>
        </v-btn>
-       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-        </template>
-      
+       <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+             </template>
+      <span >{{item.windows.cut_color}}</span><br>
+      <span v-if="item.windows.comments !=null">{{item.windows.comments}}</span>
+
+      <span  ></span>
+    </v-tooltip>
+      </template>
+      <!------------------------------->
+
+      <template v-slot:item.easash1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+     <!-- <v-tooltip bottom :disabled="item.easash.comments==null"> -->
+       <v-tooltip bottom >
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.easash.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >InPrg
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.easash.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+        </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small v-else-if="item.easash.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >Cmplt
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.easash.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+        </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small v-else-if="item.easash.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.easash)" >QUD
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.easash.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+             </template>
+      <span >{{item.easash.cut_color}}</span><br>
+      <span v-if="item.easash.comments !=null">{{item.easash.comments}}</span>
+       
+      <span  ></span>
+    </v-tooltip>
     </template>
-<!--------------------------------------------------------------------->
-<!----------------Sliding_Doors_Saw--------------->
-        <template v-slot:item.Sliding_Doors_Saw="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-          <template >
-       <v-btn ripple x-small v-if="item.Sliding_Doors_Saw.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.Sliding_Doors_Saw)" >InPrg
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.Sliding_Doors_Saw.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-            </span>
-          </span>
-       </v-btn>
-       <v-btn  ripple x-small v-else-if="item.Sliding_Doors_Saw.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.Sliding_Doors_Saw)" >Cmplt
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.Sliding_Doors_Saw.review">  <!-- {{aa.id}} -->
+    <!---------------->
+    <template v-slot:item.eadfl1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+    <!--  <v-tooltip bottom :disabled="item.eadfl.comments==null"> -->
+        <v-tooltip bottom >
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.eadfl.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >InPrg
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.eadfl.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
-          </span>
+        </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.Sliding_Doors_Saw.status_id =='0' || item.Sliding_Doors_Saw.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.Sliding_Doors_Saw)" >QUD
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.Sliding_Doors_Saw.review">  <!-- {{aa.id}} -->
+       <v-btn v-on="on" ripple x-small v-else-if="item.eadfl.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >Cmplt
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.eadfl.review">  <!-- {{aa.id}} -->
             <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
-          </span>
+        </span>
        </v-btn>
-       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-        </template>
-      
+       <v-btn v-on="on" ripple x-small v-else-if="item.eadfl.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.eadfl)" >QUD
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.eadfl.review">  <!-- {{aa.id}} -->
+            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+             </template>
+      <span >{{item.eadfl.cut_color}}</span>
+      <span v-if="item.eadfl.comments !=null">{{item.eadfl.comments}}</span>
+      <span  ></span>
+    </v-tooltip>
     </template>
-    <!--------------------------------------------------------------------->
-<!----------------General--------------->
-        <template v-slot:item.General="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
-          <template >
-       <v-btn ripple x-small v-if="item.General.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.General)" >InPrg
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.General.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
-            </span>
+<!------>
+        <template v-slot:item.bfhd1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+     <!-- <v-tooltip bottom :disabled="item.bfhd.comments==null">-->
+         <v-tooltip bottom >
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.bfhd.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >InPrg
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.bfhd.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
+        </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.General.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.General)" >Cmplt
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.General.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       <v-btn v-on="on" ripple x-small v-else-if="item.bfhd.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >Cmplt
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.bfhd.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
-          </span>
+        </span>
        </v-btn>
-       <v-btn  ripple x-small v-else-if="item.General.status_id =='0' || item.Sliding_Doors_Saw.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.General)" >QUD
-          <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
-            <span v-if="aa.id==item.General.review">  <!-- {{aa.id}} -->
-            <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+       <v-btn v-on="on" ripple x-small v-else-if="item.bfhd.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.bfhd)" >QUD
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.bfhd.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
           </span>
-          </span>
+        </span>
        </v-btn>
-       <v-btn  ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
-        </template>
-      
+       <v-btn v-on="on" ripple x-small disabled v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+             </template>
+      <span>{{item.bfhd.cut_color}}</span>
+      <span v-if="item.bfhd.comments !=null">{{item.bfhd.comments}}</span>
+      <span  ></span>
+    </v-tooltip>
+    </template>
+    <!------>
+    <template v-slot:item.commercial1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+      <!--<v-tooltip bottom :disabled="item.commercial.comments==null">-->
+         <v-tooltip bottom >
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.commercial.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >InPrg
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.commercial.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small v-else-if="item.commercial.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >Cmplt
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.commercial.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small v-else-if="item.commercial.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.commercial)" >QUD
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.commercial.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       
+       <v-btn v-on="on" ripple x-small disabled  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+             </template>
+      <span>{{item.commercial.cut_color}}</span>
+      <span v-if="item.commercial.comments !=null">{{item.commercial.comments}}</span>
+      <span  ></span>
+    </v-tooltip>
+    </template>
+<!------>
+        <template v-slot:item.transfer1="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
+     <!-- <v-tooltip bottom :disabled="item.transfer.comments==null">-->
+        <v-tooltip bottom >
+      <template v-slot:activator="{ on }">
+       <v-btn v-on="on" ripple x-small v-if="item.transfer.status_id =='9'"  color="red accent-2" rounded dark :loading="loading"  @click.prevent="scrap(item.transfer)" >InPrg
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.transfer.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small v-else-if="item.transfer.status_id =='12'"  color="teal" rounded dark :loading="loading"  @click.prevent="scrap(item.transfer)" >Cmplt
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.transfer.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       <v-btn v-on="on" ripple x-small v-else-if="item.transfer.status_id =='0' || item.slidframe.status_id =='8'"  color="light-blue darken-1" rounded dark :loading="loading"  @click.prevent="scrap(item.transfer)" >QUD
+        <span v-for="aa in sawflags" :key="aa.id" v-if="aa.id !=9">
+          <span v-if="aa.id==item.transfer.review">  <!-- {{aa.id}} -->
+          <v-icon   v-bind:style="{ color: 'rgb('+aa.red+','+aa.green+','+aa.blue+')' }" > mdi-flag </v-icon> 
+          </span>
+        </span>
+       </v-btn>
+       
+       <v-btn v-on="on" ripple x-small disabled  v-else color="blue lighten-3" rounded dark :loading="loading" >NA</v-btn>
+             </template>
+      <span >{{item.transfer.cut_color}}</span>
+      <span v-if="item.transfer.comments !=null">{{item.transfer.comments}}</span>
+      <span  ></span>
+    </v-tooltip>
+
     </template>
 
-<!---------------------------------------------------------------------->
     <template slot="no-data">
       <div></div>
     </template>
@@ -276,21 +371,15 @@ export default
              //  { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
               { text: 'Customer', align: 'left',  value: 'cust_name',width:"10%"},
             //  { text: 'quote_ID', align: 'left',  value: 'quote_ID',width:"1%"},
-              //{ text: 'Sample_Saw', align: 'left',  value: 'slidframe1',width:"1%"},
-              { text: 'DSW_Saw', align: 'left',  value: 'DSW_Saw',width:"1%"},
-              { text: 'EA_Frame_Saw', align: 'left',  value: 'EA_Frame_Saw',width:"1%"},
-              { text: 'EA_Sash_Saw', align: 'left',  value: 'EA_Sash_Saw',width:"1%"},
-              { text: 'Hinge_Doors_Saw', align: 'left',  value: 'Hinge_Doors_Saw',width:"1%"},
-              { text: 'Sliding_Doors_Saw', align: 'left',  value: 'Sliding_Doors_Saw',width:"1%"},
-              { text: 'General', align: 'left',  value: 'General',width:"1%"},
-              { text: 'NoSaw_SMT', align: 'left',  value: 'NoSaw_SMT',width:"1%"},
-             /* { text: 'WinSash', align: 'left',  value: 'dsw1',width:"1%"},
+              { text: 'ADSash', align: 'left',  value: 'slidsash1',width:"1%"},
+              { text: 'ADFrame', align: 'left',  value: 'slidframe1',width:"1%"},
+              { text: 'WinSash', align: 'left',  value: 'dsw1',width:"1%"},
               { text: 'WINDOWS', align: 'left',  value: 'windows1',width:"1%"},
               { text: 'EaSash', align: 'left',  value: 'easash1',width:"1%"},
               { text: 'Awnings', align: 'left',  value: 'eadfl1',width:"1%"},
               { text: 'BFHD', align: 'center',  value: 'bfhd1',width:"1%"},
               { text: 'Commercial', align: 'center',  value: 'commercial1',width:"1%"},
-              { text: 'Transfer', align: 'center',  value: 'transfer1',width:"1%"},*/
+              { text: 'Transfer', align: 'center',  value: 'transfer1',width:"1%"},
              //  { text: 'Timber', align: 'left',  value: 'timber1',width:"1%"},
 
 
@@ -348,21 +437,30 @@ export default
                              // console.log(key);        // the name of the current key.
                               console.log(myObj[key].bfhd); // the value of the current key.
                               
-                              if((myObj[key].DSW_Saw)==""
-                              && (myObj[key].EA_Frame_Saw)==""
-                              && (myObj[key].EA_Sash_Saw)==""
-                              && (myObj[key].Hinge_Doors_Saw)==""
-                              && (myObj[key].Sliding_Doors_Saw)==""
-                              && (myObj[key].General)==""
-                              && (myObj[key].NoSaw_SMT)==""
-
+                              if((myObj[key].slidsash)==""
+                              && (myObj[key].slidframe)==""
+                              && (myObj[key].dsw)==""
+                              && (myObj[key].windows)==""
+                              && (myObj[key].easash)==""
+                              && (myObj[key].eadfl)==""
+                              && (myObj[key].bfhd)==""
+                              && (myObj[key].commercial)==""
+                              && (myObj[key].transfer)==""
                               ){
                                // console.log('hehe')
                                 delete myObj[key]
                               }
                             });
                               console.log(myObj);
-                            //------------------------
+                            //-------------------------
+                       // if(this.user.admin !='1')
+                      //  { //return this.headers.filter(header => header.text !== "CutJob")
+                                         // }
+                         // return this.headers;
+                         // let bb=res.data.filter(commer => header.text !== "CutJob");
+
+
+                        //-------------------------------------
                             })
                     .catch(err=>{ console.log('getjobsummary-err=', err) ;  })
           }

@@ -115,7 +115,7 @@ export default
   props:{bb:Array},
   data() { return {dialog: false,search: '',aa:[],loading:false,pushloading:false,due:'',//paginate1: {},
           headers: [
-            //  { text: 'created_at', align: 'left', value: 'created_at', },
+              { text: 'LOC', align: 'left', value: 'schedule_locatn',width:"1%" },
             //  { text: 'created_by', align: 'left',  value: 'created_by.name'},
              // { text: 'updated_at', align: 'left',  value: 'updated_at',width:"1%"},
               { text: 'updated_at', align: 'left',  value: 'updatedat',width:"1%"},

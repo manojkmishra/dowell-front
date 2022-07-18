@@ -124,6 +124,7 @@ export default
               { text: 'cut_date', align: 'left',  value: 'cutday',width:"2%"},
               { text: 'quote_ID', value: 'quote_ID',sortable: false,width:"1%" },
               { text: 'order_ID', value: 'order_ID' ,sortable: false,width:"1%"},
+              { text: 'truck_no', value: 'truck_no' ,sortable: false,width:"1%"},
               { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
               { text: 'Customer', align: 'left',  value: 'cust_name',width:"2%"},
               

@@ -11,10 +11,10 @@
          <!----->
           
 <!-----=============------------dialog for transfer-start---------------------------->
-<v-dialog v-model="printdialog" v-if="(user.admin =='1' ||user.admin =='3' ||user.admin =='4' )&& 
-              (selectedSaw =='DSW_DH_Sashes' || selectedSaw =='EA_Sashes'
+<v-dialog v-model="printdialog" v-if="(user.admin =='1' ||user.admin =='3' ||user.admin =='4' )" max-width="500px">
+            <!-- && (selectedSaw =='DSW_DH_Sashes' || selectedSaw =='EA_Sashes'
               ||selectedSaw =='Security_Screens' || selectedSaw =='Fly_Screens'
-           || selectedSaw =='General' || selectedSaw =='transfer_saw')" max-width="500px">
+            || selectedSaw =='General' || selectedSaw =='transfer_saw')-->
           <template v-slot:activator="{ on }">
             <v-btn id="flag-btn" ripple small color="purple" :loading="transferloading" rounded dark  v-on="on">
             <v-icon>mdi-share-circle</v-icon>Transfer Saw</v-btn> 
@@ -28,9 +28,9 @@
                 <div v-for="(stateNode,index) in sawpr">
                   <template>
                    <v-btn block rounded class="mx-2 mb-2 " dark  outlined  v-bind:style="{   'background-color':'teal'}"
-                    @click.prevent="transferjob(stateNode)">
+                          @click.prevent="transferjob(stateNode)">
                       {{ stateNode.SawCode }} 
-                  </v-btn>
+                    </v-btn>
                   </template>
                 </div>
               </v-container>
@@ -163,7 +163,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               { text: 'Status', value: 'action', sortable: false },
               { text: 'CutJob', value: 'cutall', sortable: false },
             ],
-           formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[], cut_saw:'' ,'selerr':false }, 
+           formSearchData: {  SawCode: '',  QuoteID: '',  order_ID:'', selected1:[], cut_saw:'' ,'status_id':'' }, 
            loading:false,loadingcut:false,
         }),
 
@@ -190,51 +190,19 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                     return bb;
               },
               sawpr()//transfer jobs
-              {    
+              {   // return "hehe";
                   let aa=this.sawlist
                   let bb=this.selectedSaw
                  // let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
-                 // console.log('bb=',bb)
-                 if(bb=="General")
-                 {
-                        var newArray = this.sawlist.filter(function (el) { 
-                        if( //el.SawCode =="DSW_DH_Sashes" || el.SawCode =="EA_Sashes"
-                         //|| el.SawCode =="EA_DFL_LVR" || el.SawCode =="Timber"|| el.SawCode =="BF_HD" 
-                        //|| el.SawCode =="General" || el.SawCode =="transfer_saw"
-                        el.SawCode !=bb
-                        )
-                      return el;
-                    });
-                 }
-                 else if(bb=="Security_Screens")
-                 {   //return "Fly_Screens";
-                 var newArray = this.sawlist.filter(function (el) { 
-                        if( (el.SawCode =="Fly_Screens" || el.SawCode =="transfer_saw")&&(el.SawCode !=bb)
-                        )
-                      return el;
-                    });
-                 }
-                else if(bb=="Fly_Screens")
-                 {  // return "Security_Screens";
-                      var newArray = this.sawlist.filter(function (el) { 
-                        if( (el.SawCode =="Security_Screens" || el.SawCode =="transfer_saw")&&(el.SawCode !=bb)
-                        )
-                      return el;
-                    });
-                 
-                 }
-                 else{
-                    var newArray = this.sawlist.filter(function (el) { 
-                        if( (el.SawCode =="DSW_DH_Sashes" || el.SawCode =="EA_Sashes"
-                         //|| el.SawCode =="EA_DFL_LVR" || el.SawCode =="Timber"|| el.SawCode =="BF_HD" 
-                        || el.SawCode =="General" || el.SawCode =="transfer_saw")&&(el.SawCode !=bb)
-                        )
-                      return el;
-                    });
-                  }
+                  console.log('selected saw=',bb,'all saws=',aa)
+                   var newArray = this.sawlist.filter(function (el) 
+                        {  if(   el.SawCode !=bb   ) return el;});                
+                
                   //console.log('sawlist=',this.sawlist)
                   console.log('selected saw=',this.selectedSaw)
                   console.log('newArray=',newArray) 
+                  //if(newArray.includes({SawCode:'Transfer_saw'})==false){
+                  //  newArray.push({SawCode:'Transfer_saw'})      }
                   return newArray;
               },
       },
@@ -246,9 +214,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
     methods: 
     {   closeprint(){ this.printdialog=false;},
     closeprint1(){ this.printdialog1=false;},
-      transferjob(y){
-
-//-----------view only user-------
+      transferjob(y)
+      {   //-----------view only user-------
                 if(this.user.admin =='3')
                             {  this.printdialog=false; 
                               swal.fire({ position: 'top-right',
@@ -258,7 +225,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                                 
                               return;
                             }
-//------------------------------
+          //------------------------------
             this.formSearchData.fromSaw=this.selectedSaw; 
             this.formSearchData.SawCode=this.selectedSaw; 
             this.formSearchData.toSaw=y.SawCode; 
@@ -280,7 +247,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             if(x.Status_id==12 || x.Status_id==9) //8,0=qd,9-inpr,12-complt
                             { this.printdialog=false;
                               swal.fire({ position: 'top-right',
-                            title:'<span style="color:white">Only Queued Jobs can be selected</span>',
+                            title:'<span style="color:white">Only Queued Jobs can be Transferred</span>',
                             timer: 2000, toast: true, background: 'red',
                             });
                               this.selected=[];this.formSearchData.selected1=[];
@@ -428,13 +395,14 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               console.log('this.user.admin-',this.user.admin);
               console.log('data.review-',data.review);
               if(data.Status !="Queued" || this.user.admin =='1'|| this.user.admin =='3' || this.user.admin =='4'
-              || (data.review !=0 && data.review !=6 && data.review !=9)
+              || (data.review !=0 && data.review !=6 && data.review !=9) 
+              //|| this.user.admin =='2' //2=sawuser
               )
                {
                this.formSearchData.SawCode = this.selectedSaw;
                this.formSearchData.QuoteID = data.quote_ID;
                this.loading=true;
-               this.$store.dispatch('selectedJob', data);
+               
                if(data.cut_saw==null)
                       { this.formSearchData.status=data.Status_id;
                         this.formSearchData.id = data.id;
@@ -442,7 +410,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         this.$store.dispatch('updateJobList', this.formSearchData)
                         //this.loading=false;
                       }
-                      
+                      this.$store.dispatch('selectedJob', data);
                     this.$store.dispatch('getjobdetails', this.formSearchData)
                       .then((res) => 
                           { this.loading=false;
@@ -484,18 +452,18 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 this.formSearchData.QuoteID = data.quote_ID;
                 this.formSearchData.order_ID = data.Order_Number;
                 this.formSearchData.cut_saw = data.cut_saw;
+                this.formSearchData.id = data.id;
                 this.formSearchData.SawCode = this.selectedSaw;
-                this.formSearchData.loc = "GBG";
+                this.formSearchData.status_id = data.Status_id;
                 console.log('cutall formSearchData=',this.formSearchData); 
                 this.loadingcut=true;              
                 this.$store.dispatch('jobcutall', this.formSearchData)
-                 .then((res) => 
-                          { this.loadingcut=false;})
+                 .then((res) =>{ this.loadingcut=false;})
                 this.resetformSearchData();
             // }
            },
             resetformSearchData(){
-                           this.formSearchData= {  SawCode: '',QuoteID: '',order_ID:'',selected1:[], cut_saw:''}
+                           this.formSearchData= {  SawCode: '',QuoteID: '',order_ID:'',selected1:[], cut_saw:'', status_id:''}
                        }
     },
   }

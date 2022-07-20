@@ -100,6 +100,8 @@ export default {
           },
           { action: 'mdi-hand-saw', title: 'SAW Settings',hasMulSub: true,items: [
               { title: 'Saw Schedules', route:'/sawschedules' },
+              { title: 'ERP Schedules', route:'/erpschedules' },
+              { title: 'Trucks', route:'/trucks' },
               // { title: 'Saw Bars', route:'/sawbars' },
               // { title: 'Saw Cuts', route:'/sawcuts' },
                { title: 'Saw Status', route:'/sawstatus' },

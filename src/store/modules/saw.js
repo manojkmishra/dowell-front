@@ -6,7 +6,7 @@ export default
 {
   state: {sawflags:null,locations:null,sawstatus:null,sawlist:null,joblist:null, selectedSaw:null,
           jobdetailslist:null,selectedJob:null,selectedJobDetail:null,profilecutting:null,
-          cutlist:null,flaggedjob:null,sawprints:null, sawoptions:null,
+          cutlist:null,flaggedjob:null,sawprints:null, sawoptions:null,trucklist:null,
         },
   getters:{
       
@@ -73,6 +73,10 @@ export default
             console.log('/store/saw.js----GET_FLAGGED_JOB state=', state);
             state.flaggedjob = payload.flaggedjob; 
         },
+        [types.GET_TRUCKLIST ] (state, payload) 
+          { state.trucklist = payload.trucklist;
+          console.log('/store/saw.js-types.GET_TRUCKLIST state=', state);
+          },
  
   },
   actions: 
@@ -382,6 +386,39 @@ async updateselectedcutlist({dispatch}, formData)
   { let res= await axios.get(api.getlocations);
     commit({type:types.GET_LOCATIONS ,  locations: res.data} ); 
     return res;         
+  },
+  async gettrucklist ({commit,dispatch}) 
+  { let res= await axios.get(api.gettrucklist);  
+    commit({type:types.GET_TRUCKLIST ,  trucklist: res.data} ); 
+    return res;    
+  },
+  async addtruck ({dispatch}, formData)
+  {   console.log('addtruck-- formData=', formData);
+        let res= await axios.post(api.addtruck, formData)  
+              .then(response => { dispatch('gettrucklist');  })
+              .catch(response => {    });
+          return res;
+  },
+  async edittruck ({dispatch}, formData)
+  {   console.log('gettrucklist-- formData=', formData);
+        let res= await axios.post(api.edittruck, formData)  
+              .then(response => { dispatch('gettrucklist');  })
+              .catch(response => {    });
+          return res;
+  },
+  async deletetruck ({dispatch}, formData)
+  {   console.log('deletetruck-- formData=', formData);
+        let res= await axios.post(api.deletetruck, formData)  
+              .then(response => { dispatch('gettrucklist');  })
+              .catch(response => {    });
+          return res;
+  },
+  async changetruck ({dispatch}, formData)
+  {   console.log('changetruck-- formData=', formData);
+        let res= await axios.post(api.changetruck, formData)  
+              .then(response => { console.log('changetruck res=',response)  })
+              .catch(response => {    });
+          return res;
   },
   async getsawflags ({commit,dispatch}) 
   { let res= await axios.get(api.getsawflags);  

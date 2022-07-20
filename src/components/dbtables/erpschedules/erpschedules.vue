@@ -42,19 +42,6 @@
     <template v-slot:item.tim="{ item }">
       {{ ~~(item.cut_time / 60) + ":" + (item.cut_time % 60 < 10 ? "0" : "") + item.cut_time % 60 }}
     </template>
-<!---------------truck------------->
-    
-         <!----popup---------------->    
- <template v-slot:item.actiont="{ item }" >
-
-             <v-btn v-if="item.truck_no=='T0'"  id="flag-btn" ripple small color="grey" dense rounded dark  
-             @click="opentrucks(item)">{{item.truck_no}}</v-btn>
-             <v-btn v-else  id="flag-btn" ripple small color="primary" dense rounded dark  
-             @click="opentrucks(item)">{{item.truck_no}}</v-btn>
-
-</template>
-
-<!----------------dialog for truck finished----------------------------------->
     <!---=============status===========--------------->
    
     <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
@@ -108,28 +95,7 @@
       <div></div>
     </template>
   </v-data-table>
-  <v-dialog v-model="truckdialog" persistent max-width="500px">
-       <v-card>
-            <v-card-title><span class="headline" >TRUCKS </span></v-card-title>
-            <v-card-text class="text-center">
-              <v-container>
-                <div v-for="(stateNode,index) in trucklist1" class="text-center">
-                  <template>
-                  <v-btn block rounded class="mx-2 mb-2 pl-20 pr-20"  dark @click="changetruck(stateNode)" >
-                            {{ stateNode.name }}
-                  </v-btn>                   
-                  </template>
-                </div>
-              </v-container>
-            </v-card-text>
-            <v-card-actions>
-              <div class="flex-grow-1"></div>
-                  <v-btn color="blue darken-1" text @click="closetrucks">Cancel</v-btn>
-            </v-card-actions>
-          </v-card>
-    </v-dialog>  
   </div>
-  
 </template>
 <script>
 import Vue from 'vue'
@@ -143,17 +109,11 @@ export default
                        // selectedSaw: state => state.saw.selectedSaw,
                         user: state => state.auth.user,
                         sawflags:state => state.saw.sawflags,
-                        trucklist:state => state.saw.trucklist,
             }),
-            trucklist1(){console.log('user-',this.user,'trucks-',this.trucklist)
-             let bb= this.trucklist.filter( x => (x.location_id ==this.user.location_id)  );
-            return bb;
-        },
         formattedDate(){return this.due ? format(parseISO(this.due),'yyyy-MM-dd') : ''}
       },
   props:{bb:Array},
-  data() { return {truckdialog: false, truckjob:null,
-  search: '',aa:[],loading:false,pushloading:false,due:'',//paginate1: {},
+  data() { return {dialog: false,search: '',aa:[],loading:false,pushloading:false,due:'',//paginate1: {},
           headers: [
               { text: 'LOC', align: 'left', value: 'schedule_locatn',width:"1%" },
             //  { text: 'created_by', align: 'left',  value: 'created_by.name'},
@@ -165,7 +125,6 @@ export default
               { text: 'quote_ID', value: 'quote_ID',sortable: false,width:"1%" },
               { text: 'order_ID', value: 'order_ID' ,sortable: false,width:"1%"},
               { text: 'truck_no', value: 'truck_no' ,sortable: false,width:"1%"},
-              { text: 'truck_no', value: 'actiont' ,sortable: false,width:"1%"},
               { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
               { text: 'Customer', align: 'left',  value: 'cust_name',width:"2%"},
               
@@ -186,48 +145,6 @@ export default
       created(){  //this.paginate();
         },
         methods:{ 
-       changetruck(x)
-        {  console.log('truck selected',x,'truckjob=',this.truckjob);
- //-----------view only user-------
-                if(this.user.admin =='3')
-                            {  this.printdialog=false; this.close()
-                              swal.fire({ position: 'top-right',
-                                                title:'<span style="color:white">Access denied: View only user</span>',
-                                                timer: 2000, toast: true, background: 'red',
-                                                });
-                                                
-                              return;
-                            }
-//------------------------------
-            this.formSearchData.truck_id = x.id;
-            this.formSearchData.truck_name = x.name;
-            this.formSearchData.job_id = this.truckjob.id;
-            //this.loadingtruck=true;
-            console.log('formSearchData=',this.formSearchData);
-                        this.$store.dispatch('changetruck', this.formSearchData)
-                 .then((response) => {  console.log('changetruck',response.data); 
-                 //window.location.reload(); //not working here
-                 //this.loadingtruck=false;
-                    })
-                    .catch((error) => {//this.loadingprint=false;
-                    });
-                this.truckdialog=false;
-                this.truckjob=null;
-                let e1={page:1,itemsPerPage:20,page:1,pageCount:0,pageStart:0,pageStop:0}
-                      this.paginate1(e1)
-                //window.location.reload(); 
-                //this.formattedDate=
-        },
-          opentrucks(item){
-            console.log('trucks-item=',item)
-            this.truckdialog=true;
-            this.truckjob=item;
-          },
-          closetrucks(){           
-            this.truckdialog=false;
-            this.truckjob=null;
-             console.log('close truck-item=',this.truckjob)
-          },
           pushjobs(){
             if(this.due!="")
             {this.pushloading=true;

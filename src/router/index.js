@@ -9,6 +9,8 @@ import joblist from '@/components/saw/joblist/sawjobs.vue'
 import jobdetails from '@/components/saw/jobdetails/jobdetails.vue'
 import profilecutting from '@/components/saw/pcutting/pcutting.vue'
 import sawschedules from '@/components/dbtables/sawschedules/sawschedules.vue'
+//import erpschedules from '@/components/dbtables/erpschedules/erpschedules.vue'
+import erpschedules from '@/components/dbtables/erpschedules/wo.vue'
 import sawbars from '@/components/dbtables/sawbars/sawbars.vue'
 import sawcuts from '@/components/dbtables/sawcuts/sawcuts.vue'
 import sawstatus from '@/components/dbtables/sawstatus/sawstatus.vue'
@@ -27,6 +29,7 @@ import screensummary from '@/components/dbtables/summary/screensummary.vue'
 import transfrdjobs from '@/components/dbtables/transfrdjobs/transfrdjobs.vue'
 import transfrsaw from '@/components/dbtables/transfrsaw/transfrsaw.vue'
 import tjcutlist from '@/components/dbtables/transfrdjobs/cutlist/cutlist.vue'
+import trucks from '@/components/dbtables/trucks/trucks.vue'
 
 
 Vue.use(VueRouter)
@@ -40,10 +43,12 @@ const routes = [
   { path: '/profile',name:'profile', component: profile,meta: { requiresAuth: true }},
   //{ path: '/userlist',name:'userlist', component: userlist,meta: { requiresAuth: true }},
   { path: '/sawschedules',name:'sawschedules', component: sawschedules,meta: { requiresAuth: true }},
+  { path: '/erpschedules',name:'erpschedules', component: erpschedules,meta: { requiresAuth: true }},
   { path: '/sawbars',name:'sawbars', component: sawbars,meta: { requiresAuth: true }},
   { path: '/sawcuts',name:'sawcuts', component: sawcuts,meta: { requiresAuth: true }},
   { path: '/sawstatus',name:'sawstatus', component: sawstatus,meta: { requiresAuth: true }},
   { path: '/sawflags',name:'sawflags', component: sawflags,meta: { requiresAuth: true }},
+  { path: '/trucks',name:'trucks', component: trucks,meta: { requiresAuth: true }},
   { path: '/sawprints',name:'sawprints', component: sawprints,meta: { requiresAuth: true }},
   { path: '/saw',name:'saw', component: saw,meta: { requiresAuth: true }},
   { path: '/saw/joblist',name:'joblist', component: joblist,meta: { requiresAuth: true }},

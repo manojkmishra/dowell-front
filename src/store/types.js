@@ -26,6 +26,8 @@ export const GET_FLAGGED_JOB = 'GET_FLAGGED_JOB'
 //------------------------------------------------
 export const GET_SAW_PRINTS = 'GET_SAW_PRINTS'
 export const GET_LOCATIONS = 'GET_LOCATIONS'
+export const GET_TRUCKLIST = 'GET_TRUCKLIST'
+
 
 
 

@@ -42,6 +42,12 @@ export const deleteflag = apiDomain + '/saw/deleteflag';
 export const addstatus = apiDomain + '/saw/addstatus';
 export const editstatus = apiDomain + '/saw/editstatus';
 export const deletestatus = apiDomain + '/saw/deletestatus';
+
+export const gettrucklist = apiDomain + '/saw/gettrucklist';
+export const addtruck = apiDomain + '/saw/addtruck';
+export const edittruck = apiDomain + '/saw/edittruck';
+export const deletetruck = apiDomain + '/saw/deletetruck';
+export const changetruck = apiDomain + '/saw/changetruck';
 //------------------------------------------------------
 export const csticketTypeBarchartUser = apiDomain + '/csticketTypeBarchartUser';
 export const chartdailycutdate = apiDomain + '/chartdailycutdate';

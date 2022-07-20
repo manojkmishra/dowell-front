@@ -130,11 +130,11 @@
                    // .catch((err)=>{ console.log('user-locations-err=', err.data) })
     },
     computed: {
-      formTitle() {  if (this.dialogDelete) { return "Delete User";} 
+      formTitle() {  if (this.dialogDelete) { return "Delete Truck";} 
                     else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
-                                        return "New User"; }
+                                        return "New Truck"; }
                     else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
-                                return "Edit User";  
+                                return "Edit Truck";  
                                 
                                 }  
                   },

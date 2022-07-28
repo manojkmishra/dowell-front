@@ -27,17 +27,6 @@
                     </v-menu>
                   <v-btn v-if="user.admin =='1' || user.admin =='3'" id="btn-cutselected" small  color="amber darken-4" 
                     rounded dark  :loading="pushloading" @click.prevent="pushjobs" >PUSH</v-btn>
-                    <!--above push, below filter--------->
-                    <v-divider class="mx-4" inset vertical ></v-divider>
-                    <v-menu max-width="290">
-                      <template v-slot:activator="{ on }">
-                            <v-text-field :value="formattedDate1" label="Filter Cut Date" class="mx-2"
-                            append-icon="mdi-calendar-range" v-on="on" single-line hide-details></v-text-field>
-                      </template>
-                      <v-date-picker v-model="due1"></v-date-picker>
-                    </v-menu>
-                  <v-btn v-if="user.admin =='1' || user.admin =='3'" id="btn-cutselected" small  color="green darken-1" 
-                    rounded dark  :loading="filterloading" @click.prevent="filterjobs" >Filter</v-btn>
           <v-spacer></v-spacer>
           <v-divider class="mx-4" inset vertical ></v-divider>
                 <v-text-field v-model="search" append-icon="mdi-magnify" label="Search"
@@ -53,19 +42,6 @@
     <template v-slot:item.tim="{ item }">
       {{ ~~(item.cut_time / 60) + ":" + (item.cut_time % 60 < 10 ? "0" : "") + item.cut_time % 60 }}
     </template>
-<!---------------truck------------->
-    
-         <!----popup---------------->    
- <template v-slot:item.actiont="{ item }" >
-
-             <v-btn v-if="item.truck_no=='T0'"  id="flag-btn" ripple small color="grey" dense rounded dark  
-             @click="opentrucks(item)">{{item.truck_no}}</v-btn>
-             <v-btn v-else  id="flag-btn" ripple small color="primary" dense rounded dark  
-             @click="opentrucks(item)">{{item.truck_no}}</v-btn>
-
-</template>
-
-<!----------------dialog for truck finished----------------------------------->
     <!---=============status===========--------------->
    
     <template v-slot:item.action="{ item }" ><!--8,0=qd,9-inpr,12-complt----->
@@ -119,42 +95,7 @@
       <div></div>
     </template>
   </v-data-table>
-  <v-dialog v-model="truckdialog" persistent max-width="500px">
-       <v-card>
-            <v-card-title><span class="headline" >TRUCKS </span></v-card-title>
-            <v-card-text class="text-center">
-              <v-container>
-                <div v-for="(stateNode,index) in trucklist1" class="text-center">
-                  <template>
-                  <v-btn block rounded class="mx-2 mb-2 pl-20 pr-20"  dark @click="changetruck(stateNode)" >
-                            {{ stateNode.name }}
-                  </v-btn>                   
-                  </template>
-                </div>
-              </v-container>
-            </v-card-text>
-            <v-card-actions>
-              <div class="flex-grow-1"></div>
-                  <v-btn color="blue darken-1" text @click="closetrucks">Cancel</v-btn>
-            </v-card-actions>
-          </v-card>
-    </v-dialog>  
-    <!----push confirmation----->
-        <v-dialog  v-model="pushconfirmdialog"   max-width="350">
-      <v-card class="text-center">
-        <v-card-title class="text-h5"> Are you sure to push these Jobs</v-card-title>
-      
-        <v-card-text class="text-h5"> Cut Date:  {{this.due}} </v-card-text>
-        <v-card-text class="text-h5"> Jobs already in SawScreens for this date:  {{totaljobsconfirm}} </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn  color="red darken-1" :loading="pushconfirmloading" text @click="pushconfirmdialog = false"> Disagree </v-btn>
-          <v-btn  color="green darken-1" :loading="pushconfirmloading"  text @click="yespush()">Agree</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </div>
-  
 </template>
 <script>
 import Vue from 'vue'
@@ -168,19 +109,11 @@ export default
                        // selectedSaw: state => state.saw.selectedSaw,
                         user: state => state.auth.user,
                         sawflags:state => state.saw.sawflags,
-                        trucklist:state => state.saw.trucklist,
             }),
-            trucklist1(){console.log('user-',this.user,'trucks-',this.trucklist)
-             let bb= this.trucklist.filter( x => (x.location_id ==this.user.location_id)  );
-            return bb;
-        },
-        formattedDate(){return this.due ? format(parseISO(this.due),'yyyy-MM-dd') : ''},
-        formattedDate1(){return this.due1 ? format(parseISO(this.due1),'yyyy-MM-dd') : ''}
+        formattedDate(){return this.due ? format(parseISO(this.due),'yyyy-MM-dd') : ''}
       },
   props:{bb:Array},
-  data() { return {truckdialog: false, truckjob:null,pushconfirmdialog:false,pushconfirmloading:false,
-  search: '',aa:[],loading:false,pushloading:false,due:'',due1:'',filterloading:false,//paginate1: {},
-  totaljobsconfirm:0,
+  data() { return {dialog: false,search: '',aa:[],loading:false,pushloading:false,due:'',//paginate1: {},
           headers: [
               { text: 'LOC', align: 'left', value: 'schedule_locatn',width:"1%" },
             //  { text: 'created_by', align: 'left',  value: 'created_by.name'},
@@ -191,8 +124,7 @@ export default
               { text: 'cut_date', align: 'left',  value: 'cutday',width:"2%"},
               { text: 'quote_ID', value: 'quote_ID',sortable: false,width:"1%" },
               { text: 'order_ID', value: 'order_ID' ,sortable: false,width:"1%"},
-              //{ text: 'truck_no', value: 'truck_no' ,sortable: false,width:"1%"},
-              { text: 'truck_no', value: 'actiont' ,sortable: false,width:"1%"},
+              { text: 'truck_no', value: 'truck_no' ,sortable: false,width:"1%"},
               { text: 'Color', align: 'left',  value: 'cut_color',width:"1%"},
               { text: 'Customer', align: 'left',  value: 'cust_name',width:"2%"},
               
@@ -213,62 +145,31 @@ export default
       created(){  //this.paginate();
         },
         methods:{ 
-       changetruck(x)
-        {  console.log('truck selected',x,'truckjob=',this.truckjob);
- //-----------view only user-------
-                if(this.user.admin =='3')
-                            {  this.printdialog=false; this.close()
-                              swal.fire({ position: 'top-right',
-                                                title:'<span style="color:white">Access denied: View only user</span>',
-                                                timer: 2000, toast: true, background: 'red',
-                                                });
-                                                
-                              return;
-                            }
-//------------------------------
-            this.formSearchData.truck_id = x.id;
-            this.formSearchData.truck_name = x.name;
-            this.formSearchData.job_id = this.truckjob.id;
-            //this.loadingtruck=true;
-            console.log('formSearchData=',this.formSearchData);
-                        this.$store.dispatch('changetruck', this.formSearchData)
-                 .then((response) => {  console.log('changetruck',response.data); 
-                 //window.location.reload(); //not working here
-                 //this.loadingtruck=false;
-                    })
-                    .catch((error) => {//this.loadingprint=false;
-                    });
-                this.truckdialog=false;
-                this.truckjob=null;
-                let e1={page:1,itemsPerPage:20,page:1,pageCount:0,pageStart:0,pageStop:0}
-                      this.paginate1(e1)
-                //window.location.reload(); 
-                //this.formattedDate=
-        },
-          opentrucks(item){
-            console.log('trucks-item=',item)
-            this.truckdialog=true;
-            this.truckjob=item;
-          },
-          closetrucks(){           
-            this.truckdialog=false;
-            this.truckjob=null;
-             console.log('close truck-item=',this.truckjob)
-          },
-          pushjobs()
-          { this.due1=''
+          pushjobs(){
             if(this.due!="")
-            { //---------------check if jobs exists---------------------------
-              this.pushconfirmdialog=true; this.pushconfirmloading=true;
-              this.totaljobsconfirm=0;
-              axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${this.due},1`,{params:{'per_page':20}} )
-                    .then((res) => { console.log('sawsc search res>3 =',res.data.response)  
-                                      this.aa=res.data.response; this.pushconfirmloading=false; 
-                                      this.totaljobsconfirm=res.data.response.total;
-                                      })
-                    .catch(err=>{ console.log('sawsc search err=', err); this.pushconfirmloading=false;  })
- //----------------------------------------------
-              
+            {this.pushloading=true;
+              console.log('date=',this.due)
+              axios.post(`${axios.defaults.baseURL}/saw/pushjobs`,{dat:this.due})
+              .then(res=>{
+                    console.log('push-res',res)
+                    console.log('push-res flag',res.data[0].Flag)
+                    console.log('push-res message',res.data[0].Message)
+                   // console.log('push-res json',res.data[0].JSONdata)
+                    //let obj1=res.data[0].JSONdata;
+                    //let aa=Object.keys(obj1).length
+                    //let ab=Object.entries(obj1).length
+                    //console.log('len aa=',aa)
+                  // $aa=`${res.data[0].Flag}:${res.data[0].Message}`;
+                    swal.fire({ position: 'top-right',
+                                title:'<span style="color:white">'+ `${res.data[0].Flag}:${res.data[0].Message}`+'</span>',
+                                timer: 3000, toast: true, background: 'green',
+                              });
+                      this.pushloading=false;
+                      //window.location.reload();
+                      let e1={page:1,itemsPerPage:20,page:1,pageCount:0,pageStart:0,pageStop:0}
+                      this.paginate1(e1)
+                  
+                  }).catch(err=>{this.pushloading=false;})
             }
             else{
                swal.fire({ position: 'top-right',
@@ -277,50 +178,6 @@ export default
                           });
                           //this.pushloading=false;
             }
-            this.due=''
-          },
-          yespush()
-              {
-                this.pushconfirmdialog = false
-              this.pushloading=true;this.totaljobsconfirm=0;
-              console.log('date=',this.due)
-              axios.post(`${axios.defaults.baseURL}/saw/pushjobs`,{dat:this.due})
-              .then(res=>{
-                    console.log('push-res',res)
-                    console.log('push-res flag',res.data[0].Flag)
-                    console.log('push-res message',res.data[0].Message)
-                    swal.fire({ position: 'top-right',
-                                title:'<span style="color:white">'+ `${res.data[0].Flag}:${res.data[0].Message}`+'</span>',
-                                timer: 3000, toast: true, background: 'green',
-                             
-                              });
-
-                      this.pushloading=false; this.due=''
-                  }).catch(err=>{this.pushloading=false;  this.due=''
-                  })
-              },
-          //--------------------------
-          filterjobs()
-          { this.due=''
-            if(this.due1!="")
-            {this.filterloading=true;
-              console.log('filter date=',this.due1)
-              let aa=[this.due1, "true"]
-              //this.due1.cutdate=1;
-              axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${this.due1},1`,{params:{'per_page':20}} )
-                    .then((res) => { console.log('sawsc search res>3 =',res.data.response)  
-                                      this.aa=res.data.response; this.filterloading=false;  })
-                    .catch(err=>{ console.log('sawsc search err=', err); this.filterloading=false;  })
-             
-            }
-            else{
-               swal.fire({ position: 'top-right',
-                            title:'<span style="color:white">Please select the date</span>',
-                            timer: 2000, toast: true, background: 'red',
-                          });
-                          this.filterloading=false;
-            }
-            this.due1=''
           },
           paginate1(e){
               console.log('paginate-$event',e); this.loading=true;

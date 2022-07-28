@@ -7,6 +7,8 @@ export default
   state: {sawflags:null,locations:null,sawstatus:null,sawlist:null,joblist:null, selectedSaw:null,
           jobdetailslist:null,selectedJob:null,selectedJobDetail:null,profilecutting:null,
           cutlist:null,flaggedjob:null,sawprints:null, sawoptions:null,trucklist:null,
+          getorder:null,getwomaterial:null,
+      getwooperation:null,getwomaterial:null,getopresources:null,getworeservation:null,getorderlines:null
         },
   getters:{
       
@@ -76,6 +78,36 @@ export default
         [types.GET_TRUCKLIST ] (state, payload) 
           { state.trucklist = payload.trucklist;
           console.log('/store/saw.js-types.GET_TRUCKLIST state=', state);
+          },
+          [types.GET_WOMATERIAL ] (state, payload) 
+          { state.getwomaterial = payload.getwomaterial;
+           console.log('/store/saw.js-types.GET_WOMATERIAL state=', state);
+          },
+            [types.GET_ORDERLINES ] (state, payload) 
+          { state.getorderlines = payload.getorderlines;
+           console.log('/store/saw.js-types.GET_ORDERLINES state=', state);
+          },
+          [types.GET_OPMATERIAL ] (state, payload) 
+          {  state.getopmaterial=null;
+                state.getopmaterial = payload.getopmaterial;
+           console.log('/store/saw.js-types.GET_OPMATERIAL state=', state);
+          },
+          [types.GET_OPRESOURCES ] (state, payload) 
+          {  state.getopresources=null;
+                state.getopresources = payload.getopresources;
+           console.log('/store/saw.js-types.GET_OPRESOURCES state=', state);
+          },
+          [types.GET_WOOPERATION ] (state, payload) 
+          { state.getwooperation = payload.getwooperation;
+           console.log('/store/saw.js-types.GET_WOOPERATION state=', state);
+          },
+          [types.GET_WORESERVATION ] (state, payload) 
+          { state.getworeservation = payload.getworeservation;
+           console.log('/store/saw.js-types.GET_WORESERVATION state=', state);
+          },
+          [types.GET_ORDER ] (state, payload) 
+          { state.getorder = payload.getorder;
+           console.log('/store/saw.js-types.GET_ORDER state=', state);
           },
  
   },
@@ -500,6 +532,63 @@ async updateselectedcutlist({dispatch}, formData)
               .catch(response => {    });
           return res;
   },
+  //=======================erp================
+  async getorder ({commit,dispatch},formData) 
+    { //let res= await axios.get(api.getorder,{params:{'orderkey':formData}});  
+    let res=axios.get(`/take5/getorder`,{params:{'orderkey':formData}})
+    .then(res => {
+          commit({type:types.GET_ORDER ,  getorder: res} )
+      } )
+      return res;    
+    },
+    async getwomaterial ({commit,dispatch},formData) 
+    { //let res= await axios.get(api.getorder,{params:{'orderkey':formData}});  
+    let res=axios.get(`/saw/getwomaterial`,{params:{'WorkOrderId':formData}})
+    .then(res => {
+          commit({type:types.GET_WOMATERIAL ,  getwomaterial: res} )
+      } )
+      return res;    
+    },
+      async getorderlines ({commit,dispatch},formData) 
+    { //let res= await axios.get(api.getorder,{params:{'orderkey':formData}});  
+    let res=axios.get(`/saw/getorderlines`,{params:{'orderkey':formData}})
+    .then(res => {
+          commit({type:types.GET_ORDERLINES ,  getorderlines: res} )
+      } )
+      return res;    
+    },
+    async getopmaterial ({commit,dispatch},formData) 
+    { //let res= await axios.get(api.getorder,{params:{'orderkey':formData}});  
+    let res=axios.get(`/saw/getopmaterial`,{params:{'WorkOrderId':formData.WorkOrderId, 'WorkOrderOperationId': formData.WorkOrderOperationId}})
+    .then(res => { 
+          commit({type:types.GET_OPMATERIAL ,  getopmaterial: res} )
+      } )
+      return res;    
+    },
+    async getopresources ({commit,dispatch},formData) 
+    { //let res= await axios.get(api.getorder,{params:{'orderkey':formData}});  
+    let res=axios.get(`/saw/getopresources`,{params:{'WorkOrderId':formData.WorkOrderId, 'WorkOrderOperationId': formData.WorkOrderOperationId}})
+    .then(res => { 
+          commit({type:types.GET_OPRESOURCES ,  getopresources: res} )
+      } )
+      return res;    
+    },
+    async getwooperation ({commit,dispatch},formData) 
+    { //let res= await axios.get(api.getorder,{params:{'orderkey':formData}});  
+    let res=axios.get(`/saw/getwooperation`,{params:{'WorkOrderId':formData}})
+    .then(res => {
+          commit({type:types.GET_WOOPERATION ,  getwooperation: res} )
+      } )
+      return res;    
+    },
+    async getworeservation ({commit,dispatch},formData) 
+    { //let res= await axios.get(api.getorder,{params:{'orderkey':formData}});  
+    let res=axios.get(`/saw/getworeservation`,{params:{'WorkOrderId':formData}})
+    .then(res => {
+          commit({type:types.GET_WORESERVATION ,  getworeservation: res} )
+      } )
+      return res;    
+    },
 
   //=============================
     }//actions finish

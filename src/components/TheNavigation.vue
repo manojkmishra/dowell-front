@@ -113,7 +113,7 @@ export default {
           },
            { action: 'mdi-chart-bar', title: 'Summary',hasMulSub: true, items: [ 
               { title: 'Job summary', route:'/summary/jobs' },
-             // { title: 'Screens summary', route:'/summary/screens' },
+              { title: 'Screens summary', route:'/summary/screens' },
               //{ title: 'dailycuts', route:'/dailycuts' }, 
               ], },
        /*   { action: 'mdi-folder', title: 'NSW',hasMulSub: true,items: [
@@ -147,12 +147,15 @@ export default {
                     },
                 showloc()
                    {   console.log('nav locations1=',this.locations)
-                    let bb= this.locations.filter( x => (x.id == this.user.location_id )  );
+                        let bb= this.locations.filter( x => (x.id == this.user.location_id )  );
                         console.log('nav - loc=',bb)
                         return bb;
                     }
           
     },
+    mounted() {
+ this.$store.dispatch('getlocations');
+},
     created(){
  this.$store.dispatch('getlocations');
     },

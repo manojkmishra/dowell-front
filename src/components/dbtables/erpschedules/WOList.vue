@@ -15,9 +15,19 @@
         <v-toolbar flat dark dense color="blue darken-4">
             <v-toolbar-title>workOrders</v-toolbar-title>
              <v-divider class="mx-4" inset vertical ></v-divider>
-         <!--  <v-toolbar-title class="pr-4" >ADMIN USER - {{user.name}} </v-toolbar-title>   -->         
-            <v-spacer></v-spacer>
-            <v-text-field v-model="search" @input="searchit" append-icon="mdi-magnify" label="Search OrderNumber" single-line hide-details></v-text-field>
+
+                    <v-menu max-width="290">
+                      <template v-slot:activator="{ on }">
+                            <v-text-field :value="formattedDate" label="PlannedStartDate" class="mx-2"
+                            append-icon="mdi-calendar-range" v-on="on" single-line hide-details></v-text-field>
+                      </template>
+                      <v-date-picker v-model="due"></v-date-picker>
+                    </v-menu>
+                  <v-btn v-if="user.admin =='1' || user.admin =='3'" id="btn-cutselected" small  color="amber darken-4" 
+                    rounded dark  :loading="pushloading" @click.prevent="filterjobs" >FILTER</v-btn>
+          <v-spacer></v-spacer>        
+           
+            <v-text-field v-model="search" @input="searchit" append-icon="mdi-magnify" label="Search WOId" single-line hide-details></v-text-field>
 
         </v-toolbar>
     </template>
@@ -63,18 +73,25 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import axios from "axios";
 export default
-{ 
+{
+        computed: { 
+    ...mapGetters({authenticated:'auth/authenticated',
+                       user:'auth/user'
+                      }),
+        formattedDate(){return this.due ? format(parseISO(this.due),'yyyy-MM-dd') : ''},
+  },
     //props:{bb:Array},
     data() { return {dialog: false,search: '',dialogDelete: false, loading:false, //jobtypeoptions1:[],
           editedItem: { name: '', DELIVERY_DATE: '', type:'', field_user:'',  comment: '', 
-          V6_ORDER_NO:'', SJC_NO:'',SITE_ADDRESS:'' , type:''},
+          V6_ORDER_NO:'', SJC_NO:'',SITE_ADDRESS:'' , type:'',
+          }, due:'',pushloading:false,
       editedIndex: -1, sawflags:[],// inputRules:[v=>v.length>=3||'Min len is 3 chars'],
               headers: [
              
               // { text: 'Select', value: 'action', sortable: false , width:"1%"},
                { text: 'Details', value: 'action1', sortable: false , width:"1%"},
                 { text: 'ItemNo', align: 'left',  value: 'ItemNumber', width:"5%"},
-              // { text: 'WOId', align: 'left',  value: 'WorkOrderId', width:"1%"},
+               { text: 'WOId', align: 'left',  value: 'WorkOrderId', width:"1%"},
                 
                { text: 'WONo', align: 'left',  value: 'WorkOrderNumber', width:"1%"},
                { text: 'Description', align: 'left',  value: 'Description', width:"5%"},
@@ -100,9 +117,30 @@ export default
 
     }
           },
+          
   created(){ 
         },
   methods: {  
+     filterjobs()
+          {
+            if(this.due!="")
+            {this.pushloading=true;
+              console.log('filter date=',this.due1)
+              axios.get(`/saw/workorders?search=${this.due},1`)
+                    .then((res) => { console.log('sawsc search res1=',res.data)  
+                                      this.sawflags=res.data; this.pushloading=false;  })
+                    .catch(err=>{ console.log('sawsc search err1=', err); this.pushloading=false;  })
+             
+            }
+            else{
+               swal.fire({ position: 'top-right',
+                            title:'<span style="color:white">Please select the date</span>',
+                            timer: 2000, toast: true, background: 'red',
+                          });
+                          this.pushloading=false;
+            }
+            //this.pushloading=false;
+          },
     //--------------------------------get one order--------------
 
     getonewo(x){
@@ -203,27 +241,9 @@ export default
               }
             },
 
-        
-        editItem (item) 
-        {  this.dialogDelete = false;
-          console.log('edit-item',item)
-          this.editedIndex = this.sawflags.indexOf(item); 
-          console.log('editedIndex',this.editedIndex)
-          this.editedItem = Object.assign({}, item); 
-          //this.editedItem.field_user = item.fuser.name;
-          console.log('editedItem',this.editedItem)
-          //  this.editedItem=item;
-          this.dialog = true
-        },
+
           },
-  computed: { 
-    ...mapGetters({authenticated:'auth/authenticated',
-                       user:'auth/user'
-                      }),
-      formattedDate(){
-        return this.editedItem.DELIVERY_DATE ? format(parseISO(this.editedItem.DELIVERY_DATE),'do MMM yyyy') : ''
-        }
-  }
+
 
 
 }

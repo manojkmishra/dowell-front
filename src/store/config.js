@@ -51,6 +51,15 @@ export const changetruck = apiDomain + '/saw/changetruck';
 //------------------------------------------------------
 export const csticketTypeBarchartUser = apiDomain + '/csticketTypeBarchartUser';
 export const chartdailycutdate = apiDomain + '/chartdailycutdate';
+//--------------------------------------------------
+export const getjobs = apiDomain+ '/saw/getjobs';
+export const getorder = apiDomain+ '/saw/getorder';
+export const getorderlines = apiDomain+ '/saw/getorderlines';
+export const getwomaterial = apiDomain+ '/saw/getwomaterial';
+export const getopmaterial = apiDomain+ '/saw/getopresources';
+export const getopresources = apiDomain+ '/saw/getopmaterial';
+export const getwooperation = apiDomain+ '/saw/getwooperation';
+export const getworeservation = apiDomain+ '/saw/getworeservation';
 
 
 

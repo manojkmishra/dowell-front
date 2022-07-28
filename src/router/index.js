@@ -31,6 +31,19 @@ import transfrsaw from '@/components/dbtables/transfrsaw/transfrsaw.vue'
 import tjcutlist from '@/components/dbtables/transfrdjobs/cutlist/cutlist.vue'
 import trucks from '@/components/dbtables/trucks/trucks.vue'
 
+import WorkOrders from '@/components/dbtables/erpschedules/wo.vue'
+import womaterial from '@/components/dbtables/erpschedules/womaterial.vue'
+import opmaterial from '@/components/dbtables/erpschedules/opmaterial.vue'
+import opresource from '@/components/dbtables/erpschedules/opresource.vue'
+import wooperation from '@/components/dbtables/erpschedules/wooperation.vue'
+import woreservation from '@/components/dbtables/erpschedules/woreservation.vue'
+
+import womaterialdetails from '@/components/dbtables/erpschedules/onematerial.vue'
+import woreservationdetails from '@/components/dbtables/erpschedules/onereservation.vue'
+import opmaterialdetails from '@/components/dbtables/erpschedules/oneopmaterial.vue'
+import wooperationdetails from '@/components/dbtables/erpschedules/oneoperation.vue'
+import opresourcedetails from '@/components/dbtables/erpschedules/oneopresource.vue'
+import wodetails from '@/components/dbtables/erpschedules/onewo.vue'
 
 Vue.use(VueRouter)
 const routes = [
@@ -43,7 +56,20 @@ const routes = [
   { path: '/profile',name:'profile', component: profile,meta: { requiresAuth: true }},
   //{ path: '/userlist',name:'userlist', component: userlist,meta: { requiresAuth: true }},
   { path: '/sawschedules',name:'sawschedules', component: sawschedules,meta: { requiresAuth: true }},
+  
   { path: '/erpschedules',name:'erpschedules', component: erpschedules,meta: { requiresAuth: true }},
+  {path:'/womaterial',name:'womaterial',component: womaterial,meta: { requiresAuth: true }},
+  {path:'/wodetails',name:'wodetails',component: wodetails,props: true,meta: { requiresAuth: true }},
+  {path:'/womaterialdetails',name:'womaterialdetails',component: womaterialdetails,props: true,meta: { requiresAuth: true }},
+  {path:'/woreservationdetails',name:'woreservationdetails',component: woreservationdetails,props: true,meta: { requiresAuth: true }},
+  {path:'/wooperation',name:'wooperation',component: wooperation,meta: { requiresAuth: true }},
+  {path:'/woreservation',name:'woreservation',component: woreservation,meta: { requiresAuth: true }},
+  {path:'/opmaterial',name:'opmaterial',component: opmaterial,meta: { requiresAuth: true }},
+  {path:'/wooperationdetails',name:'wooperationdetails',component: wooperationdetails,props: true,meta: { requiresAuth: true }},
+  {path:'/opmaterialdetails',name:'opmaterialdetails',component: opmaterialdetails,props: true,meta: { requiresAuth: true }},
+  {path:'/opresource',name:'opresource',component: opresource,props: true,meta: { requiresAuth: true }},
+  {path:'/opresourcedetails',name:'opresourcedetails',component: opresourcedetails,props: true,meta: { requiresAuth: true }},
+
   { path: '/sawbars',name:'sawbars', component: sawbars,meta: { requiresAuth: true }},
   { path: '/sawcuts',name:'sawcuts', component: sawcuts,meta: { requiresAuth: true }},
   { path: '/sawstatus',name:'sawstatus', component: sawstatus,meta: { requiresAuth: true }},

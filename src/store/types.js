@@ -27,6 +27,15 @@ export const GET_FLAGGED_JOB = 'GET_FLAGGED_JOB'
 export const GET_SAW_PRINTS = 'GET_SAW_PRINTS'
 export const GET_LOCATIONS = 'GET_LOCATIONS'
 export const GET_TRUCKLIST = 'GET_TRUCKLIST'
+//---------------------erp----------
+export const GET_ORDER  = 'GET_ORDER';
+export const GET_ORDERLINES  = 'GET_ORDERLINES';
+
+export const GET_WOMATERIAL  = 'GET_WOMATERIAL';
+export const GET_OPMATERIAL  = 'GET_OPMATERIAL';
+export const GET_OPRESOURCES  = 'GET_OPRESOURCES';
+export const GET_WOOPERATION  = 'GET_WOOPERATION';
+export const GET_WORESERVATION  = 'GET_WORESERVATION';
 
 
 

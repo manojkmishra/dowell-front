@@ -155,9 +155,11 @@ export default {
     },
     mounted() {
  this.$store.dispatch('getlocations');
+  //this.$store.dispatch('gettrucklist');
 },
     created(){
- this.$store.dispatch('getlocations');
+ //this.$store.dispatch('getlocations');
+ this.$store.dispatch('gettrucklist');
     },
     methods:{
         ...mapActions({signOut1:'auth/signOut'}),

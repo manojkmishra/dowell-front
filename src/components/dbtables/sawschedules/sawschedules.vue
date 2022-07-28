@@ -148,7 +148,7 @@
         <v-card-text class="text-h5"> Jobs already in SawScreens for this date:  {{totaljobsconfirm}} </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn  color="red darken-1" :loading="pushconfirmloading" text @click="pushconfirmdialog = false"> Disagree </v-btn>
+          <v-btn  color="red darken-1" :loading="pushconfirmloading" text @click="dontpushjobs()"> Disagree </v-btn>
           <v-btn  color="green darken-1" :loading="pushconfirmloading"  text @click="yespush()">Agree</v-btn>
         </v-card-actions>
       </v-card>
@@ -277,7 +277,11 @@ export default
                           });
                           //this.pushloading=false;
             }
-            this.due=''
+            //this.due=''
+          },
+          dontpushjobs(){
+            this.pushconfirmdialog=false;
+this.due=''
           },
           yespush()
               {
@@ -320,7 +324,7 @@ export default
                           });
                           this.filterloading=false;
             }
-            this.due1=''
+            //this.due1=''
           },
           paginate1(e){
               console.log('paginate-$event',e); this.loading=true;
@@ -336,6 +340,7 @@ export default
                 }
               else{
                 //this.searchit(e)
+                this.due=''; this.due1='';
                 console.log('paginate-search-e=',e)
                 console.log('paginate-search=',this.search)
               //--------------

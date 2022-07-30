@@ -36,7 +36,7 @@
                          <p style="text-align: center; color:rgb(6, 231, 125); margin-top: -1rem;"
                          >{{usertype}}
                          <span v-if="showloc.length>0" style="text-align: center; color:rgb(6, 231, 125); margin-top: -1rem;"
-                         >[{{showloc[0].abbreviation}}]</span>
+                         >[{{showloc}}]</span>
                          </p>
                       
                     </v-flex> <!--popup to add projects below -->
@@ -146,20 +146,35 @@ export default {
                         else{ return "Saw User"}
                     },
                 showloc()
-                   {   console.log('nav locations1=',this.locations)
-                        let bb= this.locations.filter( x => (x.id == this.user.location_id )  );
-                        console.log('nav - loc=',bb)
-                        return bb;
+                   { let aa='';
+                    console.log('nav utype-loc=',this.user.location_id)  
+                   if(this.user.location_id==1){ aa="QBN"} 
+                   if(this.user.location_id==2){ aa="SMT"} //
+                   if(this.user.location_id==3){ aa="NOW"} 
+                   if(this.user.location_id==4){ aa="NEW"} 
+                   if(this.user.location_id==5){ aa="GBG"} //
+                   if(this.user.location_id==7){ aa="TVL"} 
+                   if(this.user.location_id==8){ aa="CRN"} 
+                   if(this.user.location_id==9){ aa="ELI"} 
+                  if(this.user.location_id==13){ aa="BAY"} //
+                  if(this.user.location_id==22){ aa="PER"} 
+                  if(this.user.location_id==19){ aa="SHP"} 
+                  if(this.user.location_id==18){ aa="GEL"} 
+                    //console.log('nav locations1=',this.locations)
+                    console.log('nav locations1=',aa)
+                        //let bb= this.locations.filter( x => (x.id == this.user.location_id )  );
+                       // console.log('nav - loc=',bb)
+                        return aa;
                     }
           
     },
     mounted() {
- this.$store.dispatch('getlocations');
+ //this.$store.dispatch('getlocations');
   //this.$store.dispatch('gettrucklist');
 },
     created(){
  //this.$store.dispatch('getlocations');
- this.$store.dispatch('gettrucklist');
+ //this.$store.dispatch('gettrucklist');
     },
     methods:{
         ...mapActions({signOut1:'auth/signOut'}),

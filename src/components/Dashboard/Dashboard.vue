@@ -11,12 +11,14 @@
     export default 
     {   components: { 'SawList': SawList, },
         created(){  this.$store.dispatch('getsaws')
+                    this.$store.dispatch('getlocations')
+                    this.$store.dispatch('gettrucklist')
             this.$store.dispatch('getsawflags')
             this.$store.dispatch('getsawstatus')
             this.$store.dispatch('getusers')
             this.$store.dispatch('getsawprint')
-            this.$store.dispatch('getlocations')
-             this.$store.dispatch('gettrucklist')
+            
+             
    }
     }
 

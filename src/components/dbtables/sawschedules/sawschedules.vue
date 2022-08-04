@@ -347,7 +347,7 @@ this.due=''
                   let x=this.search;
                   if(x.length>3){ this.loading=true;
                   console.log('paginate-search-e-len',x)
-                    axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${x}`,{params:{'per_page':20, 'page':e.page}} )
+                    axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${x},0`,{params:{'per_page':20, 'page':e.page}} )
                         .then((res) => { console.log('sawsc search res>3 =',res.data.response)  
                                           this.aa=res.data.response; this.loading=false;  })
                         .catch(err=>{ console.log('sawsc search err=', err); this.loading=false;  })
@@ -366,7 +366,7 @@ this.due=''
             searchit(e){ this.search=e;
               console.log('search=',e)
               if(e.length>3){ this.loading=true;
-                 axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${e}`,{params:{'per_page':20}} )
+                 axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${e},0`,{params:{'per_page':20}} )
                     .then((res) => { console.log('sawsc search res>3 =',res.data.response)  
                                       this.aa=res.data.response; this.loading=false;  })
                     .catch(err=>{ console.log('sawsc search err=', err); this.loading=false;  })

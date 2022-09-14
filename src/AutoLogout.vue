@@ -20,15 +20,12 @@ data(){
 mounted(){
 
     if(this.user!=null && this.authenticated !=null)
-    { console.log('autologouot mounted-set timer ')
-       // this.events.forEach(function(event)
-        //    { window.addEventListener(event,this.resetTimer);
-        //    },this);
+    { 
         this.setTimers(); 
     }
 },
 destroyed(){
-   console.log('autologouot destroyed- ')
+
         this.events.forEach(function(event)
             { window.removeEventListener(event,this.resetTimer);
             },this);
@@ -38,7 +35,7 @@ destroyed(){
 },
 methods:{
             ...mapActions({signOut1:'auth/signOut'}),
-        signOut(){ console.log('autologout singout click, this.user,this.auth',this.user,this.authenticated)
+        signOut(){ 
         if(this.user!=null && this.authenticated !=null)
         {
                     this.signOut1().then(()=>{
@@ -46,8 +43,7 @@ methods:{
                     })
             }
         },
-    setTimers(){ console.log('autologout- settitmer',this.user)
-      //  this.warningTimer=setTimeout(this.warningMessage, 5*1000)
+    setTimers(){ 
        if(this.user!=null && this.authenticated !=null){
         this.logoutTimer=setTimeout(this.signOut, 10*60*60*1000) } 
         },

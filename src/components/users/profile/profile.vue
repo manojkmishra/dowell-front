@@ -96,20 +96,12 @@
                       v => (v && v.length > 5) || 'The Password must be atleast 6 chars'
                     ]
     }),
-/*created(){ this.loading=true;
-            this.$store.dispatch('getuserlist')
-                    .then((res) => { //this.loading=false;
-                                console.log('getstatus response',res.data)  
-                                this.sawstatus=res.data;
-                                this.loading=false;
-                        }) 
-        },
-        */
+
     computed: {
       formTitle() {  if (this.dialogDelete) { return "Delete User";} 
-                    else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
+                    else if (this.editedIndex === -1) { 
                                         return "New User"; }
-                    else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
+                    else if (this.editedIndex > -1) { 
                                 return "Edit User";  }  
                               },
          ...mapState({  sawstatus:state => state.user.userlist
@@ -124,14 +116,14 @@
                           user:'auth/user'
                         }),
                     usertype(){
-                     console.log('utype-user=',this.user)
+                   
                         if(this.user.admin==1){ return "Admin User"; }
                         else if (this.user.admin==3) {return "View User";}
                         else if (this.user.admin==4) {return "Super User";}
                         else{ return "Saw User"}
                       },
      },
-    watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
+    watch: { dialog (val) {
                           val || this.close()  },    
         },
     methods: { 
@@ -143,40 +135,34 @@
         this.editedItem= { name: '', email: '', type:'',   password: '', confirm_password: '', mobile:''}
       },
 
-      editItem (item) { console.log('edit-item',item)
+      editItem (item) { 
         this.dialogDelete = false;
-        this.editedIndex = this.sawstatus.indexOf(item); console.log('editedIndex',this.editedIndex)
-        this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
-      //  this.editedItem=item;
+        this.editedIndex = this.sawstatus.indexOf(item); 
+        this.editedItem = Object.assign({}, item); 
+     
         this.dialog = true
         },
       save () 
-      {  //console.log('save-item=',item);
+      { 
         if (this.editedIndex > -1) //save clicked when editing
               {  
-                    //edit api here
-                     // if(this.editedItem.type=="Admin") this.editedItem.type=1;
-                     // else if(this.editedItem.type=="Normal") this.editedItem.type=2;
-
+                    
                       this.editedItem.type=this.computeduser[0].mobile;
-                      console.log('edit-this.computeduser=',this.computeduser)
-                      console.log('edit form=',this.editedItem)
+                     
                     if (!this.$refs.userform.validate()) 
                     {   
-                      console.log('edit-item- form validation wrong',this.editedItem)
+                     
                       return false; 
                     }
                     else
-                    { console.log('edit-item- form ',this.editedItem)
+                    { 
                     this.$store.dispatch('edituser', this.editedItem) 
                     }
                 } 
-            //this.reseteditedItem();
+          
             this.close()
         },
-        //--------------delete start----------------------------------------------------------
-      //-------------------------------delete finish-----------------
-      //------------------close modal---------------------------
+       
       close () {  this.dialog = false
                   setTimeout(() => {  this.editedItem = Object.assign({}, this.defaultItem)
                           this.editedIndex = -1, this.dialogDelete = false; }, 100)

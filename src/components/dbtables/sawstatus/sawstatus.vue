@@ -83,19 +83,13 @@
       typeOptions: [ "saw_schedules",  "optimised_bars", "optimised_cuts", "Flag" ],
      // formData: {     id: '',     }
     }),
-created(){ /*this.loading=true;
-            this.$store.dispatch('getsawstatus')
-                    .then((res) => { //this.loading=false;
-                                console.log('getstatus response',res.data)  
-                                this.categories=res.data;
-                                this.loading=false;
-                        }) */
+created(){ 
         },
     computed: {
       formTitle() {  if (this.dialogDelete) { return "Delete Status";} 
-                    else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
+                    else if (this.editedIndex === -1) { 
                                         return "New Status"; }
-                    else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
+                    else if (this.editedIndex > -1) { 
                                 return "Edit Status";  }  
                               },
          ...mapState({  sawstatus:state => state.saw.sawstatus,
@@ -103,49 +97,45 @@ created(){ /*this.loading=true;
         }),
 
      },
-    watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
+    watch: { dialog (val) { 
       val || this.close()  },    },
     methods: { 
-      editItem (item) { console.log('edit-item',item)
+      editItem (item) { 
         this.dialogDelete = false;
-        this.editedIndex = this.sawstatus.indexOf(item); console.log('editedIndex',this.editedIndex)
-        this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
-      //  this.editedItem=item;
+        this.editedIndex = this.sawstatus.indexOf(item); 
+        this.editedItem = Object.assign({}, item);
+     
         this.dialog = true
         },
       save () 
-      {  //console.log('save-item=',item);
-        if (this.editedIndex > -1) //save clicked when editing
-                  {  console.log('edit',this.editedItem)
-                    //edit api here
+      { 
+        if (this.editedIndex > -1) 
+                  {  
                      this.$store.dispatch('editstatus', this.editedItem) 
                       .then((response) => {})     .catch((error) => {});
                     } 
-           //--------save clicked when adding new
-        else {  console.log('add-item',this.editedItem)
-                    //add new api here
+
+        else {  
                      this.$store.dispatch('addstatus', this.editedItem) 
                       .then((response) => {})     .catch((error) => {});
             }
                 this.close()
         },
-        //--------------delete start----------------------------------------------------------
-      deleteItem (item) {console.log('delete-pressed-item',item)
+        //--------------------------------------------------
+      deleteItem (item) {
                         const index = this.desserts.indexOf(item)
                         this.dialogDelete = true;
                         this.editedIndex = this.sawstatus.indexOf(item);
                         this.editedItem = Object.assign({}, item);
                         this.dialog = true;
-               //after this now press delete on dialogue box to execure below fn
+            
               },
-      remove() { console.log('remove---function- editedIndex', this.editedIndex)
-                  // delete api here
+      remove() { 
                    this.$store.dispatch('deletestatus', this.editedItem) 
                       .then((response) => {})     .catch((error) => {});
                   this.close();
                 },
-      //-------------------------------delete finish-----------------
-      //------------------close modal---------------------------
+     
       close () {  
                   this.dialog = false
                   setTimeout(() => {  this.editedItem = Object.assign({}, this.defaultItem)

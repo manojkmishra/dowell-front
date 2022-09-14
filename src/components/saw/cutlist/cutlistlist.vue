@@ -112,13 +112,13 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                 && this.flaggedjob.review !=6)
                 {   this.showflag=true;
-                    console.log('showflag-',this.showflag);
+                  
                     return this.showflag;
                     }
             }
                 else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
                 {  this.showflag=true;
-                    console.log('showflag-',this.showflag);
+                   
                   return this.showflag;
 
                 }
@@ -128,8 +128,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
        },
     methods: 
     {  cutgroup(item)
-            {  console.log('chgroup-item',item)
-//-----------view only user-------
+            {  
                 if(this.user.admin =='3')
                             {  
                               swal.fire({ position: 'top-right',
@@ -155,7 +154,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                 this.formSearchData.jid = this.selectedJob.id;
                 this.loading=true;
-                console.log('cutgroup-formdata=',this.formSearchData)
+           
                  this.$store.dispatch('updateselectedcutlist', this.formSearchData)
                         .then((response) =>  { this.loading=false;  })  
                         .catch((error) => {   this.loading=false;       });   
@@ -173,13 +172,12 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                                 
                               return;
                             }
-//------------------------------
-              console.log('chgroup-item',item)
+
               var i = 0;
               while ( i < item.key1.length ) 
                 { var x = item.key1[i];
                   if(x.Status_id==5)
-                            { //do nothing if job is already queued
+                            { 
                             }
                     else this.formSearchData.selected1.push(x.ID);
                          i++;
@@ -189,17 +187,16 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                 this.formSearchData.jid = this.selectedJob.id;
                 this.loading=true;
-                console.log('cutgroup-formdata=',this.formSearchData)
+              
                  this.$store.dispatch('updateselectedcutlist', this.formSearchData)
                         .then((response) =>  { this.loading=false;  })  
                         .catch((error) => {   this.loading=false;       });   
                 this.resetformSearchData();
             },
-        cutselected()//---==7=complt, 5=qued=====
+        cutselected()
           { 
             
-            console.log('cutlist.vue-this.selected----1=',this.selected)
-//-----------view only user-------
+
                 if(this.user.admin =='3')
                             {  
                               swal.fire({ position: 'top-right',
@@ -218,8 +215,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               }
             else
             { this.formSearchData.selected1=[];
-            // console.log('cutlist.vue-this.selected=',this.selected)
-             //   console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
+           
               var i = 0;
               while ( i < this.selected.length ) 
                 { var x = this.selected[i];
@@ -236,36 +232,13 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         }
                       else i++;
                 }
-                console.log('cutlist.vue-this.selected=',this.selected)
-                console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
-               /* if(this.flaggedjob)
-                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                        && this.flaggedjob.review !=6)
-                        {
-                            swal.fire({ position: 'top-right',
-                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
-                                    timer: 2000, toast: true,background: 'purple',
-                                    });
-                                return;
-                            }
-                    }
-                        else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
-                        {  
-                            swal.fire({ position: 'top-right',
-                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
-                                    timer: 2000, toast: true,background: 'purple',
-                                    });
-                                return;
-                        } */
+               
                        this.formSearchData.SawCode=this.selectedSaw;
                        this.formSearchData.status=7;
                        this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                        this.formSearchData.jid = this.selectedJob.id;
                        this.loading1=true;
-                      console.log('cutsel-formdata=',this.formSearchData)
+                     
                       this.$store.dispatch('updateselectedcutlist', this.formSearchData)
                          .then((response) =>  { this.loading1=false;  })  
                           .catch((error) => {   this.loading1=false;       });   
@@ -273,10 +246,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                       this.resetformSearchData();
                      
                   }
-                },//cutselected finish==========7=complt, 5=qued===========================================
+                },
         uncutselect()
-          { console.log('uncutlist.vue-this.selected----1=',this.selected)
-//-----------view only user-------
+          { 
                 if(this.user.admin =='3')
                             {  
                               swal.fire({ position: 'top-right',
@@ -295,8 +267,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               }
             else
             { this.formSearchData.selected1=[];
-            // console.log('cutlist.vue-this.selected=',this.selected)
-             //   console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
+            
               var i = 0;
               while ( i < this.selected.length ) 
                 { var x = this.selected[i];
@@ -313,36 +284,13 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         }
                       else i++;
                 }
-                console.log('cutlist.vue-this.selected=',this.selected)
-                console.log('cutlist.vue-this.selected1=',this.formSearchData.selected1)
-               /* if(this.flaggedjob)
-                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                        && this.flaggedjob.review !=6)
-                        {
-                            swal.fire({ position: 'top-right',
-                                title:'<span style="color:white">Flagged Jobs can not be uncut, please UnFlag it</span>',
-                                    timer: 2000, toast: true,background: 'purple',
-                                    });
-                                return;
-                            }
-                    }
-                        else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
-                        {  
-                            swal.fire({ position: 'top-right',
-                                title:'<span style="color:white">Flagged Jobs can not be uncut, please UnFlag it</span>',
-                                    timer: 2000, toast: true,background: 'purple',
-                                    });
-                                return;
-                        } */
+                
                        this.formSearchData.SawCode=this.selectedSaw;
                        this.formSearchData.status=5;
                        this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                        this.formSearchData.jid = this.selectedJob.id;
                        this.loading2=true;
-                    console.log('cutsel-formdata=',this.formSearchData)
+                    
                       this.$store.dispatch('updateselectedcutlist', this.formSearchData)
                              .then((response) =>  { this.loading2=false;  })  
                           .catch((error) => {   this.loading2=false;       });   
@@ -351,30 +299,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 },//cutselected finish
               
               chstatus(data)
-              { /*  if(this.flaggedjob)
-                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                        && this.flaggedjob.review !=6)
-                        {
-                            swal.fire({ position: 'top-right',
-                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
-                                    timer: 2000, toast: true,background: 'purple',
-                                    });
-                                return;
-                            }
-                    }
-                        else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
-                        {  
-                            swal.fire({ position: 'top-right',
-                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
-                                    timer: 2000, toast: true,background: 'purple',
-                                    });
-                                return;
-
-                        } */
-//-----------view only user-------
+              { 
                 if(this.user.admin =='3')
                             {  
                               swal.fire({ position: 'top-right',

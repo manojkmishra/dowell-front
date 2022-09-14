@@ -136,38 +136,35 @@ export default
 
             paginate1(e){
               
-              console.log('paginate-$event',e); this.loading=true;
-            //axios.get(`http://127.0.0.1:8000/api/saw/getsawschedules?page='+${e.page}`,{})
+
 
             if(this.search =='')
-                { console.log('paginate-not search-e',e)
+                { 
                 axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=${e.page}`,
                 {params:{'per_page':e.itemsPerPage}})
-                  // this.$store.dispatch(`getsawschedules?page='+${e.page}`,{})
-                        .then((res) => { console.log('getschedules response',res.data.response.data)  
+                 
+                        .then((res) => { 
                                           this.aa=res.data.response; this.loading=false;  })
-                        .catch(err=>{ console.log('paginate-err=', err) ; this.loading=false; })
+                        .catch(err=>{  this.loading=false; })
                 }
               else{
-                //this.searchit(e)
-                console.log('paginate-search-e=',e)
-                 console.log('paginate-search=',this.search)
+                
               //--------------
                   let x=this.search;
                   if(x.length>3){ this.loading=true;
-                  console.log('paginate-search-e-len',x)
+                
                     axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${x}`,{params:{'per_page':20, 'page':e.page}} )
-                        .then((res) => { console.log('sawsc search res>3 =',res.data.response)  
+                        .then((res) => { 
                                           this.aa=res.data.response; this.loading=false;  })
-                        .catch(err=>{ console.log('sawsc search err=', err); this.loading=false;  })
+                        .catch(err=>{  this.loading=false;  })
                     }
                   if(x.length<=0){ this.loading=true;
-                  console.log('searchlen=0, e=',x)
+                 
                     axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=1`,
                 {params:{'per_page':20}} )
-                        .then((res) => { console.log('sawsc search res less<=0 =',res.data.response)  
+                        .then((res) => {  
                                           this.aa=res.data.response; this.loading=false;  })
-                        .catch(err=>{ console.log('sawsc search err=', err) ; this.loading=false; })
+                        .catch(err=>{  this.loading=false; })
 
                   }
 
@@ -176,25 +173,25 @@ export default
               }
             },
             searchit(e){ this.search=e;
-              console.log('search=',e)
+             
               if(e.length>3){ this.loading=true;
                  axios.get(`${axios.defaults.baseURL}/saw/searchsawschedules?search=${e}`,{params:{'per_page':20}} )
-                    .then((res) => { console.log('sawsc search res>3 =',res.data.response)  
+                    .then((res) => { 
                                       this.aa=res.data.response; this.loading=false;  })
-                    .catch(err=>{ console.log('sawsc search err=', err); this.loading=false;  })
+                    .catch(err=>{  this.loading=false;  })
                 }
               if(e.length<=0){ this.loading=true;
-              console.log('searchlen=0, e=',e)
+              
                  axios.get(`${axios.defaults.baseURL}/saw/getsawschedules?page=1`,
              {params:{'per_page':20}} )
-                    .then((res) => { console.log('sawsc search res less<=0 =',res.data.response)  
+                    .then((res) => { 
                                       this.aa=res.data.response; this.loading=false;  })
-                    .catch(err=>{ console.log('sawsc search err=', err) ; this.loading=false; })
+                    .catch(err=>{  this.loading=false; })
 
               }
             },
         scrap(data) 
-                {   console.log('sawsch-scrap-data-=',data);
+                {   
             if(data.cut_saw !=null)    
             this.formSearchData.SawCode = data.cut_saw;
             else{
@@ -202,18 +199,17 @@ export default
 
             }
             this.formSearchData.QuoteID = data.quote_ID;
-            console.log('ssscrap--formSearchData=',this.formSearchData);
+            
             this.loading=true;
             this.$store.dispatch('getcutlist', this.formSearchData)
-                .then((response) => { console.log('jobdetails--- cutlist',response.data); 
+                .then((response) => { 
                 this.loading=false; 
                     this.$router.push({  name: 'sscutlist',params: {data: data }   });
                 })
                 .catch((error) => {this.loading=false;});
           },
         selectjob(data)
-          {    console.log('chstatus-',data.Status);
-              console.log('this.user.admin-',this.user.admin);
+          {   
               
               if(data.Status !="Queued" || this.user.admin =='1')
                {
@@ -234,7 +230,7 @@ export default
                           { this.loading=false;
                             this.$router.push({  name: 'jobdetails'      });
                           })
-                      .catch((error) => {console.log('jobdetails--- error',error); });
+                      .catch((error) => { });
                  }
              else{
                  swal.fire({ position: 'top-right',
@@ -247,11 +243,11 @@ export default
         },
         watch: {
   pagination: { 
-    handler () {console.log('watch tirgger')
+    handler () {
       paginate1()
-        .then((res) => { console.log('watch response',res.data.response.data)  
+        .then((res) => {  
                                       this.aa=res.data.response; this.loading=false;  })
-                    .catch(err=>{ console.log('watch paginate-err=', err) ; this.loading=false; })
+                    .catch(err=>{  this.loading=false; })
     },
     deep: true
   }

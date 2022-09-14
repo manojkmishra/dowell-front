@@ -2,7 +2,7 @@ import store from '@/store'
 import axios from 'axios'
 
 store.subscribe((mutation)=>{ 
-    console.log('/store/sbscriber-mutation=',mutation);
+  
     switch(mutation.type){
         case 'auth/SET_TOKEN':
                

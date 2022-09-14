@@ -52,8 +52,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               },
     methods: 
           {   onClickSChange(data)
-              { console.log('optcut selected')
-                //-----------view only user-------
+              { 
                 if(this.user.admin =='3')
                             {  
                               swal.fire({ position: 'top-right',
@@ -64,34 +63,8 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                               return;
                             }
 //------------------------------  
-                console.log('optcut.vue--change status clicked');  // actin=edit  then follow below
-                  console.log('optcut.vue-item: ',data);
-                  console.log('optcut.vue-cut profilecutting',this.stateNodes3);
-                  console.log('optcut.vue-selectedjob',this.selectedJob);
-                  console.log('optcut.vue-selectedJobDetail',this.selectedJobDetail);
-                  console.log('optcut.vue-jobdetails1',this.jobdetails1);
-                 /* if(this.flaggedjob)
-                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                        && this.flaggedjob.review !=6)
-                        {
-                            swal.fire({ position: 'top-right',
-                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
-                                    timer: 2000, toast: true,background: 'purple',
-                                    });
-                                return;
-                            }
-                    }
-                    else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
-                      {  
-                            swal.fire({ position: 'top-right',
-                                title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
-                                    timer: 2000, toast: true,background: 'purple',
-                                    });
-                                return;
-                      }*/
+
+                 
                       this.formData.ID= data.bar_guid;
                       this.formData.SawCode=this.selectedSaw;
                       this.formData.status=data.grp_status;
@@ -99,11 +72,10 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                       this.formData.QuoteID=this.selectedJob.quote_ID;
                       this.formData.extn_id=this.selectedJobDetail.extn_id;
                       this.formData.fincol=this.selectedJobDetail.FincolID;
-                      //--------------------------
-                      console.log('optcut---this.formdata=',this.formData);
+                     
                       this.loading=true;
                       this.$store.dispatch('updateOptCut', this.formData)
-                            .then((response) =>  { console.log('optcut---response=',response);this.loading=false;  })     
+                            .then((response) =>  { this.loading=false;  })     
                             .catch((error) => {     this.loading=false;    });
                       this.resetFormData();
               },

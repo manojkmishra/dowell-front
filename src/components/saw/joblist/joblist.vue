@@ -183,31 +183,28 @@ import { mapGetters, mapState, mapActions} from 'vuex';
               },
               sawpr1(){
                     let aa=this.selectedSaw
-                    console.log('this.sawprints',this.sawprints)
+                    
                     let bb= this.sawprints.filter( x => (x.saw ==  this.selectedSaw && 
                                                           x.instruct ==  'JobList' ) );
-                    console.log('bb=',bb)
+                 
                     return bb;
               },
               sawpr()//transfer jobs
               {    
                   let aa=this.sawlist
                   let bb=this.selectedSaw
-                 // let bb= this.sawprints.filter( x => x.saw ==  this.selectedSaw );
-                 // console.log('bb=',bb)
+
                  if(bb=="General")
                  {
                         var newArray = this.sawlist.filter(function (el) { 
-                        if( //el.SawCode =="DSW_DH_Sashes" || el.SawCode =="EA_Sashes"
-                         //|| el.SawCode =="EA_DFL_LVR" || el.SawCode =="Timber"|| el.SawCode =="BF_HD" 
-                        //|| el.SawCode =="General" || el.SawCode =="transfer_saw"
+                        if( 
                         el.SawCode !=bb
                         )
                       return el;
                     });
                  }
                  else if(bb=="Security_Screens")
-                 {   //return "Fly_Screens";
+                 {   
                  var newArray = this.sawlist.filter(function (el) { 
                         if( (el.SawCode =="Fly_Screens" || el.SawCode =="transfer_saw")&&(el.SawCode !=bb)
                         )
@@ -215,7 +212,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                     });
                  }
                 else if(bb=="Fly_Screens")
-                 {  // return "Security_Screens";
+                 {  
                       var newArray = this.sawlist.filter(function (el) { 
                         if( (el.SawCode =="Security_Screens" || el.SawCode =="transfer_saw")&&(el.SawCode !=bb)
                         )
@@ -226,22 +223,19 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                  else{
                     var newArray = this.sawlist.filter(function (el) { 
                         if( (el.SawCode =="DSW_DH_Sashes" || el.SawCode =="EA_Sashes"
-                         //|| el.SawCode =="EA_DFL_LVR" || el.SawCode =="Timber"|| el.SawCode =="BF_HD" 
+                        
                         || el.SawCode =="General" || el.SawCode =="transfer_saw")&&(el.SawCode !=bb)
                         )
                       return el;
                     });
                   }
-                  //console.log('sawlist=',this.sawlist)
-                  console.log('selected saw=',this.selectedSaw)
-                  console.log('newArray=',newArray) 
+                 
                   return newArray;
               },
       },
     watch: {   },
     created () {  },
-    mounted() { console.log('joblist.vue-this.sawlist=',this.sawlist)
-                console.log('joblist.vue-this.joblist=',this.joblist)    
+    mounted() {   
               },
     methods: 
     {   closeprint(){ this.printdialog=false;},
@@ -262,10 +256,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
             this.formSearchData.fromSaw=this.selectedSaw; 
             this.formSearchData.SawCode=this.selectedSaw; 
             this.formSearchData.toSaw=y.SawCode; 
-            console.log('tansfer- this.selected=',this.selected)
-            console.log('transfer to saw==',y.SawCode)
 
-            if(this.selected.length==0) //if clicked without selecting
+
+            if(this.selected.length==0) 
               { this.printdialog=false;
                 swal.fire({ position: 'top-right', title:'<span style="color:white">Please select jobs to transfer</span>',
                             timer: 2000, toast: true, background: 'red',
@@ -290,11 +283,11 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         }
                       else i++;
                 }
-              console.log('tansfer- this.formSearchData',this.formSearchData)
+            
                 if(this.formSearchData.selected1.length>0)
                 {       this.transferloading=true; 
                         this.$store.dispatch('updatetransferjob', this.formSearchData)
-                        .then((response) =>  { console.log('tansfer---response=',response);  
+                        .then((response) =>  {  
                                 this.transferloading=false;   })     
                         .catch((error) => {   this.transferloading=false;      });
                 }
@@ -320,8 +313,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             }
 //-------------------if no jobs selected--------
             this.formSearchData.SawCode=this.selectedSaw; 
-            console.log('cutselected- this.selected=',this.selected)
-            console.log('cutselected- this.formSearchData.selected1=',this.formSearchData.selected1)
+          
             if(this.selected.length==0)
                     {
                         swal.fire({ position: 'top-right',
@@ -333,24 +325,22 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                   var i = 0;
                 while ( i < this.selected.length ) 
                 { var x = this.selected[i];
-                  console.log('hehe',x);
+                
                    
                   if (x){ this.selected.splice(i,1);
-                            console.log('printselected-x=',x);
-                            //this.formSearchData.selected1.push(x.id);
+                           
                             this.formSearchData.selected1.push(x.quote_ID);
                         }
                       else i++;
                 }
-              //console.log('cutselected- this.selected=',this.selected)
-              console.log('printselected-data=',data)
+
               this.formSearchData.report=data.name;
-              console.log('printloading- this.formSearchData=',this.formSearchData)
+            
                 if(this.formSearchData.selected1.length>0)
                 { this.printloading=true; 
 
                         this.$store.dispatch('printjoblist', this.formSearchData)
-                        .then((response) =>  { console.log('updatecutselectjob---response=',response);  
+                        .then((response) =>  {  
                                 this.printloading=false;   })     
                         .catch((error) => {   this.printloading=false;      });
                 }
@@ -359,10 +349,9 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                this.printdialog1=false; 
             }//length>0                       
           },
-      //==========================cut selected==============
+    
       cutselcted()
-          {  //this.formSearchData.SawCode=this.selectedSaw; 
-//------------------
+          {  
                 if(this.user.admin =='3')
                             { 
                               swal.fire({ position: 'top-right',
@@ -374,8 +363,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                             }
 //-------------------
             this.formSearchData.SawCode=this.selectedSaw; 
-            console.log('cutselected- this.selected=',this.selected)
-            console.log('cutselected- this.formSearchData.selected1=',this.formSearchData.selected1)
+            
             if(this.selected.length==0){
               swal.fire({ position: 'top-right',
                 title:'<span style="color:white">Please select jobs to cut</span>',
@@ -386,18 +374,10 @@ import { mapGetters, mapState, mapActions} from 'vuex';
             var i = 0;
             while ( i < this.selected.length ) 
                 { var x = this.selected[i];
-                  console.log('hehe',x);
+                  
                    
                   if (x){ this.selected.splice(i,1);
-                            console.log('hehe1',x);
-                           /* if(x.review>0 && x.review !=9 && x.review !=6){
-                              console.log('hehe2',x);
-                            swal.fire({ position: 'top-right',
-                              title:'<span style="color:white">Flagged Jobs can not be selected, please UnFlag it</span>',
-                              timer: 2000, toast: true,background: 'purple',
-                                });
-                              return;
-                            }  */
+                           
                             if(x.Status_id==12)
                             { swal.fire({ position: 'top-right',
                             title:'<span style="color:white">Only UnCut Jobs can be selected</span>',
@@ -410,11 +390,10 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                         }
                       else i++;
                 }
-              console.log('cutselected- this.selected=',this.selected)
-              console.log('cutselected- this.formSearchData.selected1=',this.formSearchData.selected1)
+             
                 if(this.formSearchData.selected1.length>0){ this.cutselectloading=true; 
                         this.$store.dispatch('updatecutselectjob', this.formSearchData)
-                        .then((response) =>  { console.log('updatecutselectjob---response=',response);  
+                        .then((response) =>  { 
                                 this.cutselectloading=false;   })     
                         .catch((error) => {   this.cutselectloading=false;      });
                 }
@@ -424,9 +403,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
           },
           //------------------------------------
       selectjob(data)
-          {    console.log('selectjob-',data);
-              console.log('this.user.admin-',this.user.admin);
-              console.log('data.review-',data.review);
+          {   
               if(data.Status !="Queued" || this.user.admin =='1'|| this.user.admin =='3' || this.user.admin =='4'
               || (data.review !=0 && data.review !=6 && data.review !=9)
               )
@@ -448,7 +425,7 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                           { this.loading=false;
                             this.$router.push({  name: 'jobdetails'      });
                           })
-                      .catch((error) => {console.log('jobdetails--- error',error); });
+                      .catch((error) => { });
                  }
              else{
                  swal.fire({ position: 'top-right',
@@ -471,22 +448,13 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                                 
                               return;
                             }
-//-------------------
-            /* if(data.review>0 && data.review != 9 && data.review !=6 ){
-               swal.fire({ position: 'top-right',
-                        title:'<span style="color:white">Flagged Jobs can not be cut, please UnFlag it</span>',
-                            timer: 2000, toast: true,background: 'purple',
-                            });
-                        return;
-                  }
-             else{ */
-                console.log('joblist-cutall-item',data);
+
                 this.formSearchData.QuoteID = data.quote_ID;
                 this.formSearchData.order_ID = data.Order_Number;
                 this.formSearchData.cut_saw = data.cut_saw;
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.formSearchData.loc = "GBG";
-                console.log('cutall formSearchData=',this.formSearchData); 
+            
                 this.loadingcut=true;              
                 this.$store.dispatch('jobcutall', this.formSearchData)
                  .then((res) => 

@@ -69,29 +69,29 @@ export default
              }
           },
  methods:{
-            paginate(e){ console.log('paginate-$event',e);
+            paginate(e){ 
             this.loading=true;
-            //axios.get(`http://127.0.0.1:8000/api/saw/getsawschedules?page='+${e.page}`,{})
+           
              axios.get(`${axios.defaults.baseURL}/saw/getsawbars?page=${e.page}`,
              {params:{'per_page':e.itemsPerPage}})
-               // this.$store.dispatch(`getsawschedules?page='+${e.page}`,{})
-                    .then((res) => { console.log('getsawbars response',res.data.response.data)  
+             
+                    .then((res) => {  
                                       this.aa=res.data.response; this.loading=false;  })
-                    .catch(err=>{ console.log('paginate-err=', err) ; this.loading=false; })
+                    .catch(err=>{  this.loading=false; })
             },
              searchit(e){
-              console.log('search=',e)
+             
               if(e.length>2){ this.loading=true;
                  axios.get(`${axios.defaults.baseURL}/saw/searchsawbars?search=${e}`)
-                    .then((res) => { console.log('sawsc search res=',res.data.response.data)  
+                    .then((res) => {  
                                       this.aa=res.data.response; this.loading=false;  })
-                    .catch(err=>{ console.log('sawsc search err=', err)  })
+                    .catch(err=>{  })
                 }
               if(e.length<=0){ this.loading=true;
                  axios.get(`${axios.defaults.baseURL}/saw/searchsawbars`)
-                    .then((res) => { console.log('sawsc search res=',res.data.response.data)  
+                    .then((res) => { 
                                       this.aa=res.data.response; this.loading=false;  })
-                    .catch(err=>{ console.log('sawsc search err=', err); this.loading=false; })
+                    .catch(err=>{this.loading=false; })
 
               }
             }

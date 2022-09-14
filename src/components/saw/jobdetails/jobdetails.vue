@@ -119,60 +119,36 @@ export default {
             return bb;
 
         },
-        sawpr(){    console.log('filter')
+        sawpr(){  
                     let aa=this.selectedSaw
-                    console.log('.filter(this.selectedSaw)',aa)
-                    console.log('this.sawprints',this.sawprints)
-                    //return this.sawprints.name.filter(aa)
+                  
                     let bb= this.sawprints.filter( x => (x.saw ==  this.selectedSaw 
                     && x.instruct ==  'JobDetails'));
-                    console.log('bb=',bb)
-                    /* var newArray = this.sawprints.filter(function (el) { return el.saw == aa });
-                    console.log('newArray=',newArray) */
+                   
                     return bb;
                 },
-        cmt1(){ console.log('cmt1 selectedjob-',this.selectedJob)
-            console.log('cmt1-flaggedjob-',this.flaggedjob)
+        cmt1(){ 
            if(this.flaggedjob && this.flaggedjob.quote_ID==this.selectedJob.quote_ID
                         && this.flaggedjob.order_ID==this.selectedJob.Order_Number
                         && this.flaggedjob.cut_saw==this.selectedJob.cut_saw)
-                    {   console.log('thiscmt1 flaggedjob-',this.cmt)
+                    {   
                             this.cmt.val=this.flaggedjob.comments
-                            //console.log('thiscmt1 flaggedjob-',this.cmt)
+                           
                                 return this.cmt ;
                        
                     }
                     else //if(this.selectedJob.comments !=null)   
                     //if(this.selectedJob.comments !='') 
-                    {   console.log('thiscmt1.val selectedjob-',this.selectedJob)
+                    {   
                         this.cmt.val=this.selectedJob.comments
-                           // console.log('thiscmt.val selectedjob-',this.cmt)
+                        
                                 return this.cmt ;
                     }
-                   // else{ console.log('thiscmt1 empty this.selectedJob-',this.selectedJob)
-                        //this.cmt.val='';
-                    //}
+                   
         },
-        /*cmt(){   if(this.flaggedjob)
-                    {  if(this.flaggedjob.quote_ID==this.selectedJob.quote_ID
-                        && this.flaggedjob.order_ID==this.selectedJob.Order_Number
-                        && this.flaggedjob.cut_saw==this.selectedJob.cut_saw
-                        && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
-                        && this.flaggedjob.review !=6)
-                        {   //this.showflag=true;
-                            //console.log('showflag-',this.showflag);
-                            return this.flaggedjob.comments;
-                        }
-                    }
-                    else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
-                    {  this.showflag=true;
-                        console.log('showflag-',this.showflag);
-                    return this.showflag;
-                    }
-                    else return;
-            } */
+        
         },
-    created(){console.log('jd--sawflags',this.sawflags)    },
+    created(){   },
     data() {  return { seen: true,dialog: false,printdialog: false,loadingexttosaw:false, 
                         loadingcutall:false,loadingcutlist:false,cmt:{val:''},
                     formSearchData: {  SawCode: '',  QuoteID: '',  extn_id: '',  loc:'',flag:'',id:'',cmt:''  },
@@ -182,9 +158,7 @@ export default {
 components: {   'job-details-list': JobDetailsList,  },
 methods: {   close(){ this.dialog=false;}, 
             closeprint(){ this.printdialog=false;},
-    OnSave(x){  console.log('flag selected',x); 
-                console.log('cmt',this.cmt);
-//------------------
+    OnSave(x){  
                 if(this.user.admin =='3')
                             { this.dialog=false; this.close()
                               swal.fire({ position: 'top-right',
@@ -200,8 +174,7 @@ methods: {   close(){ this.dialog=false;},
                 this.formSearchData.flag = x;
                 this.formSearchData.comments = this.cmt.val;
                 this.formSearchData.id = this.selectedJob.id;
-                console.log('formSearchData=',this.formSearchData);
-
+               
                 this.$store.dispatch('updateFlag', this.formSearchData)
                     .then((response) => {   swal.fire({ position: 'top-right',
                                                 title:'<span style="color:white">Flag change successful</span>',
@@ -216,21 +189,20 @@ methods: {   close(){ this.dialog=false;},
         fixstatus() { this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                 this.formSearchData.SawCode = this.selectedSaw;
                 this.loadingfixstatus=true;
-                 console.log('fixstatus-form',this.formSearchData);
+               
                 this.$store.dispatch('fixstatus', this.formSearchData)
                 .then((response) => {   
-                console.log('fixstatus-res=',response);
+                
                 this.loadingfixstatus=false; 
                  swal.fire({ position: 'top-right',
                             title:'<span style="color:white">Status Fixed</span>',
                             timer: 2000, toast: true,background: 'purple',
                             });     })
-                .catch((error) => { console.log('fixstatus-error=',error);
+                .catch((error) => { 
                     this.loadingfixstatus=false;   });
             },
         OnSavePrint(x)
-        {  console.log('print selected',x);
- //-----------view only user-------
+        {  
                 if(this.user.admin =='3')
                             {  this.printdialog=false; this.close()
                               swal.fire({ position: 'top-right',
@@ -247,9 +219,9 @@ methods: {   close(){ this.dialog=false;},
             this.formSearchData.printer = x.printer;
             this.formSearchData.alias = x.alias;
             this.loadingprint=true;
-            console.log('formSearchData=',this.formSearchData);
+           
                         this.$store.dispatch('sawprint', this.formSearchData)
-                 .then((response) => {  console.log('sawprintresponse',response.data);  
+                 .then((response) => {  
                  this.loadingprint=false;
                     })
                     .catch((error) => {this.loadingprint=false;});
@@ -263,22 +235,22 @@ methods: {   close(){ this.dialog=false;},
                                     })
                 },
         scrap() 
-                {   console.log('scrap clicked selectedjob-=',this.selectedJob);
+                {   
             this.formSearchData.SawCode = this.selectedSaw;
             this.formSearchData.QuoteID = this.selectedJob.quote_ID;
-            console.log('formSearchData=',this.formSearchData);
+          
             this.loadingcutlist=true;
             this.$store.dispatch('getcutlist', this.formSearchData)
-                .then((response) => { console.log('jobdetails--- cutlist',response.data); 
+                .then((response) => { 
                 this.loadingcutlist=false; 
                     this.$router.push({  name: 'cutlist'   });
                 })
                 .catch((error) => {this.loadingcutlist=false;});
                 },
-            //-----------scrap finish---------------------
+            
 
     exttosawjd() { 
-         //-----------view only user-------
+        
                 if(this.user.admin =='3')
                             { this.dialog=false; this.close()
                               swal.fire({ position: 'top-right',
@@ -350,40 +322,7 @@ methods: {   close(){ this.dialog=false;},
                 .then((response) => {   this.loadingcutall=false;        })
                 .catch((error) => {this.loadingcutall=false;});
         },
-    //-----------------------------------------------
-      /*  onClickFlag() {  //not used
-            console.log('flag clicked')
-            if (this.selectedJob.Status_id != 12) {
-                let formData = {  id: '', name: '', title: 'Add Flag', };
-                let payload = { isShow: true, data: { action: 'Add', data: formData,
-                        index: 0            }
-                };
-                console.log('flag clicked',payload)
-                this.$store.dispatch('flagModal', payload);
-            } else {
-                this.$store.dispatch('showErrorNotification', 'Completed Jobs can not be flagged');
-                return;
-            }
-        },*/
-    /*    sawprint() 
-        {     /*swal.fire({ position: 'top-right',
-                        title:'<span style="color:white">This function will work in version 2</span>',
-                            timer: 2000, toast: true,background: 'purple',
-                            });
-                        return;
-            
-            this.formSearchData.QuoteID = this.selectedJob.quote_ID;
-            this.formSearchData.SawCode = this.selectedSaw;
-            this.formSearchData.loc = "GBG";
-            this.loadingprint=true;
-            this.$store.dispatch('sawprint', this.formSearchData)
-                 .then((response) => {  console.log('sawprintresponse',response.data);  
-                 this.loadingprint=false;
-                    })
-                    .catch((error) => {this.loadingprint=false;});
-
-
-        },*/
+    
     changesaw() 
                 {   swal.fire({ position: 'top-right',
                         title:'<span style="color:white">This function will work in version 2</span>',

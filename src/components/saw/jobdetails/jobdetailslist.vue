@@ -52,15 +52,15 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                                   && this.flaggedjob.cut_saw==this.selectedJob.cut_saw )
                               {    
                                       this.cmt.val=this.flaggedjob.comments
-                                      //console.log('thiscmt1 flaggedjob-',this.cmt)
+                                     
                                           return this.cmt ;
                                   
                               }
                               else if(this.selectedJob.comments !='')   
-                             // if(this.selectedJob.comments !='') 
+                            
                               {
                                   this.cmt.val=this.selectedJob.comments
-                                      console.log('thiscmt.val selectedjob-',this.cmt)
+                                    
                                           return this.cmt ;
                               }
                               else{
@@ -75,13 +75,13 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                 && this.flaggedjob.review !=6)
                   {     this.showflag=true;
-                          console.log('showflag-',this.showflag);
+                        
                           return this.showflag;
                         
                   }
                 else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
                 {  this.showflag=true;
-                    console.log('showflag-',this.showflag);
+                  
                   return this.showflag;
 
                 }
@@ -105,29 +105,26 @@ import { mapGetters, mapState, mapActions} from 'vuex';
             showflag:false, cmt:{val:''},
         }),
    
-    mounted() { console.log('joblist.vue-this.sawlist=',this.sawlist)
-                console.log('joblist.vue-this.joblist=',this.jobdetailslist)    
+    mounted() {    
               },
     methods: 
     { showcmt(){ 
-     // console.log('showcmt clicked- showcmt1 val',cmt.val)
-     // showcmt11=1;
-     // console.log('showcmt clicked- showcmt1 val1',showcmt11)
+     
       },  
       chstatus(data)
-          {    console.log('chstatus-',data);
+          {   
               if(this.selectedJob.cut_saw != null) 
               {this.formSearchData.SawCode = this.selectedJob.cut_saw;}
               else this.formSearchData.SawCode = this.selectedSaw ;
               this.formSearchData.QuoteID = this.selectedJob.quote_ID;
               this.formSearchData.extn_id = data.extn_id;
               this.formSearchData.fincol = data.FincolID;
-              console.log('formSearchData=',this.formSearchData);
+             
               this.loading=true;
               this.$store.dispatch('selectedJobDetail', data);
               this.$store.dispatch('getprofilecutting', this.formSearchData)
                   .then((response) => { this.loading=false;
-                      console.log('jdlist.vue-getprofilecutting response',response.data);  
+                       
                       this.$router.push({
                           name: 'profilecutting'
                       });

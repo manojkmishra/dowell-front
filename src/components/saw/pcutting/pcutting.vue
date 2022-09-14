@@ -50,10 +50,10 @@ export default {
                            this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                            this.$store.dispatch('getjobdetails', this.formSearchData)
                            .then((response) => 
-                              {  console.log('sawlist--- getJobs success response',response.data);  
+                              {  
                                  this.$router.push({   name: 'jobdetails' });
                               })
-                           .catch((error) => {console.log('getJobs error',response);});
+                           .catch((error) => {});
          
          //this.$router.push({name: 'jobdetails'});  
          },
@@ -68,20 +68,20 @@ export default {
                                                 
                               return;
                             }
-//------------------------------
+
                   this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                   this.formSearchData.SawCode = this.selectedSaw;
                   this.formSearchData.loc = "GBG";
-                 //  console.log('extToSawCut formSearchData',this.formSearchData);
+                
                   this.formSearchData.extn_id=this.selectedJobDetail.extn_id;
-                  console.log('extToSawCut formSearchData',this.formSearchData);
+                 
                   this.loading1=true;
                   this.$store.dispatch('extToSawCut', this.formSearchData)
                   .then((response) =>  {  this.loading1=false; })     
                   .catch((error) => {    this.loading1=false;      });
                },
          reOptimise() { 
-            //-----------view only user-------
+           
                 if(this.user.admin =='3')
                             {  
                               swal.fire({ position: 'top-right',

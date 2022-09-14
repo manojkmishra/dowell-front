@@ -71,13 +71,13 @@ import { mapGetters, mapState, mapActions} from 'vuex';
                 && this.flaggedjob.review>0 && this.flaggedjob.review != 9 
                 && this.flaggedjob.review !=6)
                 {   this.showflag=true;
-                    console.log('showflag-',this.showflag);
+                  
                     return this.showflag;
                     }
             }
                 else if(this.selectedJob.review>0 && this.selectedJob.review != 9 && this.selectedJob.review !=6 )
                 {  this.showflag=true;
-                    console.log('showflag-',this.showflag);
+                 
                   return this.showflag;
 
                 }
@@ -91,22 +91,15 @@ import { mapGetters, mapState, mapActions} from 'vuex';
     methods: 
           {              
               onClickSChange(action, data, index)
-              {   console.log('pcuttinglist.vue--change status clicked');  // actin=edit  then follow below
-                  console.log('pcuttinglist.vue-itemAction: ' + action, data, index);
-                  console.log('pcuttinglist.vue-cut profilecutting',this.stateNodes3);
-                  console.log('pcuttinglist.vue-selectedjob',this.selectedJob);
-                  console.log('pcuttinglist.vue-selectedJobDetail',this.selectedJobDetail);
-                  console.log('pcuttinglist.vue-jobdetails1',this.jobdetails1);
-                  //---for cut status
-                 // if( this.selectedJob.AllowEdit==0 && this.selectedJob.review ==0 )
-                   if( this.selectedJob.AllowEdit==0 ) //0 - allowed to cut, 1- not allwed to cut
+              {  
+                   if( this.selectedJob.AllowEdit==0 )
                      {  this.formData.ID= data.ID;
                        this.formData.SawCode=this.selectedSaw;
                        this.formData.status=data.Status_id;
                       //--------------------------
-                      console.log('pcuttinglist---this.formdata=',this.formData);
+                    
                       this.$store.dispatch('updateCutList', this.formData)
-                             .then((response) =>  { console.log('pcuttinglist---response=',response);  })     
+                             .then((response) =>  {  })     
                              .catch((error) => {         });
                       this.resetFormData();
                     }

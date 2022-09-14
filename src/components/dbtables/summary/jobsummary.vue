@@ -388,33 +388,26 @@ export default
              }
           },
       created(){  
-        /*
-         this.$store.dispatch('getjobsummary')
-                    .then((res) => { //this.loading=false;
-                                console.log('getjobsummary response',res.data)  
-                                this.categories=res.data;
-                                this.loading=false;
-                        }) 
-          */
+
           let today = new Date();
              this.due=new Date(today.getTime() - today.getTimezoneOffset() * 60 * 1000).toISOString().split('T')[0]
-            console.log('date---=',this.due);
+           
          this.getjobsummary(this.due);
         },
         methods:{ 
           change(){
-              console.log('changed')
+          
           },
             scrap(data) 
-                {   console.log('sawsch-scrap-data-=',data);
+                {   
                   if(data.cut_saw !=null)    
                   this.formSearchData.SawCode = data.cut_saw;
                   else{this.formSearchData.SawCode = data.schedule_saw;   }
                   this.formSearchData.QuoteID = data.quote_ID;
-                  console.log('ssscrap--formSearchData=',this.formSearchData);
+                 
                   this.loading=true;
                   this.$store.dispatch('getcutlist', this.formSearchData)
-                        .then((response) => { console.log('jobdetails--- cutlist',response.data); 
+                        .then((response) => { 
                   this.loading=false; 
                     this.$router.push({  name: 'jscutlist',params: {data: data }   });
                       })
@@ -425,18 +418,14 @@ export default
             this.formSearchData={};
            
            let res1= await axios.post(`${axios.defaults.baseURL}/saw/jobsummary`, {'date':x})       
-           .then((res) => { console.log('getjobsummary response-aa=',res.data)  
+           .then((res) => {   
                             this.aa=res.data;
 
                             let myObj=this.aa;
-                            //Object.keys(obj).forEach(k => 
-                           //// (obj[k].commercial == "") && delete obj[k]);
-                           // console.log('obj=',obj);
+                           
 
                             Object.keys(myObj).forEach(key => {
-                             // console.log(key);        // the name of the current key.
-                              console.log(myObj[key].bfhd); // the value of the current key.
-                              
+                            
                               if((myObj[key].slidsash)==""
                               && (myObj[key].slidframe)==""
                               && (myObj[key].dsw)==""
@@ -447,28 +436,21 @@ export default
                               && (myObj[key].commercial)==""
                               && (myObj[key].transfer)==""
                               ){
-                               // console.log('hehe')
+                            
                                 delete myObj[key]
                               }
                             });
-                              console.log(myObj);
-                            //-------------------------
-                       // if(this.user.admin !='1')
-                      //  { //return this.headers.filter(header => header.text !== "CutJob")
-                                         // }
-                         // return this.headers;
-                         // let bb=res.data.filter(commer => header.text !== "CutJob");
+                             
 
-
-                        //-------------------------------------
+                       
                             })
-                    .catch(err=>{ console.log('getjobsummary-err=', err) ;  })
+                    .catch(err=>{  })
           }
             
         },
       watch: {
         due(val,val1) {
-          console.log(val,val1)
+       
           if (val != val1){
             this.due=val;
           this.getjobsummary(this.due)}

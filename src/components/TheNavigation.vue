@@ -128,7 +128,7 @@ export default {
                       user:'auth/user'
                       }),
                    usertype(){
-                     console.log('utype-user=',this.user)
+                    
                         if(this.user.admin==1){
                           return "Admin User";
                         }

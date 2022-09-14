@@ -34,10 +34,10 @@ export default {
                            this.formSearchData.QuoteID = this.selectedJob.quote_ID;
                            this.$store.dispatch('getjobdetails', this.formSearchData)
                            .then((response) => 
-                              {  console.log('sawlist--- getJobs success response',response.data);  
+                              {   
                                  this.$router.push({   name: 'jobdetails' });
                               })
-                           .catch((error) => {console.log('getJobs error',response);});
+                           .catch((error) => {});
                            },
             },
     

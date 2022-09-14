@@ -105,14 +105,13 @@ computed: {  formTitle() {  if (this.dialogDelete) {  return "Delete Category"; 
 components: { 'sawschedules': sawschedules, },
 created(){ this.loading=true;
             this.$store.dispatch('getuserlist')
-                    .then((res) => { //this.loading=false;
-                                console.log('getuserlist response',res.data)  
+                    .then((res) => {  
                                 this.categories=res.data;
                                 this.loading=false;
                         })
         },
 methods:{
-    editItem(item) { console.log('edit-item',item)
+    editItem(item) { 
                     this.dialogDelete = false;
                     this.editedIndex = this.categories.indexOf(item);
                     this.editedItem = Object.assign({}, item);

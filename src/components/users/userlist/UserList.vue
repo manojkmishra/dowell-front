@@ -122,20 +122,12 @@
                       v => (v && v.length > 5) || 'The Password must be atleast 6 chars'
                     ]
     }),
-/*created(){ this.loading=true;
-            this.$store.dispatch('getuserlist')
-                    .then((res) => { //this.loading=false;
-                                console.log('getstatus response',res.data)  
-                                this.sawstatus=res.data;
-                                this.loading=false;
-                        }) 
-        },
-        */
+
     computed: {
       formTitle() {  if (this.dialogDelete) { return "Delete User";} 
-                    else if (this.editedIndex === -1) { console.log('new--this.editindx',this.editedIndex);
+                    else if (this.editedIndex === -1) { 
                                         return "New User"; }
-                    else if (this.editedIndex > -1) { console.log('edit--this.editindx',this.editedIndex);
+                    else if (this.editedIndex > -1) { 
                                 return "Edit User";  
                                 
                                 }  
@@ -146,7 +138,7 @@
                         })
 
      },
-    watch: { dialog (val) { console.log('inside watch- dialog- val=',val)
+    watch: { dialog (val) { 
                           val || this.close()  },    
         },
     methods: { 
@@ -159,10 +151,10 @@
       },
 
       editItem (item) 
-      { console.log('edit-item',item)
+      { 
         this.dialogDelete = false;
-        this.editedIndex = this.sawstatus.indexOf(item); console.log('editedIndex',this.editedIndex)
-        this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
+        this.editedIndex = this.sawstatus.indexOf(item); 
+        this.editedItem = Object.assign({}, item); 
 
         if(this.editedItem.mobile==1) this.editedItem.type="Admin";
         else if(this.editedItem.mobile==2) this.editedItem.type="Saw";
@@ -172,45 +164,42 @@
         this.dialog = true
         },
       save () 
-      {  //console.log('save-item=',item);
-        if (this.editedIndex > -1) //save clicked when editing
-              {  console.log('save--edit=',this.editedItem)
-                    //edit api here
+      {  
+        if (this.editedIndex > -1) 
+              {  
                       if(this.editedItem.type=="Admin") this.editedItem.mobile=1;
                       else if(this.editedItem.type=="Saw") this.editedItem.mobile=2;
                       else if(this.editedItem.type=="View") this.editedItem.mobile=3;
                       else if(this.editedItem.type=="Super") this.editedItem.mobile=4;
                     if (!this.$refs.userform.validate()) 
                     {   
-                      console.log('edit-item- form validation wrong',this.editedItem)
+                      
                       return false; 
                     }
                     else
-                    { console.log('edit-item- form ',this.editedItem)
+                    { 
                     this.$store.dispatch('edituser', this.editedItem) 
                     }
                 } 
            //--------save clicked when adding new
-        else {  console.log('add-item',this.editedItem)
-                    //adduser api here
+        else { 
                       if(this.editedItem.type=="Admin") this.editedItem.mobile=1;
                       else if(this.editedItem.type=="Saw") this.editedItem.mobile=2;
                       else if(this.editedItem.type=="View") this.editedItem.mobile=3;
                       else if(this.editedItem.type=="Super") this.editedItem.mobile=4;
                      if (!this.$refs.userform.validate()) 
                     {   
-                      console.log('add-item- form validation wrong',this.editedItem)
+                     
                        return false; 
                      }
                     else
                         this.$store.dispatch('adduser', this.editedItem) 
             }
-            //this.reseteditedItem();
+          
             this.close()
         },
-        //--------------delete start----------------------------------------------------------
-      deleteItem (item) {console.log('delete-pressed-item',item)
-                        //const index = this.desserts.indexOf(item)
+      
+      deleteItem (item) {
                         if(this.user.email==item.email)
                         { 
                           return false;
@@ -220,16 +209,14 @@
                         this.editedIndex = this.sawstatus.indexOf(item);
                         this.editedItem = Object.assign({}, item);
                         this.dialog = true;
-               //after this now press delete on dialogue box to execure below fn
+               
               },
-      remove() { console.log('remove---function- editedIndex', this.editedIndex)
-                  // delete api here
+      remove() {
                     this.$store.dispatch('deleteuser', this.editedItem) 
                       .then((response) => {})     .catch((error) => {});
                   this.close();
                 },
-      //-------------------------------delete finish-----------------
-      //------------------close modal---------------------------
+     
       close () {  this.dialog = false
                   setTimeout(() => {  this.editedItem = Object.assign({}, this.defaultItem)
                           this.editedIndex = -1, this.dialogDelete = false; }, 100)

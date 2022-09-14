@@ -98,26 +98,18 @@
                        // { text: "Actions", value: "action", sortable: false, width: "8%" },
                         { text: 'Actions', value: 'actions', sortable: false,width: "10%" },
       ],
-    //  categories: [],
-      //sawflags:[],
+   
       editedItem: { name: '', saw: '', printer:'', location:'',alias:'',instruct:''},
       editedIndex: -1,
-     // typeOptions: [ "saw_schedules",  "optimised_bars", "optimised_cuts", "Flag" ],
-     // formData: {     id: '',    STATUS: '', TYPE:'',   comment: '', }
+     
     }),
-        created(){ /* this.loading=true;
-             this.$store.dispatch('getsawflags')
-                    .then((res) => { //this.loading=false;
-                                console.log('getsawflags response',res.data)  
-                                this.categories=res.data;
-                                this.loading=false;
-                        }) */
+        created(){ 
         },
      computed: { 
       formTitle() {  if (this.dialogDelete) { return "Delete Flag";} 
-                     else if (this.editedIndex === -1) { console.log('formtitle()-this.editindx(-1=new)',this.editedIndex);
+                     else if (this.editedIndex === -1) { 
                                         return "New Print"; }
-                    else if (this.editedIndex > -1) { console.log('formtitle()--this.editindx(>1=edit)',this.editedIndex);
+                    else if (this.editedIndex > -1) { 
                                 return "Edit Flag";  }  
                    },
       ...mapState({
@@ -127,7 +119,7 @@
         }),
              },
     
-    watch: { dialog (val) { console.log('inside watch- dialog- val1=',val)
+    watch: { dialog (val) { 
                           if(this.user.admin =='3')
                             { this.dialog=false; this.close()
                               swal.fire({ position: 'top-right',
@@ -137,7 +129,7 @@
                                                 
                               return;
                             }
-                          console.log('inside watch- dialog- val=',val)
+                        
                           val || this.close()  },    
             },
     methods: { 
@@ -151,31 +143,28 @@
         }
         
         this.dialogDelete = false;
-        console.log('edit-item',item)
-        this.editedIndex = this.sawflags.indexOf(item); console.log('editedIndex',this.editedIndex)
-        this.editedItem = Object.assign({}, item); console.log('editedItem',this.editedItem)
+
+        this.editedIndex = this.sawflags.indexOf(item); 
+        this.editedItem = Object.assign({}, item); 
       //  this.editedItem=item;
         this.dialog = true
         },
       save () 
-      {  //console.log('save-item=',item);
-
-        if (this.editedIndex > -1) //save clicked when editing
-                  {  console.log('edit',this.editedItem)
-                    //edit api here
+      {  
+        if (this.editedIndex > -1) 
+                  { 
                     this.$store.dispatch('editsawprint', this.editedItem) 
                         .then((response) => {})     .catch((error) => {});
                     } 
-           //--------save clicked when adding new
-        else {  console.log('add-item',this.editedItem)
-                    //add new api here
+           
+        else {  
                     this.$store.dispatch('addsawprint', this.editedItem) 
                       .then((response) => {})     .catch((error) => {});
             }
                 this.close()
         },
         //--------------delete start----------------------------------------------------------
-      deleteItem (item) {console.log('delete-pressed-item',item)
+      deleteItem (item) {
               if(this.user.admin =='3')
                 { swal.fire({ position: 'top-right',
                                     title:'<span style="color:white">View only user:Access denied</span>',
@@ -183,24 +172,22 @@
                                     });
                   return;
                 }
-                       // const index = this.desserts.indexOf(item)
+                     
                         this.dialogDelete = true;
                         this.editedIndex = this.sawflags.indexOf(item);
                         this.editedItem = Object.assign({}, item);
                         this.dialog = true;
-               //after this now press delete on dialogue box to execure below fn
+              
               },
-      remove() { console.log('remove()- editedIndex', this.editedIndex)
-                  // delete api here
+      remove() { 
                   this.$store.dispatch('deletesawprint', this.editedItem)  
                                 .then((response) => {})
                                 .catch((error) => {});
                              
-                 // this.dialogDelete = false;
+                
                   this.close(); 
                 },
-      //-------------------------------delete finish-----------------
-      //------------------close modal---------------------------
+      
       close () {  
                   this.dialog = false; 
                   setTimeout(() => {  

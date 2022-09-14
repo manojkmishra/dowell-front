@@ -108,20 +108,19 @@ export default
       created(){  
           let today = new Date();
              this.due=new Date(today.getTime() - today.getTimezoneOffset() * 60 * 1000).toISOString().split('T')[0]
-            console.log('date---=',this.due);
+           
          this.getjobsummary();
         },
         methods:{ 
            cutall(data){
                    
-                        console.log('joblist-cutall-item',data);
+                      
                         this.formSearchData.QuoteID = data.quote_ID;
                         this.formSearchData.order_ID = data.order_ID;
                         this.formSearchData.cut_saw = data.cut_saw;
                         this.formSearchData.SawCode = data.cut_saw;
                         this.formSearchData.loc = "GBG";
-                        console.log('cutall formSearchData=',this.formSearchData); 
-                       // this.loadingcut=true;              
+                                      
                         this.$store.dispatch('jobcutall', this.formSearchData)
                        .then((res) => 
                                   { this.loadingcut=false;
@@ -134,18 +133,17 @@ export default
                        },
  
           change(){
-              console.log('changed')
+            
           },
             scrap(data) 
-                {   console.log('sawsch-scrap-data-=',data);
-                //  if(data.to_saw !=null)    
+                {    
                   this.formSearchData.SawCode = data.cut_saw;
                 //  else{this.formSearchData.SawCode = data.schedule_saw;   }
                   this.formSearchData.QuoteID = data.quote_ID;
-                  console.log('ssscrap--formSearchData=',this.formSearchData);
+                
                   this.loading=true;
                   this.$store.dispatch('getcutlist', this.formSearchData)
-                        .then((response) => { console.log('jobdetails--- cutlist',response.data); 
+                        .then((response) => { 
                   this.loading=false; 
                     this.$router.push({  name: 'jscutlist',params: {data: data }   });
                       })
@@ -156,17 +154,17 @@ export default
             this.formSearchData={};
            
            let res1= await axios.post(`${axios.defaults.baseURL}/saw/transfrsaw`)       
-           .then((res) => { console.log('transfrdjobs response-aa=',res.data)  
+           .then((res) => {   
                             this.aa=res.data;
                         //-------------------------------------
                             })
-                    .catch(err=>{ console.log('transfrdjobs-err=', err) ;  })
+                    .catch(err=>{   })
           }
             
         },
       watch: {
         due(val,val1) {
-          console.log(val,val1)
+          
           if (val != val1){
             this.due=val;
           this.getjobsummary(this.due)}
